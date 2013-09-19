@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.os.Handler;
+import android.text.format.Time;
 import android.view.SurfaceHolder;
 
 import org.es.minigames.R;
@@ -15,7 +16,11 @@ import org.es.minigames.R;
  */
 public class DrawingThread extends Thread {
 
+    private static final int FRAME_PER_SECOND   = 20;
+    private static final int FRAME_DURATION     = 1000 / FRAME_PER_SECOND;
+
     private boolean mRun = true;
+
     /**
      * Current height of the surface/canvas.
      *
@@ -28,6 +33,7 @@ public class DrawingThread extends Thread {
      * @see #setSurfaceSize
      */
     private int mCanvasWidth = 1;
+
     private SurfaceHolder mSurfaceHolder = null;
     private Resources mResources = null;
     private Bitmap mBackgroundFar = null;
@@ -50,20 +56,23 @@ public class DrawingThread extends Thread {
     @Override
     public void run() {
         while (mRun) {
-            Canvas canvas = null;
-            try {
-                canvas = mSurfaceHolder.lockCanvas(null);
-                // synchronized (mSurfaceHolder) {
-                doDraw(canvas);
-                // }
-            } finally {
-                // do this in a finally so that if an exception is thrown
-                // during the above, we don't leave the Surface in an
-                // inconsistent state
-                if (canvas != null) {
-                    mSurfaceHolder.unlockCanvasAndPost(canvas);
+
+            long start = System.currentTimeMillis();
+
+            input();
+            update();
+            draw();
+
+            long waitingTimeMillis = System.currentTimeMillis() - start - FRAME_DURATION;
+            if (waitingTimeMillis > 0) {
+                try {
+                    sleep(waitingTimeMillis);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    mRun = false;
                 }
-            }
+            } /* else { We are running late ! }*/
+
         }
     }
 
@@ -71,26 +80,44 @@ public class DrawingThread extends Thread {
     public void setSurfaceSize(int width, int height) {
         // synchronized to make sure these all change atomically
         synchronized (mSurfaceHolder) {
-            mCanvasWidth = width;
-            mCanvasHeight = height;
+            mCanvasWidth    = width;
+            mCanvasHeight   = height;
 
-            // don't forget to resize the background image
-            mBackgroundFar = Bitmap.createScaledBitmap(mBackgroundFar, width * 2, height, true);
-            // don't forget to resize the background image
+            // Resize the background image
+            mBackgroundFar  = Bitmap.createScaledBitmap(mBackgroundFar, width * 2, height, true);
             mBackgroundNear = Bitmap.createScaledBitmap(mBackgroundNear, width * 2, height, true);
+        }
+    }
+
+    /** Check user inputs. */
+    private void input() { }
+
+    /** Update data. */
+    private void update() {
+        // decrement the far background
+        mBgFarMoveX -= 1;
+
+        // decrement the near background
+        mBgNearMoveX -= 4;
+    }
+
+    /** Draw the new frame. */
+    private void draw() {
+        Canvas canvas = null;
+        try {
+            canvas = mSurfaceHolder.lockCanvas(null);
+            doDraw(canvas);
+        } finally {
+            if (canvas != null) {
+                mSurfaceHolder.unlockCanvasAndPost(canvas);
+            }
         }
     }
 
     /**
      * Draws current state of the game Canvas.
      */
-    private void doDraw(Canvas canvas) {
-
-        // decrement the far background
-        mBgFarMoveX -= 1;
-
-        // decrement the near background
-        mBgNearMoveX -= 4;
+	protected void doDraw(Canvas canvas) {
 
         // calculate the wrap factor for matching image draw
         int newFarX = mBackgroundFar.getWidth() - (-mBgFarMoveX);
