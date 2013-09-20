@@ -1,6 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+    <item
+            android:id="@+id/action_settings"
+            android:title="@string/action_settings"
+            android:orderInCategory="100"
+            android:showAsAction="never" />
+
+    <item
+            android:id="@+id/fps_10"
+            android:title="@string/fps_10"
+            android:showAsAction="never" />
+    <item
+            android:id="@+id/fps_20"
+            android:title="@string/fps_20"
+            android:showAsAction="never" />
+
+    <item
+            android:id="@+id/fps_30"
+            android:title="@string/fps_30"
+            android:showAsAction="never" />
+
+    <item
+            android:id="@+id/fps_40"
+            android:title="@string/fps_40"
+            android:showAsAction="never" />
+
+    <item
+            android:id="@+id/fps_60"
+            android:title="@string/fps_60"
+            android:showAsAction="never" />
+
+    <item
+            android:id="@+id/fps_100"
+            android:title="@string/fps_100"
+            android:showAsAction="never" />
 </menu>

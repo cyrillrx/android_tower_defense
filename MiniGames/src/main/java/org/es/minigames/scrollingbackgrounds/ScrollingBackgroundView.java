@@ -3,6 +3,7 @@ package org.es.minigames.scrollingbackgrounds;
 import android.content.Context;
 import android.os.Handler;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -28,6 +29,7 @@ public class ScrollingBackgroundView extends SurfaceView implements SurfaceHolde
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         if (!hasWindowFocus) {
             if (thread != null) {
+                Log.d("ScrollingBackgroundView", "onWindowFocusChanged");
                 //TODO
 //                thread.pause();
             }
@@ -36,6 +38,7 @@ public class ScrollingBackgroundView extends SurfaceView implements SurfaceHolde
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
+        thread.setRunning(true);
         thread.start();
     }
 
@@ -47,7 +50,16 @@ public class ScrollingBackgroundView extends SurfaceView implements SurfaceHolde
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
+        // Stop the drawing thread for it not to touch the Surface/Canvas again.
+        thread.setRunning(false);
+        try {
+            thread.join();
+        } catch (InterruptedException e) { /* swallow */ }
     }
 
-
+    public void setFrameRate(int framePerSecond) {
+        if (thread != null) {
+            thread.setFrameRate(framePerSecond);
+        }
+    }
 }
