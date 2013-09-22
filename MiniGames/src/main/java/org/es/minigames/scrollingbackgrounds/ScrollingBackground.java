@@ -31,27 +31,27 @@ public class ScrollingBackground extends Activity {
 
         switch (item.getItemId()) {
 
-            case R.id.fps_10 :
+            case R.id.fps_10:
                 view.setFrameRate(10);
                 break;
 
-            case R.id.fps_20 :
+            case R.id.fps_20:
                 view.setFrameRate(20);
                 break;
 
-            case R.id.fps_30 :
+            case R.id.fps_30:
                 view.setFrameRate(30);
                 break;
 
-            case R.id.fps_40 :
+            case R.id.fps_40:
                 view.setFrameRate(40);
                 break;
 
-            case R.id.fps_60 :
+            case R.id.fps_60:
                 view.setFrameRate(60);
                 break;
 
-            case R.id.fps_100 :
+            case R.id.fps_100:
                 view.setFrameRate(100);
                 break;
         }
