@@ -34,6 +34,7 @@ public class ScrollingBgDrawingThread extends DrawingThread {
 
     @Override
     protected void updateSurfaceSize() {
+        
         // Resize the background image
         // Image is larger than the screen => adapt height
         float farBgCoef = (float) mCanvasHeight / (float) mFarBackground.getHeight();
@@ -47,6 +48,7 @@ public class ScrollingBgDrawingThread extends DrawingThread {
 
     /** Update data. */
     protected void update() {
+
         // decrement the far and near backgrounds
         mFarBg1Left -= 1;
         mNearBg1Left -= 4;

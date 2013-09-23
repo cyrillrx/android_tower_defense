@@ -23,8 +23,12 @@
             </intent-filter>
         </activity>
         <activity
-                android:label="@string/scrolling_bg"
-                android:name=".scrollingbackgrounds.ScrollingBackground" />
+            android:name=".scrollingbackgrounds.ScrollingBackgroundActivity"
+            android:label="@string/title_activity_platform" />
+        <activity
+            android:name="org.es.minigames.platform.PlatformActivity"
+            android:label="@string/title_activity_platform" >
+        </activity>
     </application>
 
 </manifest>

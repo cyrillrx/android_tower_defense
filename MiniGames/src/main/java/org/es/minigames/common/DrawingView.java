@@ -3,6 +3,7 @@ package org.es.minigames.common;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -27,6 +28,12 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
     }
 
     protected abstract DrawingThread createDrawingThread(SurfaceHolder holder, Context context);
+
+    public void setFrameRate(int framePerSecond) {
+        if (thread != null) {
+            thread.setFrameRate(framePerSecond);
+        }
+    }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
@@ -60,9 +67,34 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
         }
     }
 
-    public void setFrameRate(int framePerSecond) {
-        if (thread != null) {
-            thread.setFrameRate(framePerSecond);
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        final int action = event.getAction();
+
+        switch (action & MotionEvent.ACTION_MASK) {
+
+            case MotionEvent.ACTION_DOWN:
+                // TODO
+                break;
+
+            case MotionEvent.ACTION_POINTER_DOWN:
+                // TODO
+                break;
+
+            case MotionEvent.ACTION_UP:
+                // TODO
+                break;
+
+            case MotionEvent.ACTION_POINTER_UP:
+                // TODO
+                break;
+
+            case MotionEvent.ACTION_MOVE:
+                // TODO
+                break;
         }
+
+        return super.onTouchEvent(event);
     }
 }

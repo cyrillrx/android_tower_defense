@@ -2,8 +2,9 @@
 <resources>
 
     <string name="app_name">MiniGames</string>
-    <string name="action_settings">Settings</string>
-    <string name="scrolling_bg">Scrolling Background</string>
+
+    <string name="title_activity_scrolling_bg">Scrolling background Activity</string>
+    <string name="title_activity_platform">Platform Activity</string>
 
     <string name="fps_10">Run at 10 ftp</string>
     <string name="fps_20">Run at 20 ftp</string>
@@ -11,5 +12,6 @@
     <string name="fps_40">Run at 40 ftp</string>
     <string name="fps_60">Run at 60 ftp</string>
     <string name="fps_100">Run at 100 ftp</string>
+    <string name="hello_world">Hello world!</string>
 
 </resources>
