@@ -3,8 +3,12 @@ package org.es.minigames.common;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * Parent class for drawing threads
@@ -15,12 +19,11 @@ public abstract class DrawingThread extends Thread {
 
     private static final String TAG = "org.es.minigames.common.DrawingThread";
 
-    /** Current height of the surface/canvas. */
-    protected int mCanvasHeight = 1;
-    /** Current width of the surface/canvas. */
-    protected int mCanvasWidth = 1;
+    /** Current rect of the surface/canvas. */
+    protected Rect mCanvasRect = new Rect(0, 0, 1, 1);
     protected SurfaceHolder mSurfaceHolder = null;
     protected Resources mResources = null;
+    protected ConcurrentLinkedQueue<MotionEvent> mEventQueue = new ConcurrentLinkedQueue<MotionEvent>();
 
     /** Number of frame we wish to draw per second. */
     private int mFrameRate = 20;
@@ -76,8 +79,8 @@ public abstract class DrawingThread extends Thread {
     public void setSurfaceSize(int width, int height) {
         // synchronized to make sure these all change atomically
         synchronized (mSurfaceHolder) {
-            mCanvasWidth = width;
-            mCanvasHeight = height;
+            mCanvasRect.right   = width;
+            mCanvasRect.bottom  = height;
 
             updateSurfaceSize();
         }
@@ -91,6 +94,14 @@ public abstract class DrawingThread extends Thread {
 
     /** Check user inputs and update data. */
     protected abstract void update();
+
+    /** Processes the event to update the view. */
+    protected abstract void processEvent(MotionEvent event);
+
+    /** Add a motionEvent that will be processed in {@link #update()}. */
+    public boolean addMotionEvent(MotionEvent event) {
+        return mEventQueue.add(event);
+    }
 
     /** Draw the new frame. */
     private void draw() {

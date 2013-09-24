@@ -14,6 +14,8 @@ import android.view.SurfaceView;
  */
 public abstract class DrawingView extends SurfaceView implements SurfaceHolder.Callback {
 
+    private static final String TAG = "DrawingView";
+
     protected DrawingThread thread = null;
 
     public DrawingView(Context context, AttributeSet attrs) {
@@ -60,7 +62,7 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         if (!hasWindowFocus) {
             if (thread != null) {
-                Log.d("ScrollingBackgroundView", "onWindowFocusChanged");
+                Log.d(TAG, "onWindowFocusChanged");
                 //TODO
                 //                thread.pause();
             }
@@ -70,31 +72,40 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 
-        final int action = event.getAction();
+        final int action = event.getActionMasked();
 
-        switch (action & MotionEvent.ACTION_MASK) {
+        Log.d(TAG, "onTouchEvent action : " + action    );
+        switch (action) {
 
             case MotionEvent.ACTION_DOWN:
-                // TODO
-                break;
-
             case MotionEvent.ACTION_POINTER_DOWN:
-                // TODO
-                break;
-
             case MotionEvent.ACTION_UP:
-                // TODO
-                break;
-
             case MotionEvent.ACTION_POINTER_UP:
-                // TODO
-                break;
-
             case MotionEvent.ACTION_MOVE:
-                // TODO
-                break;
+//                thread.addMotionEvent(event);
+                return true;
         }
 
         return super.onTouchEvent(event);
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+
+        final int action = event.getActionMasked();
+
+        Log.d(TAG, "dispatchTouchEvent action : " + action    );
+        switch (action) {
+
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_POINTER_DOWN:
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_MOVE:
+                thread.addMotionEvent(event);
+                return true;
+        }
+
+        return super.dispatchTouchEvent(event);
     }
 }
