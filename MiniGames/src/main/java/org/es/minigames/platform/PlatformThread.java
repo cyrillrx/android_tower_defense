@@ -20,6 +20,7 @@ public class PlatformThread extends DrawingThread {
 
     /** The near background scrolls {@link #FAR_NEAR_BG_COEF} times faster than the far one. */
     private final static int FAR_NEAR_BG_COEF = 4;
+    private final static int SCROLLING_DURATION = 20;
 
     // Background elements
     private BackgroundElement mFarBackground;
@@ -79,6 +80,7 @@ public class PlatformThread extends DrawingThread {
             mHero.startAnimation();
 
         } else if (action == GameEvent.ACTION_UP) {
+            scrollBackgrounds(0);
             mHero.stopAnimation();
         }
     }
@@ -86,8 +88,8 @@ public class PlatformThread extends DrawingThread {
     private void scrollBackgrounds(int offSetX) {
 
         // decrement the far and near backgrounds
-        mFarBackground.scrollX(offSetX);
-        mNearBackground.scrollX(offSetX * FAR_NEAR_BG_COEF);
+        mFarBackground.setScrollSpeed(offSetX, SCROLLING_DURATION);
+        mNearBackground.setScrollSpeed(offSetX * FAR_NEAR_BG_COEF, SCROLLING_DURATION);
     }
 
     @Override

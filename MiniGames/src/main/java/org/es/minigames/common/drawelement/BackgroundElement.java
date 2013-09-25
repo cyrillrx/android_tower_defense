@@ -11,8 +11,16 @@ import android.graphics.Point;
  */
 public class BackgroundElement implements GameElement {
 
+    private static final int STATE_SCROLLING = 0;
+    private static final int STATE_STOPPED = 1;
+
     private Point[] mPositions = new Point[2];
     private Bitmap mBitmap;
+    private int mScrollValue = 0;
+
+    private long mDuration = 0;
+    /** Time of the last object update. */
+    private long mLastUpdate;
 
     public BackgroundElement(Resources resources, int resId) {
 
@@ -44,9 +52,19 @@ public class BackgroundElement implements GameElement {
             }
             canvas.drawBitmap(mBitmap, position.x, position.y, null);
         }
+
+        updateScrollX();
     }
 
-    public void scrollX(int value) {
+    private void updateScrollX() {
+
+        if (mScrollValue == 0) {
+            mLastUpdate = System.currentTimeMillis();
+            return;
+        }
+
+        final long elapsedTime = System.currentTimeMillis() - mLastUpdate;
+        final long value = mScrollValue * elapsedTime / mDuration;
 
         mPositions[0].x += value;
         int drawingRectRight = mPositions[0].x + mBitmap.getWidth();
@@ -57,5 +75,11 @@ public class BackgroundElement implements GameElement {
         }
 
         mPositions[1].x =  mPositions[0].x + mBitmap.getWidth();
+        mLastUpdate = System.currentTimeMillis();
+    }
+
+    public void setScrollSpeed(int scrollValue, long duration) {
+        mScrollValue = scrollValue;
+        mDuration = duration;
     }
 }

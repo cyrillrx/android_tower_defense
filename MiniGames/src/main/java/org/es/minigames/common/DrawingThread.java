@@ -27,7 +27,7 @@ public abstract class DrawingThread extends Thread {
     /** Number of frame we wish to draw per second. */
     private int mFrameRate = 20;
     /** The time a frame is suppose to stay on screen in milliseconds. */
-    private int mFrameDurationMillis = 1000 / mFrameRate;
+    private int mFrameDuration = 1000 / mFrameRate;
     /** Indicate whether the thread is suppose to draw or not. */
     private boolean mRunning = true;
 
@@ -45,7 +45,7 @@ public abstract class DrawingThread extends Thread {
             update();
             draw();
 
-            final long waitingTimeMillis = mFrameDurationMillis - (System.currentTimeMillis() - start);
+            final long waitingTimeMillis = mFrameDuration - (System.currentTimeMillis() - start);
             if (waitingTimeMillis > 0) {
                 try {
                     sleep(waitingTimeMillis);
@@ -62,7 +62,7 @@ public abstract class DrawingThread extends Thread {
 
     public void setFrameRate(int framePerSecond) {
         mFrameRate = framePerSecond;
-        mFrameDurationMillis = 1000 / mFrameRate;
+        mFrameDuration = 1000 / mFrameRate;
     }
 
     /**

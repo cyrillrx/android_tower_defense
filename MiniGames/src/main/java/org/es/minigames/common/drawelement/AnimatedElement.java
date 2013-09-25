@@ -8,6 +8,7 @@ import android.graphics.Point;
 
 /**
  * Simple loop animated element.
+ * Plays a bitmap list in loop.
  *
  * Created by Cyril on 25/09/13.
  */
@@ -22,7 +23,7 @@ public class AnimatedElement implements GameElement {
     private int mState;
 
     /** The time during which a sprite is on the screen before proceeding to the next one. */
-    private double mSpriteDuration;
+    private double mDuration;
     /** Time of the last bitmap update. */
     private long mLastUpdate;
 
@@ -39,7 +40,7 @@ public class AnimatedElement implements GameElement {
         }
 
         mPosition = new Point(0, 0);
-        mSpriteDuration = animationDuration / (double)mBitmaps.length;
+        mDuration = animationDuration / (double)mBitmaps.length;
         mLastUpdate = System.currentTimeMillis();
         mState = STATE_STOPPED;
     }
@@ -65,7 +66,7 @@ public class AnimatedElement implements GameElement {
         }
 
         final double elapsedTime = System.currentTimeMillis() - mLastUpdate;
-        final int step = (int) (elapsedTime / mSpriteDuration);
+        final int step = (int) (elapsedTime / mDuration);
         if (step >= 1) {
             // update bitmap id for the next draw
             // if current id is greater than max value then wrap
