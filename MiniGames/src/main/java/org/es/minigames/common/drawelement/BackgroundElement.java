@@ -1,11 +1,10 @@
-package org.es.minigames.common;
+package org.es.minigames.common.drawelement;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.Rect;
 
 /**
  * Created by Cyril on 24/09/13.

@@ -1,4 +1,4 @@
-package org.es.minigames.common;
+package org.es.minigames.common.drawelement;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;

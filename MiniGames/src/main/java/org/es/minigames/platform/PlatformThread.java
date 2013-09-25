@@ -1,21 +1,15 @@
 package org.es.minigames.platform;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.RectF;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import org.es.minigames.R;
-import org.es.minigames.common.AnimatedElement;
-import org.es.minigames.common.BackgroundElement;
+import org.es.minigames.common.drawelement.AnimatedElement;
+import org.es.minigames.common.drawelement.BackgroundElement;
 import org.es.minigames.common.DrawingThread;
-import org.es.minigames.common.GameElement;
 import org.es.minigames.common.GameEvent;
-import org.es.minigames.utils.PositionUtils;
 
 /**
  * Created by Cyril on 22/09/13.
@@ -48,7 +42,7 @@ public class PlatformThread extends DrawingThread {
                         R.drawable.hero_right_4,
                         R.drawable.hero_right_5,
                         R.drawable.hero_right_6,
-                }, 1000);
+                }, 800);
     }
 
     @Override

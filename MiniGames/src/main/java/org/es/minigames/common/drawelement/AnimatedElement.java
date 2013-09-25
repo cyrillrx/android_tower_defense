@@ -1,13 +1,10 @@
-package org.es.minigames.common;
+package org.es.minigames.common.drawelement;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.graphics.Rect;
-
-import java.util.TimerTask;
 
 /**
  * Simple loop animated element.
@@ -41,7 +38,8 @@ public class AnimatedElement implements GameElement {
 
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-
+        mPosition.x = surfaceWidth / 2 - getWidth() / 2;
+        mPosition.y = surfaceHeight - getHeight();
     }
 
     @Override
@@ -81,5 +79,4 @@ public class AnimatedElement implements GameElement {
     public void moveX(int value) { mPosition.x += value; }
 
     public void moveY(int value) { mPosition.y += value; }
-
 }
