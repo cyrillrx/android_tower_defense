@@ -69,42 +69,4 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
             }
         }
     }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent event) {
-
-        final int action = event.getActionMasked();
-
-        Log.d(TAG, "dispatchTouchEvent action : " + action    );
-        switch (action) {
-
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_POINTER_DOWN:
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_POINTER_UP:
-            case MotionEvent.ACTION_MOVE:
-                thread.addGameEvent(new GameEvent(GameEvent.ACTION_RIGHT));
-                return true;
-        }
-
-        return super.dispatchTouchEvent(event);
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-
-        final int action = event.getAction();
-        final int keyCode = event.getKeyCode();
-
-        Log.d(TAG, "dispatchTouchEvent action : " + action    );
-
-        if (action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-            thread.addGameEvent(new GameEvent(GameEvent.ACTION_LEFT));
-
-        } else if (action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            thread.addGameEvent(new GameEvent(GameEvent.ACTION_RIGHT));
-        }
-
-        return super.dispatchKeyEvent(event);
-    }
 }

@@ -13,16 +13,23 @@ import android.graphics.Point;
  */
 public class AnimatedElement implements GameElement {
 
+    private static final int STATE_RUNNING = 0;
+    private static final int STATE_STOPPED = 1;
+
     private Point mPosition;
     private Bitmap[] mBitmaps;
     private int mCurrentBitmapId = 0;
+    private int mState;
 
-    /** Animation duration in milliseconds */
-    private long mDuration;
+    /** The time during which a sprite is on the screen before proceeding to the next one. */
+    private double mSpriteDuration;
     /** Time of the last bitmap update. */
     private long mLastUpdate;
 
-    public AnimatedElement(Resources resources, int[] resIds, long durationMs) {
+    /**
+     * @param animationDuration Animation duration in milliseconds.
+     */
+    public AnimatedElement(Resources resources, int[] resIds, double animationDuration) {
 
         final int resIdCount = resIds.length;
         mBitmaps = new Bitmap[resIdCount];
@@ -30,10 +37,11 @@ public class AnimatedElement implements GameElement {
         for (int i = 0; i < resIdCount; i++) {
             mBitmaps[i]  = BitmapFactory.decodeResource(resources, resIds[i]);
         }
-        mPosition = new Point(0, 0);
-        mDuration = durationMs;
-        mLastUpdate = System.currentTimeMillis();
 
+        mPosition = new Point(0, 0);
+        mSpriteDuration = animationDuration / (double)mBitmaps.length;
+        mLastUpdate = System.currentTimeMillis();
+        mState = STATE_STOPPED;
     }
 
     @Override
@@ -47,22 +55,28 @@ public class AnimatedElement implements GameElement {
 
         canvas.drawBitmap(mBitmaps[mCurrentBitmapId], mPosition.x, mPosition.y, null);
         updateBitmapId();
-
     }
 
     private void updateBitmapId() {
 
-        final long elapsedTime = System.currentTimeMillis() - mLastUpdate;
-        if (elapsedTime >= (float) mDuration/(float)mBitmaps.length) {
+        if (mState == STATE_STOPPED) {
+            mLastUpdate = System.currentTimeMillis();
+            return;
+        }
+
+        final double elapsedTime = System.currentTimeMillis() - mLastUpdate;
+        final int step = (int) (elapsedTime / mSpriteDuration);
+        if (step >= 1) {
             // update bitmap id for the next draw
-            mCurrentBitmapId++;
             // if current id is greater than max value then wrap
-            if (mCurrentBitmapId >= mBitmaps.length) {
-                mCurrentBitmapId = 0;
-            }
+            mCurrentBitmapId = (mCurrentBitmapId + step) % mBitmaps.length;
             mLastUpdate = System.currentTimeMillis();
         }
     }
+
+    public void startAnimation() { mState = STATE_RUNNING; }
+
+    public void stopAnimation() { mState = STATE_STOPPED; }
 
     public int getLeft() { return mPosition.x; }
 

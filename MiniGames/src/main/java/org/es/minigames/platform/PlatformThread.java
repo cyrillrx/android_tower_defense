@@ -64,16 +64,22 @@ public class PlatformThread extends DrawingThread {
     @Override
     protected void processEvent(GameEvent event) {
 
+        final int keyCode = event.getKeyCode();
         final int action = event.getAction();
         Log.d(TAG, "GameEvent : " + action);
 
 //        // TODO onKeyDown => start scrolling
 //        // TODO onKeyUP => stop scrolling
-        if (action == GameEvent.ACTION_LEFT) {
+        if (keyCode == GameEvent.KEYCODE_LEFT && action == GameEvent.ACTION_DOWN) {
             scrollBackgrounds(1);
-        }
-        if (action == GameEvent.ACTION_RIGHT) {
+            mHero.startAnimation();
+
+        } else if (keyCode == GameEvent.KEYCODE_RIGHT && action == GameEvent.ACTION_DOWN) {
             scrollBackgrounds(-1);
+            mHero.startAnimation();
+
+        } else if (action == GameEvent.ACTION_UP) {
+            mHero.stopAnimation();
         }
     }
 
