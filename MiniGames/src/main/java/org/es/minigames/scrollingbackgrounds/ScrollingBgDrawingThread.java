@@ -9,6 +9,7 @@ import android.view.SurfaceHolder;
 
 import org.es.minigames.R;
 import org.es.minigames.common.DrawingThread;
+import org.es.minigames.common.GameEvent;
 
 /**
  * Created by Cyril on 18/09/13.
@@ -34,17 +35,17 @@ public class ScrollingBgDrawingThread extends DrawingThread {
     }
 
     @Override
-    protected void updateSurfaceSize() {
+    protected void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
         
         // Resize the background image
         // Image is larger than the screen => adapt height
-        float farBgCoef = (float) mCanvasRect.height() / (float) mFarBackground.getHeight();
-        float nearBgCoef = (float) mCanvasRect.height() / (float) mNearBackground.getHeight();
+        float farBgCoef = (float) surfaceHeight / (float) mFarBackground.getHeight();
+        float nearBgCoef = (float) surfaceHeight / (float) mNearBackground.getHeight();
         float newFarBgWidth = mFarBackground.getWidth() * farBgCoef;
         float newNearBgWidth = mNearBackground.getWidth() * nearBgCoef;
 
-        mFarBackground = Bitmap.createScaledBitmap(mFarBackground, (int) newFarBgWidth, mCanvasRect.height(), true);
-        mNearBackground = Bitmap.createScaledBitmap(mNearBackground, (int) newNearBgWidth, mCanvasRect.height(), true);
+        mFarBackground = Bitmap.createScaledBitmap(mFarBackground, (int) newFarBgWidth, surfaceHeight, true);
+        mNearBackground = Bitmap.createScaledBitmap(mNearBackground, (int) newNearBgWidth, surfaceHeight, true);
     }
 
     /** Update data. */
@@ -71,7 +72,7 @@ public class ScrollingBgDrawingThread extends DrawingThread {
     }
 
     @Override
-    protected void processEvent(MotionEvent event) { }
+    protected void processEvent(GameEvent event) { }
 
     /**
      * Draws current state of the game Canvas.
@@ -79,13 +80,13 @@ public class ScrollingBgDrawingThread extends DrawingThread {
     protected void doDraw(Canvas canvas) {
 
         canvas.drawBitmap(mFarBackground, mFarBg1Left, 0, null);
-        if (mFarBg2Left <= mCanvasRect.width()) { // TODO isOnScreen(bg)
+        if (mFarBg2Left <= canvas.getWidth()) {
             // Draw second background only if necessary
             canvas.drawBitmap(mFarBackground, mFarBg2Left, 0, null);
         }
 
         canvas.drawBitmap(mNearBackground, mNearBg1Left, 0, null);
-        if (mNearBg2Left <= mCanvasRect.width()) { // TODO isOnScreen(bg)
+        if (mNearBg2Left <= canvas.getWidth()) {
             // Draw second only if necessary
             canvas.drawBitmap(mNearBackground, mNearBg2Left, 0, null);
         }

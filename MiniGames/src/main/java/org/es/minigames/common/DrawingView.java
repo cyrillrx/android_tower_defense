@@ -3,6 +3,7 @@ package org.es.minigames.common;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -70,26 +71,6 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
-
-        final int action = event.getActionMasked();
-
-        Log.d(TAG, "onTouchEvent action : " + action    );
-        switch (action) {
-
-            case MotionEvent.ACTION_DOWN:
-            case MotionEvent.ACTION_POINTER_DOWN:
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_POINTER_UP:
-            case MotionEvent.ACTION_MOVE:
-//                thread.addMotionEvent(event);
-                return true;
-        }
-
-        return super.onTouchEvent(event);
-    }
-
-    @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
 
         final int action = event.getActionMasked();
@@ -102,10 +83,28 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
             case MotionEvent.ACTION_MOVE:
-                thread.addMotionEvent(event);
+                thread.addGameEvent(new GameEvent(GameEvent.ACTION_RIGHT));
                 return true;
         }
 
         return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+
+        final int action = event.getAction();
+        final int keyCode = event.getKeyCode();
+
+        Log.d(TAG, "dispatchTouchEvent action : " + action    );
+
+        if (action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+            thread.addGameEvent(new GameEvent(GameEvent.ACTION_LEFT));
+
+        } else if (action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+            thread.addGameEvent(new GameEvent(GameEvent.ACTION_RIGHT));
+        }
+
+        return super.dispatchKeyEvent(event);
     }
 }
