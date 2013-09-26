@@ -21,7 +21,7 @@ public class AnimatedElement implements GameElement {
      */
     public AnimatedElement(Resources resources, int[] resIds, double animationDuration) {
 
-        mAnimation = new Animation(resources, resIds, animationDuration);
+        mAnimation = new Animation(resources, resIds, animationDuration, true);
         mPosition = new Point();
     }
 
