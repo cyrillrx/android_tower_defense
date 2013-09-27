@@ -5,11 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.util.Log;
 
 /**
  * Created by Cyril Leroux on 26/09/13.
  */
 public class Animation {
+
+    private static final String TAG = "Animation";
 
     public static final int STATE_RUNNING = 0;
     public static final int STATE_STOPPING = 1;
@@ -35,16 +38,16 @@ public class Animation {
             mBitmaps[i]  = BitmapFactory.decodeResource(resources, resourceIds[i]);
         }
 
-        mCurrentBitmapId = 0;
         mState = STATE_STOPPED;
         mIsLoop = isLoop;
         mFrameDuration = animationDuration / (double)mBitmaps.length;
-        mLastUpdate = System.currentTimeMillis();
     }
 
     public void start() {
 
         if (mState != STATE_RUNNING) {
+            mCurrentBitmapId = 0;
+            mLastUpdate = System.currentTimeMillis();
             mState = STATE_RUNNING;
         }
     }
@@ -77,6 +80,10 @@ public class Animation {
 
     private void incrementBitmapId(int step) {
 
+        if (mState == STATE_STOPPED) {
+            return;
+        }
+
         // update bitmap id for the next draw
         mCurrentBitmapId += step;
 
@@ -85,8 +92,10 @@ public class Animation {
             mCurrentBitmapId %= mBitmaps.length;
 
         } else if (mCurrentBitmapId >= mBitmaps.length -1) {
+            // Animation stops when it reaches the last bitmap
             mCurrentBitmapId = mBitmaps.length -1;
             mState = STATE_STOPPED;
+
         }
 
         mLastUpdate = System.currentTimeMillis();
