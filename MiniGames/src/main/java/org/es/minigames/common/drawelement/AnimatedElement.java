@@ -5,23 +5,18 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 
 /**
- * Simple loop animated element.
+ * Simple animated element.
  * Plays a bitmap list in loop.
  *
  * Created by Cyril on 25/09/13.
  */
 public class AnimatedElement implements GameElement {
 
-    Animation mAnimation;
+    protected Animation mAnimation;
+    protected Point mPosition;
 
-    private Point mPosition;
-
-    /**
-     * @param animationDuration Animation duration in milliseconds.
-     */
-    public AnimatedElement(Resources resources, int[] resIds, double animationDuration) {
-
-        mAnimation = new Animation(resources, resIds, animationDuration, true);
+    public AnimatedElement(Animation animation) {
+        mAnimation = animation;
         mPosition = new Point();
     }
 
@@ -33,7 +28,9 @@ public class AnimatedElement implements GameElement {
 
     @Override
     public void draw(Canvas canvas) {
-        mAnimation.draw(canvas, mPosition);
+        if (mAnimation != null) {
+            mAnimation.draw(canvas, mPosition);
+        }
     }
 
     public void startAnimation() {

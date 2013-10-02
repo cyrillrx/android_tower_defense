@@ -29,6 +29,9 @@ public class Animation {
     /** Time of the last bitmap update. */
     private long mLastUpdate;
 
+    /**
+     * @param animationDuration Animation duration in milliseconds.
+     */
     public Animation(Resources resources, int[] resourceIds, double animationDuration, boolean isLoop) {
 
         final int bitmapCount = resourceIds.length;
