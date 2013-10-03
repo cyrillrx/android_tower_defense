@@ -1,4 +1,4 @@
-package org.es.minigames.common.drawelement;
+package org.es.minigames.common.drawable;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -16,9 +16,9 @@ public class BackgroundElement implements GameElement {
 
     private Point[] mPositions = new Point[2];
     private Bitmap mBitmap;
-    private int mScrollValue = 0;
+    private float mScrollValue = 0;
 
-    private long mDuration = 0;
+    private float mDuration = 0;
     /** Time of the last object update. */
     private long mLastUpdate;
 
@@ -63,8 +63,8 @@ public class BackgroundElement implements GameElement {
             return;
         }
 
-        final long elapsedTime = System.currentTimeMillis() - mLastUpdate;
-        final long value = mScrollValue * elapsedTime / mDuration;
+        final float elapsedTime = System.currentTimeMillis() - mLastUpdate;
+        final float value = mScrollValue * elapsedTime / mDuration;
 
         mPositions[0].x += value;
         int drawingRectRight = mPositions[0].x + mBitmap.getWidth();
@@ -78,7 +78,7 @@ public class BackgroundElement implements GameElement {
         mLastUpdate = System.currentTimeMillis();
     }
 
-    public void setScrollSpeed(int scrollValue, long duration) {
+    public void setScrollSpeed(float scrollValue, float duration) {
         mScrollValue = scrollValue;
         mDuration = duration;
     }

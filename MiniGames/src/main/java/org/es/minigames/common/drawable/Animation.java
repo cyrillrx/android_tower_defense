@@ -1,11 +1,10 @@
-package org.es.minigames.common.drawelement;
+package org.es.minigames.common.drawable;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
-import android.util.Log;
 
 /**
  * Created by Cyril Leroux on 26/09/13.
@@ -25,14 +24,15 @@ public class Animation {
     private boolean mIsLoop;
 
     /** The time during which a bitmap is on the screen before proceeding to the next one. */
-    private double mFrameDuration;
+    private float mFrameDuration;
     /** Time of the last bitmap update. */
     private long mLastUpdate;
+    private long mStartTime;
 
     /**
      * @param animationDuration Animation duration in milliseconds.
      */
-    public Animation(Resources resources, int[] resourceIds, double animationDuration, boolean isLoop) {
+    public Animation(Resources resources, int[] resourceIds, float animationDuration, boolean isLoop) {
 
         final int bitmapCount = resourceIds.length;
         mBitmaps = new Bitmap[bitmapCount];
@@ -42,15 +42,17 @@ public class Animation {
         }
 
         mState = STATE_STOPPED;
+        mStartTime = -1;
         mIsLoop = isLoop;
-        mFrameDuration = animationDuration / (double)mBitmaps.length;
+        mFrameDuration = animationDuration / (float)mBitmaps.length;
     }
 
     public void start() {
 
         if (mState != STATE_RUNNING) {
             mCurrentBitmapId = 0;
-            mLastUpdate = System.currentTimeMillis();
+            mStartTime = System.currentTimeMillis();
+            mLastUpdate = mStartTime;
             mState = STATE_RUNNING;
         }
     }
@@ -74,7 +76,7 @@ public class Animation {
             return;
         }
 
-        final double elapsedTime = System.currentTimeMillis() - mLastUpdate;
+        final float elapsedTime = System.currentTimeMillis() - mLastUpdate;
         final int step = (int) (elapsedTime / mFrameDuration);
         if (step >= 1) {
             incrementBitmapId(step);
@@ -98,11 +100,18 @@ public class Animation {
             // Animation stops when it reaches the last bitmap
             mCurrentBitmapId = mBitmaps.length -1;
             mState = STATE_STOPPED;
+            mStartTime = -1;
 
         }
 
         mLastUpdate = System.currentTimeMillis();
     }
+
+    public boolean isRunning() {
+        return (mState == STATE_RUNNING) || (mState == STATE_STOPPING);
+    }
+
+    public long getStartTime() { return mStartTime; }
 
     public int getWidth() { return mBitmaps[mCurrentBitmapId].getWidth(); }
 

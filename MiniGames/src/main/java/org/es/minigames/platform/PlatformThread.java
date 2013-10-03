@@ -6,11 +6,10 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import org.es.minigames.R;
-import org.es.minigames.common.drawelement.AnimatedElement;
-import org.es.minigames.common.drawelement.BackgroundElement;
+import org.es.minigames.common.drawable.BackgroundElement;
 import org.es.minigames.common.DrawingThread;
 import org.es.minigames.common.GameEvent;
-import org.es.minigames.common.drawelement.Hero;
+import org.es.minigames.platform.drawable.Hero;
 
 /**
  * Created by Cyril on 22/09/13.
@@ -25,7 +24,7 @@ public class PlatformThread extends DrawingThread {
 
     // Background elements
     private BackgroundElement mFarBackground;
-    private BackgroundElement mNearBackground;
+    //    private BackgroundElement mNearBackground;
 
     // Hero
     private Hero mHero;
@@ -35,15 +34,15 @@ public class PlatformThread extends DrawingThread {
 
         // two background since we want them moving at different speeds
         mFarBackground = new BackgroundElement(mResources, R.drawable.background_far);
-        mNearBackground = new BackgroundElement(mResources, R.drawable.background_near);
-        mHero = new Hero(mResources);
+        //        mNearBackground = new BackgroundElement(mResources, R.drawable.background_near);
+        mHero = new Hero(mResources, mFarBackground);
     }
 
     @Override
     protected void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
 
         mFarBackground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-        mNearBackground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
+        //        mNearBackground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
         mHero.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
     }
 
@@ -53,6 +52,8 @@ public class PlatformThread extends DrawingThread {
         while(!mEventQueue.isEmpty()) {
             processEvent(mEventQueue.poll());
         }
+        mHero.update();
+
     }
 
     @Override
@@ -62,34 +63,34 @@ public class PlatformThread extends DrawingThread {
         final int action = event.getAction();
         Log.d(TAG, "GameEvent : " + action);
 
-//        // TODO onKeyDown => start scrolling
-//        // TODO onKeyUP => stop scrolling
+        //        // TODO onKeyDown => start scrolling
+        //        // TODO onKeyUP => stop scrolling
         if (keyCode == GameEvent.KEYCODE_LEFT && action == GameEvent.ACTION_DOWN) {
-            scrollBackgrounds(1);
+            //            scrollBackgrounds(1);
             mHero.walkLeft();
 
         } else if (keyCode == GameEvent.KEYCODE_RIGHT && action == GameEvent.ACTION_DOWN) {
-            scrollBackgrounds(-1);
+            //            scrollBackgrounds(-1);
             mHero.walkRight();
 
         } else if (action == GameEvent.ACTION_UP) {
-            scrollBackgrounds(0);
+            //            scrollBackgrounds(0);
             mHero.stopAnimation();
         }
     }
 
-    private void scrollBackgrounds(int offSetX) {
-
-        // decrement the far and near backgrounds
-        mFarBackground.setScrollSpeed(offSetX, SCROLLING_DURATION);
-        mNearBackground.setScrollSpeed(offSetX * FAR_NEAR_BG_COEF, SCROLLING_DURATION);
-    }
+    //    private void scrollBackgrounds(int offSetX) {
+    //
+    //        // decrement the far and near backgrounds
+    //        mFarBackground.setScrollSpeed(offSetX, SCROLLING_DURATION);
+    //        mNearBackground.setScrollSpeed(offSetX * FAR_NEAR_BG_COEF, SCROLLING_DURATION);
+    //    }
 
     @Override
     protected void doDraw(Canvas canvas) {
 
         mFarBackground.draw(canvas);
-        mNearBackground.draw(canvas);
+        //        mNearBackground.draw(canvas);
         mHero.draw(canvas);
     }
 }

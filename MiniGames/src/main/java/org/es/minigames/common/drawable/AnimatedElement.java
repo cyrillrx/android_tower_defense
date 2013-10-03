@@ -1,6 +1,5 @@
-package org.es.minigames.common.drawelement;
+package org.es.minigames.common.drawable;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
