@@ -69,4 +69,8 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
             }
         }
     }
+
+    protected float getCenterX() { return (float) getWidth() / 2f; }
+
+    protected float getCenterY() { return (float) getHeight() / 2f; }
 }

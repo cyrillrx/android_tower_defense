@@ -37,11 +37,15 @@ public class PlatformView extends DrawingView {
         switch (action) {
 
             case MotionEvent.ACTION_DOWN:
-                thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_RIGHT, GameEvent.ACTION_DOWN));
+                final int keyCodeDown = (event.getX() > getCenterX()) ?
+                        GameEvent.KEYCODE_RIGHT : GameEvent.KEYCODE_LEFT;
+                thread.addGameEvent(new GameEvent(keyCodeDown, GameEvent.ACTION_DOWN));
                 return true;
 
             case MotionEvent.ACTION_UP:
-                thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_RIGHT, GameEvent.ACTION_UP));
+                final int keyCodeUp = (event.getX() > getCenterX()) ?
+                        GameEvent.KEYCODE_RIGHT : GameEvent.KEYCODE_LEFT;
+                thread.addGameEvent(new GameEvent(keyCodeUp, GameEvent.ACTION_UP));
                 return true;
 
             case MotionEvent.ACTION_POINTER_DOWN:
