@@ -64,23 +64,24 @@ public class Animation {
         }
     }
 
-    public void draw(Canvas canvas, Point position) {
-        canvas.drawBitmap(mBitmaps[mCurrentBitmapId], position.x, position.y, null);
-        updateBitmap();
-    }
-
     /** Update the current bitmap id if necessary. */
-    private void updateBitmap() {
+    public boolean updateBitmap() {
 
         if (mState == STATE_STOPPED) {
-            return;
+            return false;
         }
 
         final float elapsedTime = System.currentTimeMillis() - mLastUpdate;
         final int step = (int) (elapsedTime / mFrameDuration);
         if (step >= 1) {
             incrementBitmapId(step);
+            return true;
         }
+        return false;
+    }
+
+    public void draw(Canvas canvas, Point position) {
+        canvas.drawBitmap(mBitmaps[mCurrentBitmapId], position.x, position.y, null);
     }
 
     private void incrementBitmapId(int step) {
@@ -101,7 +102,6 @@ public class Animation {
             mCurrentBitmapId = mBitmaps.length -1;
             mState = STATE_STOPPED;
             mStartTime = -1;
-
         }
 
         mLastUpdate = System.currentTimeMillis();

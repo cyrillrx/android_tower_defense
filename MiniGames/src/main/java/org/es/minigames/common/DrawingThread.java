@@ -42,8 +42,9 @@ public abstract class DrawingThread extends Thread {
         while (mRunning) {
             long start = System.currentTimeMillis();
 
-            update();
-            draw();
+            if (update()) {
+                draw();
+            }
 
             final long waitingTimeMillis = mFrameDuration - (System.currentTimeMillis() - start);
             if (waitingTimeMillis > 0) {
@@ -89,7 +90,7 @@ public abstract class DrawingThread extends Thread {
     protected abstract void updateSurfaceSize(int surfaceWidth, int surfaceHeight);
 
     /** Check user inputs and update data. */
-    protected abstract void update();
+    protected abstract boolean update();
 
     /** Processes the event to update the view. */
     protected abstract void processEvent(GameEvent event);

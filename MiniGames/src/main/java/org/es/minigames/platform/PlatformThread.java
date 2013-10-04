@@ -47,13 +47,16 @@ public class PlatformThread extends DrawingThread {
     }
 
     @Override
-    protected void update() {
+    protected boolean update() {
+
+        boolean updated = false;
 
         while(!mEventQueue.isEmpty()) {
             processEvent(mEventQueue.poll());
         }
-        mHero.update();
+        updated |= mHero.update();
 
+        return updated;
     }
 
     @Override

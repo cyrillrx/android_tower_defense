@@ -49,7 +49,7 @@ public class ScrollingBgDrawingThread extends DrawingThread {
     }
 
     /** Update data. */
-    protected void update() {
+    protected boolean update() {
 
         // decrement the far and near backgrounds
         mFarBg1Left -= 1;
@@ -69,6 +69,8 @@ public class ScrollingBgDrawingThread extends DrawingThread {
         // calculate the wrap factor for matching image draw
         mFarBg2Left = mFarBg1Left + mFarBackground.getWidth();
         mNearBg2Left = mNearBg1Left + mNearBackground.getWidth();
+
+        return true;
     }
 
     @Override
