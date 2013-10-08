@@ -5,11 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.util.Log;
 
 /**
  * Created by Cyril on 24/09/13.
  */
 public class BackgroundElement implements GameElement {
+
+    private static final String TAG = "BackgroundElement";
 
     private static final int STATE_SCROLLING = 0;
     private static final int STATE_STOPPED = 1;
@@ -76,6 +79,7 @@ public class BackgroundElement implements GameElement {
 
         mPositions[1].x =  mPositions[0].x + mBitmap.getWidth();
         mLastUpdate = System.currentTimeMillis();
+        Log.d(TAG, "Pos1 (" + mPositions[0].x + ":" + mPositions[0].y + ") Pos2 (" + mPositions[1].x + ":" + mPositions[1].y + ")");
     }
 
     public void setScrollSpeed(float scrollValue, float duration) {

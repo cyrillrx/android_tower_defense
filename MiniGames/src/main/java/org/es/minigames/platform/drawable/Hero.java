@@ -24,13 +24,15 @@ public class Hero extends AnimatedElement {
     /** Action duration to reach the maximum speed (in milliseconds). */
     private static final float REACH_MAX_SPEED_DELAY = 6000;
     /** The walking speed of the character in pixels per second. */
-    private static final float WALKING_SPEED = 150;
+    private static final float WALKING_SPEED = 200;
     /** Max speed of the character in pixels per second. */
     private static final float MAX_SPEED = 800;
 
     private int mState = STATE_STATIC;
     /** Character current speed in pixels per second. */
-    private float mCurrentSpeed = 0; // 5 px/s
+    private float mCurrentSpeed = 0;
+//    private float mVelocityX = 0;
+//    private float mVelocityY = 0;
 
     private BackgroundElement mBackground;
     private Animation mWalkLeft = null;
@@ -68,8 +70,8 @@ public class Hero extends AnimatedElement {
         boolean updated = false;
 
         updateSpeed();
-        updated |= mAnimation.updateBitmap();
         updated |= updatePosition();
+        updated |= mAnimation.updateBitmap();
 
         return updated;
     }
@@ -141,5 +143,12 @@ public class Hero extends AnimatedElement {
             mCurrentSpeed = WALKING_SPEED;
             startAnimation();
         }
+    }
+
+    public void jump() {
+        mState = STATE_JUMPING;
+        // switchAnimation();
+//        xt = vx * t;
+//        yt = vy * t - (g * t²)/2;
     }
 }

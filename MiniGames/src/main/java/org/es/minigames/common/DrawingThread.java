@@ -42,9 +42,8 @@ public abstract class DrawingThread extends Thread {
         while (mRunning) {
             long start = System.currentTimeMillis();
 
-            if (update()) {
-                draw();
-            }
+            update();
+            draw();
 
             final long waitingTimeMillis = mFrameDuration - (System.currentTimeMillis() - start);
             if (waitingTimeMillis > 0) {

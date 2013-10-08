@@ -21,6 +21,3 @@ android {
         targetSdkVersion 18
     }
 }
-
-dependencies {
-}

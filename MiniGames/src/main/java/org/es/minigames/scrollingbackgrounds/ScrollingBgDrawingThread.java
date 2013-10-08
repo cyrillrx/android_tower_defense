@@ -52,8 +52,8 @@ public class ScrollingBgDrawingThread extends DrawingThread {
     protected boolean update() {
 
         // decrement the far and near backgrounds
-        mFarBg1Left -= 1;
-        mNearBg1Left -= 4;
+        mFarBg1Left -= 4;
+        mNearBg1Left -= 16;
 
         int farBg1Right = mFarBg1Left + mFarBackground.getWidth();
         int nearBg1Right = mNearBg1Left + mNearBackground.getWidth();
