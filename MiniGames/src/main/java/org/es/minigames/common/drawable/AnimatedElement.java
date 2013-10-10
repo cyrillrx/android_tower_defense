@@ -3,13 +3,15 @@ package org.es.minigames.common.drawable;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
+import org.es.minigames.common.AnimationCallback;
+
 /**
  * Simple animated element.
  * Plays a bitmap list in loop.
  *
  * Created by Cyril on 25/09/13.
  */
-public class AnimatedElement implements GameElement {
+public class AnimatedElement implements GameElement, AnimationCallback {
 
     protected Animation mAnimation;
     protected Point mPosition;
@@ -38,6 +40,11 @@ public class AnimatedElement implements GameElement {
 
     public void stopAnimation() {
         mAnimation.stop();
+    }
+
+    @Override
+    public void onAnimationStopped() {
+
     }
 
     public int getWidth() { return mAnimation.getWidth(); }

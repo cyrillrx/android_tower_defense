@@ -6,6 +6,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
+import org.es.minigames.common.AnimationCallback;
+
 /**
  * Created by Cyril Leroux on 26/09/13.
  */
@@ -28,12 +30,14 @@ public class Animation {
     /** Time of the last bitmap update. */
     private long mLastUpdate;
     private long mStartTime;
+    private AnimationCallback mCallback;
 
     /**
      * @param animationDuration Animation duration in milliseconds.
      */
-    public Animation(Resources resources, int[] resourceIds, float animationDuration, boolean isLoop) {
+    public Animation(Resources resources, int[] resourceIds, float animationDuration, boolean isLoop, AnimationCallback callback) {
 
+        mCallback = callback;
         final int bitmapCount = resourceIds.length;
         mBitmaps = new Bitmap[bitmapCount];
 
@@ -102,6 +106,7 @@ public class Animation {
             mCurrentBitmapId = mBitmaps.length -1;
             mState = STATE_STOPPED;
             mStartTime = -1;
+            mCallback.onAnimationStopped();
         }
 
         mLastUpdate = System.currentTimeMillis();

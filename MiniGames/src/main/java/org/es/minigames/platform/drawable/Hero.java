@@ -6,6 +6,7 @@ import android.util.Log;
 
 import org.es.minigames.BuildConfig;
 import org.es.minigames.R;
+import org.es.minigames.common.AnimationCallback;
 import org.es.minigames.common.drawable.AnimatedElement;
 import org.es.minigames.common.drawable.Animation;
 import org.es.minigames.common.drawable.BackgroundElement;
@@ -50,7 +51,7 @@ public class Hero extends AnimatedElement {
                         R.drawable.hero_left_4,
                         R.drawable.hero_left_5,
                         R.drawable.hero_left_6,
-                }, 800, true);
+                }, 800, true, this);
 
         mWalkRight = new Animation(resources,
                 new int[] {
@@ -60,7 +61,7 @@ public class Hero extends AnimatedElement {
                         R.drawable.hero_right_4,
                         R.drawable.hero_right_5,
                         R.drawable.hero_right_6,
-                }, 800, true);
+                }, 800, true, this);
 
         mAnimation = mWalkRight;
     }
@@ -70,8 +71,8 @@ public class Hero extends AnimatedElement {
         boolean updated = false;
 
         updateSpeed();
-        updated |= updatePosition();
         updated |= mAnimation.updateBitmap();
+        updated |= updatePosition();
 
         return updated;
     }
@@ -92,7 +93,7 @@ public class Hero extends AnimatedElement {
 
     private boolean updatePosition() {
         if (mAnimation.isRunning()) {
-            if (mAnimation.equals(mWalkLeft)) {
+            if (mWalkLeft.equals(mAnimation)) {
                 mBackground.setScrollSpeed(mCurrentSpeed, 1000);
 
             } else if (mWalkRight.equals(mAnimation)) {
@@ -115,6 +116,10 @@ public class Hero extends AnimatedElement {
     @Override
     public void stopAnimation() {
         super.stopAnimation();
+    }
+
+    @Override
+    public void onAnimationStopped() {
         mCurrentSpeed = 0;
         mState = STATE_STATIC;
     }
