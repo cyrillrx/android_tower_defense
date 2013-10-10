@@ -56,10 +56,10 @@ public class BackgroundElement implements GameElement {
             canvas.drawBitmap(mBitmap, position.x, position.y, null);
         }
 
-        updateScrollX();
+        updateScrollX(canvas);
     }
 
-    private void updateScrollX() {
+    private void updateScrollX(Canvas canvas) {
 
         if (mScrollValue == 0) {
             mLastUpdate = System.currentTimeMillis();
@@ -73,11 +73,16 @@ public class BackgroundElement implements GameElement {
         int drawingRectRight = mPositions[0].x + mBitmap.getWidth();
 
         // if we have scrolled all the way, reset to start
-        if (drawingRectRight < 0) {
-            mPositions[0].x = 0;
+        if (drawingRectRight < 0 || mPositions[0].x > canvas.getWidth()) {
+            mPositions[0].x = mPositions[1].x;
         }
 
-        mPositions[1].x =  mPositions[0].x + mBitmap.getWidth();
+        // Update second background image
+        if (value < 0) {
+            mPositions[1].x =  mPositions[0].x + mBitmap.getWidth();
+        } else {
+            mPositions[1].x =  mPositions[0].x - mBitmap.getWidth();
+        }
         mLastUpdate = System.currentTimeMillis();
         Log.d(TAG, "Pos1 (" + mPositions[0].x + ":" + mPositions[0].y + ") Pos2 (" + mPositions[1].x + ":" + mPositions[1].y + ")");
     }
