@@ -69,20 +69,34 @@ public class BackgroundElement implements GameElement {
         final float elapsedTime = System.currentTimeMillis() - mLastUpdate;
         final float value = mScrollValue * elapsedTime / mDuration;
 
-        mPositions[0].x += value;
-        int drawingRectRight = mPositions[0].x + mBitmap.getWidth();
+        // Update positions
+        for (Point position : mPositions) {
+            position.x += value;
+        }
 
         // if we have scrolled all the way, reset to start
-        if (drawingRectRight < 0 || mPositions[0].x > canvas.getWidth()) {
-            mPositions[0].x = mPositions[1].x;
+        boolean bg0OutOfScreenLeft  = (mPositions[0].x + mBitmap.getWidth() < 0);
+        boolean bg0OutOfScreenRight = (mPositions[0].x > canvas.getWidth());
+        boolean bg1OutOfScreenLeft  = (mPositions[1].x + mBitmap.getWidth() < 0);
+        boolean bg1OutOfScreenRight = (mPositions[1].x > canvas.getWidth());
+
+        if (bg0OutOfScreenLeft) {
+            // redraw bg0 to the right
+            mPositions[0].x = mPositions[1].x + mBitmap.getWidth();
+
+        } else if (bg0OutOfScreenRight) {
+            // redraw bg0 to the left
+            mPositions[0].x = mPositions[1].x - mBitmap.getWidth();
+
+        } else if (bg1OutOfScreenLeft) {
+            // redraw bg1 to the right
+            mPositions[1].x = mPositions[0].x + mBitmap.getWidth();
+
+        } else if (bg1OutOfScreenRight) {
+            // redraw bg1 to the left
+            mPositions[1].x = mPositions[0].x - mBitmap.getWidth();
         }
 
-        // Update second background image
-        if (value < 0) {
-            mPositions[1].x =  mPositions[0].x + mBitmap.getWidth();
-        } else {
-            mPositions[1].x =  mPositions[0].x - mBitmap.getWidth();
-        }
         mLastUpdate = System.currentTimeMillis();
         Log.d(TAG, "Pos1 (" + mPositions[0].x + ":" + mPositions[0].y + ") Pos2 (" + mPositions[1].x + ":" + mPositions[1].y + ")");
     }
