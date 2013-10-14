@@ -1,4 +1,4 @@
-package org.es.minigames.common;
+package org.es.gameengine;
 
 /**
  * Created by Cyril Leroux on 10/10/13.

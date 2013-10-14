@@ -6,11 +6,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.view.SurfaceView;
 
-import org.es.minigames.common.DrawingThread;
-import org.es.minigames.common.DrawingView;
-import org.es.minigames.common.GameEvent;
+import org.es.gameengine.DrawingThread;
+import org.es.gameengine.DrawingView;
+import org.es.gameengine.GameEvent;
 
 /**
  * Created by Cyril on 22/09/13.
@@ -33,7 +32,7 @@ public class PlatformView extends DrawingView {
 
         final int action = event.getActionMasked();
 
-        Log.d(TAG, "dispatchTouchEvent action : " + action    );
+        Log.d(TAG, "dispatchTouchEvent action : " + action);
         switch (action) {
 
             case MotionEvent.ACTION_DOWN:
@@ -69,7 +68,7 @@ public class PlatformView extends DrawingView {
         final int action = event.getAction();
         final int keyCode = event.getKeyCode();
 
-        Log.d(TAG, "dispatchTouchEvent action : " + action    );
+        Log.d(TAG, "dispatchTouchEvent action : " + action);
 
         if (action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
             thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_LEFT, GameEvent.ACTION_DOWN));

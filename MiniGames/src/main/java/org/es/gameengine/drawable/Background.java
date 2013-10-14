@@ -1,4 +1,4 @@
-package org.es.minigames.common.drawable;
+package org.es.gameengine.drawable;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -10,9 +10,9 @@ import android.util.Log;
 /**
  * Created by Cyril on 24/09/13.
  */
-public class BackgroundElement implements GameElement {
+public class Background implements GameElement {
 
-    private static final String TAG = "BackgroundElement";
+    private static final String TAG = "Background";
 
     private static final int STATE_SCROLLING = 0;
     private static final int STATE_STOPPED = 1;
@@ -25,7 +25,7 @@ public class BackgroundElement implements GameElement {
     /** Time of the last object update. */
     private long mLastUpdate;
 
-    public BackgroundElement(Resources resources, int resId) {
+    public Background(Resources resources, int resId) {
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;

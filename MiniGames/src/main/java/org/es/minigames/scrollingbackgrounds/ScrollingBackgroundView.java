@@ -4,8 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 
-import org.es.minigames.common.DrawingThread;
-import org.es.minigames.common.DrawingView;
+import org.es.gameengine.DrawingThread;
+import org.es.gameengine.DrawingView;
 
 /**
  * Created by Cyril on 18/09/13.

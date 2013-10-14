@@ -1,12 +1,9 @@
-package org.es.minigames.common;
+package org.es.gameengine;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Rect;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -18,7 +15,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
  */
 public abstract class DrawingThread extends Thread {
 
-    private static final String TAG = "org.es.minigames.common.DrawingThread";
+    private static final String TAG = "org.es.gameengine.DrawingThread";
 
     protected SurfaceHolder mSurfaceHolder = null;
     protected Resources mResources = null;

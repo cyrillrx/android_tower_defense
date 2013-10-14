@@ -1,4 +1,4 @@
-package org.es.minigames.common;
+package org.es.gameengine;
 
 /**
  * Class that defines possible user inputs.

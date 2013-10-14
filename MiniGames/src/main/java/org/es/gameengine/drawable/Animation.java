@@ -1,4 +1,4 @@
-package org.es.minigames.common.drawable;
+package org.es.gameengine.drawable;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -6,7 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import org.es.minigames.common.AnimationCallback;
+import org.es.gameengine.AnimationCallback;
 
 /**
  * Created by Cyril Leroux on 26/09/13.

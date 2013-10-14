@@ -4,12 +4,11 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import org.es.minigames.R;
-import org.es.minigames.common.DrawingThread;
-import org.es.minigames.common.GameEvent;
+import org.es.gameengine.DrawingThread;
+import org.es.gameengine.GameEvent;
 
 /**
  * Created by Cyril on 18/09/13.

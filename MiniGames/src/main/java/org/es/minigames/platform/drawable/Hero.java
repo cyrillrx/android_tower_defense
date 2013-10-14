@@ -4,12 +4,11 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.util.Log;
 
+import org.es.gameengine.drawable.Background;
 import org.es.minigames.BuildConfig;
 import org.es.minigames.R;
-import org.es.minigames.common.AnimationCallback;
-import org.es.minigames.common.drawable.AnimatedElement;
-import org.es.minigames.common.drawable.Animation;
-import org.es.minigames.common.drawable.BackgroundElement;
+import org.es.gameengine.drawable.AnimatedElement;
+import org.es.gameengine.drawable.Animation;
 
 /** Created by Cyril on 02/10/13. */
 public class Hero extends AnimatedElement {
@@ -35,11 +34,11 @@ public class Hero extends AnimatedElement {
 //    private float mVelocityX = 0;
 //    private float mVelocityY = 0;
 
-    private BackgroundElement mBackground;
+    private Background mBackground;
     private Animation mWalkLeft = null;
     private Animation mWalkRight = null;
 
-    public Hero(Resources resources, BackgroundElement background) {
+    public Hero(Resources resources, Background background) {
         super(null);
 
         mBackground = background;
