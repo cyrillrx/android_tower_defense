@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/GameEngine/GameEngine.iml" filepath="$PROJECT_DIR$/GameEngine/GameEngine.iml" />
       <module fileurl="file://$PROJECT_DIR$/MiniGames.iml" filepath="$PROJECT_DIR$/MiniGames.iml" />
       <module fileurl="file://$PROJECT_DIR$/MiniGames/MiniGames-MiniGames.iml" filepath="$PROJECT_DIR$/MiniGames/MiniGames-MiniGames.iml" />
     </modules>

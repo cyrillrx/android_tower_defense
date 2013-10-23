@@ -1,1 +1,1 @@
-include ':MiniGames'
+include ':MiniGames', ':GameEngine'
