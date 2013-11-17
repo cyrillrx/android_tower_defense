@@ -24,6 +24,6 @@ android {
 
 dependencies {
     compile project(":GameEngine")
-    compile group: 'com.google.android', name: 'support-v4', version: 'r7'
+    //compile group: 'com.google.android', name: 'support-v4', version: 'r7'
     compile group: 'com.google.android.gms', name: 'play-services', version: '4.0.30'
 }
