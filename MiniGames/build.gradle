@@ -20,9 +20,33 @@ android {
         minSdkVersion 8
         targetSdkVersion 18
     }
+
+    signingConfigs {
+        debug {
+            storeFile file("D:/.android/debug.keystore")
+        }
+
+        release {
+            storeFile file("D:/.android/release.keystore")
+        }
+    }
+
+    buildTypes {
+        debug {
+            debuggable true
+            jniDebugBuild true
+            signingConfig signingConfigs.debug
+        }
+
+        release {
+            debuggable false
+            jniDebugBuild false
+            signingConfig signingConfigs.release
+        }
+    }
 }
 
 dependencies {
     compile project(":GameEngine")
-    compile group: 'com.google.android.gms', name: 'play-services', version: '4.0.30'
+    compile 'com.google.android.gms:play-services:+'
 }
