@@ -14,7 +14,7 @@ repositories {
 
 android {
     compileSdkVersion 18
-    buildToolsVersion "19"
+    buildToolsVersion '19'
 
     defaultConfig {
         minSdkVersion 8
@@ -23,30 +23,27 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file("D:/.android/debug.keystore")
+            storeFile file('D:/.android/debug.keystore')
         }
 
         release {
-            storeFile file("D:/.android/release.keystore")
+            storeFile file('D:/.android/release.keystore')
         }
     }
 
     buildTypes {
         debug {
-            debuggable true
             jniDebugBuild true
-            signingConfig signingConfigs.debug
+            debuggable true
         }
-
         release {
-            debuggable false
             jniDebugBuild false
-            signingConfig signingConfigs.release
+            debuggable false
         }
     }
 }
 
 dependencies {
-    compile project(":GameEngine")
-    compile 'com.google.android.gms:play-services:+'
+    compile project(':GameEngine')
+	compile 'com.google.android.gms:play-services:+'
 }
