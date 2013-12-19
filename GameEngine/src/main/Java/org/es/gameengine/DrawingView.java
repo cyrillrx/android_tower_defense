@@ -15,7 +15,7 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
 
     private static final String TAG = "DrawingView";
 
-    protected DrawingThread thread = null;
+    protected DrawingThread mThread = null;
 
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -23,7 +23,7 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
         SurfaceHolder holder = getHolder();
         holder.addCallback(this);
 
-        thread = createDrawingThread(holder, context);
+        mThread = createDrawingThread(holder, context);
 
         setFocusable(true);
     }
@@ -31,36 +31,36 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
     protected abstract DrawingThread createDrawingThread(SurfaceHolder holder, Context context);
 
     public void setFrameRate(int framePerSecond) {
-        if (thread != null) {
-            thread.setFrameRate(framePerSecond);
+        if (mThread != null) {
+            mThread.setFrameRate(framePerSecond);
         }
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
-        thread.setRunning(true);
-        thread.start();
+        mThread.setRunning(true);
+        mThread.start();
     }
 
     @Override
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
-        thread.setSurfaceSize(width, height);
+        mThread.setSurfaceSize(width, height);
     }
 
     @Override
     public void surfaceDestroyed(SurfaceHolder holder) {
 
         // Stop the drawing thread for it not to touch the Surface/Canvas again.
-        thread.setRunning(false);
+        mThread.setRunning(false);
         try {
-            thread.join();
+            mThread.join();
         } catch (InterruptedException e) { /* swallow */ }
     }
 
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         if (!hasWindowFocus) {
-            if (thread != null) {
+            if (mThread != null) {
                 Log.d(TAG, "onWindowFocusChanged");
                 //TODO
                 //                thread.pause();

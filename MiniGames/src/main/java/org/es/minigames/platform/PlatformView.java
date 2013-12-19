@@ -9,7 +9,7 @@ import android.view.SurfaceHolder;
 
 import org.es.gameengine.DrawingThread;
 import org.es.gameengine.DrawingView;
-import org.es.gameengine.GameEvent;
+import org.es.gameengine.UserEvent;
 
 /**
  * Created by Cyril on 22/09/13.
@@ -37,23 +37,24 @@ public class PlatformView extends DrawingView {
 
             case MotionEvent.ACTION_DOWN:
                 final int keyCodeDown = (event.getX() > getCenterX()) ?
-                        GameEvent.KEYCODE_RIGHT : GameEvent.KEYCODE_LEFT;
-                thread.addGameEvent(new GameEvent(keyCodeDown, GameEvent.ACTION_DOWN));
+                        UserEvent.KEYCODE_RIGHT : UserEvent.KEYCODE_LEFT;
+                mThread.addUserEvent(new UserEvent(keyCodeDown, UserEvent.ACTION_DOWN));
                 return true;
 
             case MotionEvent.ACTION_UP:
                 final int keyCodeUp = (event.getX() > getCenterX()) ?
-                        GameEvent.KEYCODE_RIGHT : GameEvent.KEYCODE_LEFT;
-                thread.addGameEvent(new GameEvent(keyCodeUp, GameEvent.ACTION_UP));
+                        UserEvent.KEYCODE_RIGHT : UserEvent.KEYCODE_LEFT;
+                mThread.addUserEvent(new UserEvent(keyCodeUp, UserEvent.ACTION_UP));
                 return true;
 
             case MotionEvent.ACTION_POINTER_DOWN:
-                thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_UP, GameEvent.ACTION_DOWN));
+                mThread.addUserEvent(new UserEvent(UserEvent.KEYCODE_UP, UserEvent.ACTION_DOWN));
                 return true;
 
             case MotionEvent.ACTION_POINTER_UP:
-                thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_UP, GameEvent.ACTION_UP));
+                mThread.addUserEvent(new UserEvent(UserEvent.KEYCODE_UP, UserEvent.ACTION_UP));
                 return true;
+
 
             case MotionEvent.ACTION_MOVE:
                 break;
@@ -71,22 +72,22 @@ public class PlatformView extends DrawingView {
         Log.d(TAG, "dispatchTouchEvent action : " + action);
 
         if (action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-            thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_LEFT, GameEvent.ACTION_DOWN));
+            mThread.addUserEvent(new UserEvent(UserEvent.KEYCODE_LEFT, UserEvent.ACTION_DOWN));
 
         } else if (action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-            thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_LEFT, GameEvent.ACTION_UP));
+            mThread.addUserEvent(new UserEvent(UserEvent.KEYCODE_LEFT, UserEvent.ACTION_UP));
 
         } else if (action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_RIGHT, GameEvent.ACTION_DOWN));
+            mThread.addUserEvent(new UserEvent(UserEvent.KEYCODE_RIGHT, UserEvent.ACTION_DOWN));
 
         } else if (action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-            thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_RIGHT, GameEvent.ACTION_UP));
+            mThread.addUserEvent(new UserEvent(UserEvent.KEYCODE_RIGHT, UserEvent.ACTION_UP));
 
         } else if (action == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-            thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_RIGHT, GameEvent.ACTION_DOWN));
+            mThread.addUserEvent(new UserEvent(UserEvent.KEYCODE_RIGHT, UserEvent.ACTION_DOWN));
 
         } else if (action == KeyEvent.ACTION_UP && keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-            thread.addGameEvent(new GameEvent(GameEvent.KEYCODE_RIGHT, GameEvent.ACTION_UP));
+            mThread.addUserEvent(new UserEvent(UserEvent.KEYCODE_RIGHT, UserEvent.ACTION_UP));
         }
 
         return super.dispatchKeyEvent(event);

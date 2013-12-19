@@ -5,7 +5,7 @@ package org.es.gameengine;
  *
  * Created by Cyril on 25/09/13.
  */
-public class GameEvent {
+public class UserEvent {
 
     public static final int ACTION_DOWN     = 0;
     public static final int ACTION_UP       = 1;
@@ -18,7 +18,7 @@ public class GameEvent {
     private int mKeyCode;
     private int mAction;
 
-    public GameEvent(int keyCode, int action) {
+    public UserEvent(int keyCode, int action) {
         mKeyCode = keyCode;
         mAction = action;
     }

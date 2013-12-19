@@ -19,7 +19,7 @@ public abstract class DrawingThread extends Thread {
 
     protected SurfaceHolder mSurfaceHolder = null;
     protected Resources mResources = null;
-    protected ConcurrentLinkedQueue<GameEvent> mEventQueue = new ConcurrentLinkedQueue<GameEvent>();
+    protected ConcurrentLinkedQueue<UserEvent> mEventQueue = new ConcurrentLinkedQueue<UserEvent>();
 
     /** Number of frame we wish to draw per second. */
     private int mFrameRate = 20;
@@ -89,10 +89,10 @@ public abstract class DrawingThread extends Thread {
     protected abstract boolean update();
 
     /** Processes the event to update the view. */
-    protected abstract void processEvent(GameEvent event);
+    protected abstract void processEvent(UserEvent event);
 
     /** Add a motionEvent that will be processed in {@link #update()}. */
-    public boolean addGameEvent(GameEvent event) {
+    public boolean addUserEvent(UserEvent event) {
         return mEventQueue.add(event);
     }
 
@@ -112,7 +112,7 @@ public abstract class DrawingThread extends Thread {
     }
 
     /**
-     * Draws current state of the game Canvas.<br />
+     * Draws current state of the canvas.<br />
      * Canvas null check is performed by the caller ({@link #draw()}).
      */
     protected abstract void doDraw(Canvas canvas);
