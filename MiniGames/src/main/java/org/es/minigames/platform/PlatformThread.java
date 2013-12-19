@@ -6,7 +6,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import org.es.gameengine.DrawingThread;
-import org.es.gameengine.GameEvent;
+import org.es.gameengine.UserEvent;
 import org.es.gameengine.drawable.Background;
 import org.es.minigames.R;
 import org.es.minigames.platform.drawable.Hero;
@@ -18,7 +18,7 @@ public class PlatformThread extends DrawingThread {
 
     private static final String TAG = "PlatformThread";
     /** The near background scrolls {@link #FAR_NEAR_BG_COEF} times faster than the far one. */
-    private final static int FAR_NEAR_BG_COEF   = 4;
+    private final static int FAR_NEAR_BG_COEF = 4;
     private final static int SCROLLING_DURATION = 20;
     // Background elements
     private Background mFarBackground;
@@ -57,23 +57,23 @@ public class PlatformThread extends DrawingThread {
     }
 
     @Override
-    protected void processEvent(GameEvent event) {
+    protected void processEvent(UserEvent event) {
 
         final int keyCode = event.getKeyCode();
         final int action = event.getAction();
-        Log.d(TAG, "GameEvent : " + action);
+        Log.d(TAG, "UserEvent : " + action);
 
         //        // TODO onKeyDown => start scrolling
         //        // TODO onKeyUP => stop scrolling
-        if (keyCode == GameEvent.KEYCODE_LEFT && action == GameEvent.ACTION_DOWN) {
+        if (keyCode == UserEvent.KEYCODE_LEFT && action == UserEvent.ACTION_DOWN) {
             //            scrollBackgrounds(1);
             mHero.walkLeft();
 
-        } else if (keyCode == GameEvent.KEYCODE_RIGHT && action == GameEvent.ACTION_DOWN) {
+        } else if (keyCode == UserEvent.KEYCODE_RIGHT && action == UserEvent.ACTION_DOWN) {
             //            scrollBackgrounds(-1);
             mHero.walkRight();
 
-        } else if (action == GameEvent.ACTION_UP) {
+        } else if (action == UserEvent.ACTION_UP) {
             //            scrollBackgrounds(0);
             mHero.stopAnimation();
         }

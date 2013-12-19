@@ -6,9 +6,9 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-import org.es.minigames.R;
 import org.es.gameengine.DrawingThread;
-import org.es.gameengine.GameEvent;
+import org.es.gameengine.UserEvent;
+import org.es.minigames.R;
 
 /**
  * Created by Cyril on 18/09/13.
@@ -73,7 +73,7 @@ public class ScrollingBgDrawingThread extends DrawingThread {
     }
 
     @Override
-    protected void processEvent(GameEvent event) { }
+    protected void processEvent(UserEvent event) { }
 
     /**
      * Draws current state of the game Canvas.

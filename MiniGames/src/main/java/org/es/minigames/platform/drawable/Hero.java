@@ -4,11 +4,11 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.util.Log;
 
+import org.es.gameengine.drawable.AnimatedElement;
+import org.es.gameengine.drawable.Animation;
 import org.es.gameengine.drawable.Background;
 import org.es.minigames.BuildConfig;
 import org.es.minigames.R;
-import org.es.gameengine.drawable.AnimatedElement;
-import org.es.gameengine.drawable.Animation;
 
 /** Created by Cyril on 02/10/13. */
 public class Hero extends AnimatedElement {
