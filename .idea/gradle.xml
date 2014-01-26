@@ -12,7 +12,6 @@
             <option value="$PROJECT_DIR$/MiniGames" />
           </set>
         </option>
-        <option name="useAutoImport" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
