@@ -6,6 +6,7 @@ import android.view.View;
 
 import org.es.minigames.platform.PlatformActivity;
 import org.es.minigames.scrollingbackgrounds.ScrollingBackgroundActivity;
+import org.es.minigames.towerdefense.TowerDefenseActivity;
 
 
 public class MainActivity extends BaseGameActivity implements View.OnClickListener {
@@ -17,6 +18,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
         findViewById(R.id.btn_scrolling_bg).setOnClickListener(this);
         findViewById(R.id.btn_platform).setOnClickListener(this);
+        findViewById(R.id.btn_tower_defense).setOnClickListener(this);
         findViewById(R.id.button_sign_in).setOnClickListener(this);
         findViewById(R.id.button_sign_out).setOnClickListener(this);
     }
@@ -74,6 +76,10 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
             case R.id.btn_platform:
                 startActivity(new Intent(getApplicationContext(), PlatformActivity.class));
+                break;
+
+            case R.id.btn_tower_defense:
+                startActivity(new Intent(getApplicationContext(), TowerDefenseActivity.class));
                 break;
 
             case R.id.button_sign_in:

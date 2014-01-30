@@ -5,6 +5,7 @@
 
     <string name="title_activity_scrolling_bg">Scrolling background Activity</string>
     <string name="title_activity_platform">Platform Activity</string>
+    <string name="title_activity_td">Tower Defense Activity</string>
 
     <string name="fps_10">Run at 10 ftp</string>
     <string name="fps_20">Run at 20 ftp</string>
