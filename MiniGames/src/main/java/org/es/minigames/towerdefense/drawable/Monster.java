@@ -13,4 +13,5 @@ public class Monster extends AbstractUnit {
     }
 
     private Type mType;
+    private Type mWeight;
 }
