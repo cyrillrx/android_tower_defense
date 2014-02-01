@@ -1,56 +1,26 @@
 package org.es.minigames.towerdefense.drawable;
 
+import org.es.gameengine.drawable.GameElement;
+
 /**
  * This class represents a fighting unit.
  *
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public abstract class AbstractUnit {
+public abstract class AbstractUnit implements GameElement {
 
-    private int mHealthPoints;
+    /** Health points of the unit. */
+    private int mHealth;
+    /** Damage caused by each attack of the unit. */
     private int mDamage;
+    /** Attack range of the unit. */
     private int mAttackRange;
-    private int mAttackRate;
-    private int mElapsedTimeSinceLastAttack;
+    /** Delay in milliseconds between two attacks. */
+    private int mAttackDelay;
+    /** Timestamp of the last attack in milliseconds. */
+    private int mLastAttack;
+    /** Weighting of the unit. Used to calculate the unit cost. */
+    private int mWeight;
 
-    public int getHealthPoints() {
-        return mHealthPoints;
-    }
-
-    public void setHealthPoints(int healthPoints) {
-        this.mHealthPoints = healthPoints;
-    }
-
-    public int getDamage() {
-        return mDamage;
-    }
-
-    public void setDamage(int damage) {
-        this.mDamage = damage;
-    }
-
-    public int getAttackRange() {
-        return mAttackRange;
-    }
-
-    public void setAttackRange(int attackRange) {
-        this.mAttackRange = attackRange;
-    }
-
-    public int getAttackRate() {
-        return mAttackRate;
-    }
-
-    public void setAttackRate(int attackRate) {
-        this.mAttackRate = attackRate;
-    }
-
-    public int getElapsedTimeSinceLastAttack() {
-        return mElapsedTimeSinceLastAttack;
-    }
-
-    public void setElapsedTimeSinceLastAttack(int elapsedTimeSinceLastAttack) {
-        this.mElapsedTimeSinceLastAttack = elapsedTimeSinceLastAttack;
-    }
 }

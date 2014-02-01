@@ -1,6 +1,6 @@
 package org.es.minigames.towerdefense.object;
 
-import org.es.minigames.towerdefense.drawable.Monster;
+import org.es.minigames.towerdefense.drawable.unit.Monster;
 
 import java.util.Map;
 
