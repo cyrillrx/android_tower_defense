@@ -10,7 +10,7 @@ import android.util.Log;
 /**
  * Created by Cyril on 24/09/13.
  */
-public class Background implements GameElement {
+public class Background implements DrawableElement {
 
     private static final String TAG = "Background";
 

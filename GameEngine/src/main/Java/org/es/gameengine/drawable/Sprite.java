@@ -3,20 +3,18 @@ package org.es.gameengine.drawable;
 import android.graphics.Canvas;
 import android.graphics.Point;
 
-import org.es.gameengine.AnimationCallback;
-
 /**
- * Simple animated element.
- * Plays a bitmap list in loop.
- * <p/>
+ * A sprite is a simple animated element.<br />
+ * Plays a bitmap list in loop.<br />
+ * <br />
  * Created by Cyril on 25/09/13.
  */
-public class AnimatedElement implements GameElement, AnimationCallback {
+public class Sprite implements DrawableElement {
 
     protected Animation mAnimation;
     protected Point mPosition;
 
-    public AnimatedElement(Animation animation) {
+    public Sprite(Animation animation) {
         mAnimation = animation;
         mPosition = new Point();
     }
@@ -40,11 +38,6 @@ public class AnimatedElement implements GameElement, AnimationCallback {
 
     public void stopAnimation() {
         mAnimation.stop();
-    }
-
-    @Override
-    public void onAnimationStopped() {
-
     }
 
     public int getWidth() { return mAnimation.getWidth(); }

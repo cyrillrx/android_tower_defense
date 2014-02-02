@@ -4,14 +4,14 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.util.Log;
 
-import org.es.gameengine.drawable.AnimatedElement;
+import org.es.gameengine.drawable.Sprite;
 import org.es.gameengine.drawable.Animation;
 import org.es.gameengine.drawable.Background;
 import org.es.minigames.BuildConfig;
 import org.es.minigames.R;
 
 /** Created by Cyril on 02/10/13. */
-public class Hero extends AnimatedElement {
+public class Hero extends Sprite {
 
     private static final String TAG = "Hero";
 
@@ -70,7 +70,7 @@ public class Hero extends AnimatedElement {
         boolean updated = false;
 
         updateSpeed();
-        updated |= mAnimation.updateBitmap();
+        updated |= mAnimation.updateFrame();
         updated |= updatePosition();
 
         return updated;
