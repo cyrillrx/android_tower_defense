@@ -9,15 +9,19 @@ import android.graphics.Point;
 import org.es.gameengine.AnimationCallback;
 
 /**
+ * Animation class.<br />
+ * An animation is an autonomous object that will display a list of images at a predefine rate.<br />
+ * The animation can be created by giving either one uncut sprite sheet or a bitmap array.<br />
+ * <br />
  * Created by Cyril Leroux on 26/09/13.
  */
 public class Animation {
 
-    private static final String TAG = "Animation";
-
-    public static final int STATE_RUNNING = 0;
-    public static final int STATE_STOPPING = 1;
-    public static final int STATE_STOPPED = 2;
+    protected static enum State {
+        STATE_RUNNING,
+        STATE_STOPPING,
+        STATE_STOPPED
+    }
 
     private final Bitmap[] mBitmaps;
     private final AnimationCallback mCallback;
@@ -26,89 +30,114 @@ public class Animation {
     /** The time during which a bitmap is on the screen before proceeding to the next one. */
     private final float mFrameDuration;
 
-    private int mCurrentBitmapId;
-    /** Animation state can be either one of : RUNNING, STOPING or STOPPED. */
-    private int mState;
+    private int mCurrentFrameId;
+    /** The current state of the animation. It can be either one of RUNNING, STOPPING or STOPPED. */
+    private State mState;
     /** Time of the last bitmap update. */
     private long mLastUpdate;
     private long mStartTime;
 
     /**
-     * @param resources Context resources.
-     * @param resourceIds The resources used to compose the animation.
+     * Constructor taking a bitmap array.
+     *
+     * @param bitmaps The animation bitmaps.
+     * @param animationDuration Animation duration in milliseconds.
+     * @param isLoop True if the animation is supposed to play loop.
+     */
+    public Animation(Bitmap[] bitmaps, float animationDuration, boolean isLoop, AnimationCallback callback) {
+
+        mBitmaps = bitmaps;
+        mCallback = callback;
+        mIsLoop = isLoop;
+        mFrameDuration = animationDuration / (float) getFrameCount();
+
+        mState = State.STATE_STOPPED;
+        mStartTime = -1;
+    }
+
+    /**
+     * Constructor that will load a bitmap array from the resources.
+     *
+     * @param resources Context resources Used to instantiate animation bitmaps.
+     * @param resourceIds The resource ids used to instantiate animation bitmaps.
      * @param animationDuration Animation duration in milliseconds.
      * @param isLoop True if the animation is supposed to play loop.
      */
     public Animation(Resources resources, int[] resourceIds, float animationDuration, boolean isLoop, AnimationCallback callback) {
+        this(getBitmapsFromResources(resources, resourceIds), animationDuration, isLoop, callback);
+    }
 
-        mCallback = callback;
+    /**
+     * Loads an array of bitmaps from the Resources.
+     *
+     * @param resources The Resources from which to load the bitmaps.
+     * @param resourceIds The ids of the resources to load.
+     * @return The array of loaded bitmaps.
+     */
+    private static Bitmap[] getBitmapsFromResources(Resources resources, int[] resourceIds) {
         final int bitmapCount = resourceIds.length;
-        mBitmaps = new Bitmap[bitmapCount];
+        Bitmap[] bitmaps = new Bitmap[bitmapCount];
 
         for (int i = 0; i < bitmapCount; i++) {
-            mBitmaps[i]  = BitmapFactory.decodeResource(resources, resourceIds[i]);
+            bitmaps[i] = BitmapFactory.decodeResource(resources, resourceIds[i]);
         }
-
-        mState = STATE_STOPPED;
-        mStartTime = -1;
-        mIsLoop = isLoop;
-        mFrameDuration = animationDuration / (float)mBitmaps.length;
+        return bitmaps;
     }
 
     public void start() {
 
-        if (mState != STATE_RUNNING) {
-            mCurrentBitmapId = 0;
+        if (mState != State.STATE_RUNNING) {
+            mCurrentFrameId = 0;
             mStartTime = System.currentTimeMillis();
             mLastUpdate = mStartTime;
-            mState = STATE_RUNNING;
+            mState = State.STATE_RUNNING;
         }
     }
 
     public void stop() {
 
-        if (mState == STATE_RUNNING) {
-            mState = STATE_STOPPING;
+        if (mState == State.STATE_RUNNING) {
+            mState = State.STATE_STOPPING;
         }
     }
 
-    /** Update the current bitmap id if necessary. */
-    public boolean updateBitmap() {
+    /** Update the current frame id if necessary. */
+    public boolean updateFrame() {
 
-        if (mState == STATE_STOPPED) {
+        if (mState == State.STATE_STOPPED) {
             return false;
         }
 
         final float elapsedTime = System.currentTimeMillis() - mLastUpdate;
         final int step = (int) (elapsedTime / mFrameDuration);
         if (step >= 1) {
-            incrementBitmapId(step);
+            incrementImageId(step);
             return true;
         }
         return false;
     }
 
     public void draw(Canvas canvas, Point position) {
-        canvas.drawBitmap(mBitmaps[mCurrentBitmapId], position.x, position.y, null);
+        canvas.drawBitmap(getCurrentFrame(), position.x, position.y, null);
     }
 
-    private void incrementBitmapId(int step) {
+    private void incrementImageId(int step) {
 
-        if (mState == STATE_STOPPED) {
+        if (mState == State.STATE_STOPPED) {
             return;
         }
 
         // update bitmap id for the next draw
-        mCurrentBitmapId += step;
+        mCurrentFrameId += step;
 
-        if (mIsLoop && mState != STATE_STOPPING) {
+        if (mIsLoop && mState != State.STATE_STOPPING) {
             // if current id is greater than max value then wrap
-            mCurrentBitmapId %= mBitmaps.length;
+            mCurrentFrameId %= getFrameCount();
 
-        } else if (mCurrentBitmapId >= mBitmaps.length -1) {
+        } else if (mCurrentFrameId >= getFrameCount() - 1) {
             // Animation stops when it reaches the last bitmap
-            mCurrentBitmapId = mBitmaps.length -1;
-            mState = STATE_STOPPED;
+            mCurrentFrameId = getFrameCount() - 1;
+            mState = State.STATE_STOPPED;
             mStartTime = -1;
             if (mCallback != null) {
                 mCallback.onAnimationStopped();
@@ -118,13 +147,23 @@ public class Animation {
         mLastUpdate = System.currentTimeMillis();
     }
 
+    /** @return The number of frames in the animation. */
+    protected int getFrameCount() {
+        return mBitmaps.length;
+    }
+
+    /** @return The current frame. */
+    protected Bitmap getCurrentFrame() {
+        return mBitmaps[mCurrentFrameId];
+    }
+
     public boolean isRunning() {
-        return (mState == STATE_RUNNING) || (mState == STATE_STOPPING);
+        return (mState == State.STATE_RUNNING) || (mState == State.STATE_STOPPING);
     }
 
     public long getStartTime() { return mStartTime; }
 
-    public int getWidth() { return mBitmaps[mCurrentBitmapId].getWidth(); }
+    public int getWidth() { return getCurrentFrame().getWidth(); }
 
-    public int getHeight() { return mBitmaps[mCurrentBitmapId].getHeight(); }
+    public int getHeight() { return getCurrentFrame().getHeight(); }
 }
