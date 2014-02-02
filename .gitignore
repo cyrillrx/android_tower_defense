@@ -30,11 +30,7 @@ proguard/
 #*.iml
 *.ipr
 *.iws
-#.idea/
-.idea/workspace.xml
-.idea/libraries
-.idea/dictionaries
-.idea/copyright
+.idea/
 
 # Gradle
 .gradle
