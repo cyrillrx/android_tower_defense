@@ -19,21 +19,25 @@ public class Animation {
     public static final int STATE_STOPPING = 1;
     public static final int STATE_STOPPED = 2;
 
-    private Bitmap[] mBitmaps;
-    private int mCurrentBitmapId;
-    private int mState;
+    private final Bitmap[] mBitmaps;
+    private final AnimationCallback mCallback;
     /** True if the animation is supposed to play loop. */
-    private boolean mIsLoop;
-
+    private final boolean mIsLoop;
     /** The time during which a bitmap is on the screen before proceeding to the next one. */
-    private float mFrameDuration;
+    private final float mFrameDuration;
+
+    private int mCurrentBitmapId;
+    /** Animation state can be either one of : RUNNING, STOPING or STOPPED. */
+    private int mState;
     /** Time of the last bitmap update. */
     private long mLastUpdate;
     private long mStartTime;
-    private AnimationCallback mCallback;
 
     /**
+     * @param resources Context resources.
+     * @param resourceIds The resources used to compose the animation.
      * @param animationDuration Animation duration in milliseconds.
+     * @param isLoop True if the animation is supposed to play loop.
      */
     public Animation(Resources resources, int[] resourceIds, float animationDuration, boolean isLoop, AnimationCallback callback) {
 
@@ -106,7 +110,9 @@ public class Animation {
             mCurrentBitmapId = mBitmaps.length -1;
             mState = STATE_STOPPED;
             mStartTime = -1;
-            mCallback.onAnimationStopped();
+            if (mCallback != null) {
+                mCallback.onAnimationStopped();
+            }
         }
 
         mLastUpdate = System.currentTimeMillis();
