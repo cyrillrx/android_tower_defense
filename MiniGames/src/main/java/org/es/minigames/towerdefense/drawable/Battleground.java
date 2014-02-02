@@ -2,7 +2,7 @@ package org.es.minigames.towerdefense.drawable;
 
 import android.graphics.Canvas;
 
-import org.es.gameengine.drawable.GameElement;
+import org.es.gameengine.drawable.DrawableElement;
 
 /**
  * Class that represents the battlefield.
@@ -10,7 +10,7 @@ import org.es.gameengine.drawable.GameElement;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public class Battleground implements GameElement {
+public class Battleground implements DrawableElement {
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
 

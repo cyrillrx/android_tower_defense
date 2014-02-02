@@ -10,6 +10,10 @@ import org.es.minigames.towerdefense.drawable.AbstractUnit;
  */
 public class Monster extends AbstractUnit {
 
+    protected Monster(int health, int damage, int attackRange, int attackDelay, int weight) {
+        super(health, damage, attackRange, attackDelay, weight);
+    }
+
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
 

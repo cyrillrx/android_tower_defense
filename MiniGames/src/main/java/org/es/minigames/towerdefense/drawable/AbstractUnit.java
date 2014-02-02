@@ -1,6 +1,8 @@
 package org.es.minigames.towerdefense.drawable;
 
-import org.es.gameengine.drawable.GameElement;
+import android.graphics.PointF;
+
+import org.es.gameengine.drawable.DrawableElement;
 
 /**
  * This class represents a fighting unit.
@@ -8,19 +10,30 @@ import org.es.gameengine.drawable.GameElement;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public abstract class AbstractUnit implements GameElement {
+public abstract class AbstractUnit implements DrawableElement {
 
     /** Health points of the unit. */
-    private int mHealth;
+    protected int mHealth;
     /** Damage caused by each attack of the unit. */
-    private int mDamage;
+    protected int mDamage;
     /** Attack range of the unit. */
-    private int mAttackRange;
+    protected int mAttackRange;
     /** Delay in milliseconds between two attacks. */
-    private int mAttackDelay;
+    protected int mAttackDelay;
     /** Timestamp of the last attack in milliseconds. */
-    private int mLastAttack;
+    protected int mLastAttack;
     /** Weighting of the unit. Used to calculate the unit cost. */
-    private int mWeight;
+    protected int mWeight;
 
+    protected final PointF mPosition;
+
+    protected AbstractUnit(int health, int damage, int attackRange, int attackDelay, int weight) {
+        this.mHealth = health;
+        this.mDamage = damage;
+        this.mAttackRange = attackRange;
+        this.mAttackDelay = attackDelay;
+        this.mWeight = weight;
+
+        mPosition = new PointF();
+    }
 }
