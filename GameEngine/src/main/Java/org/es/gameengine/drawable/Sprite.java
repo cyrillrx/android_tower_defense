@@ -1,7 +1,7 @@
 package org.es.gameengine.drawable;
 
 import android.graphics.Canvas;
-import android.graphics.Point;
+import android.graphics.PointF;
 
 /**
  * A sprite is a simple animated element.<br />
@@ -12,11 +12,11 @@ import android.graphics.Point;
 public class Sprite implements DrawableElement {
 
     protected Animation mAnimation;
-    protected Point mPosition;
+    protected PointF mPosition;
 
     public Sprite(Animation animation) {
         mAnimation = animation;
-        mPosition = new Point();
+        mPosition = new PointF();
     }
 
     @Override
@@ -44,13 +44,13 @@ public class Sprite implements DrawableElement {
 
     public int getHeight() { return mAnimation.getHeight(); }
 
-    public int getLeft() { return mPosition.x; }
+    public float getLeft() { return mPosition.x; }
 
-    public int getTop() { return mPosition.y; }
+    public float getTop() { return mPosition.y; }
 
-    public int getRight() { return mPosition.x + mAnimation.getWidth(); }
+    public float getRight() { return mPosition.x + mAnimation.getWidth(); }
 
-    public int getBottom() { return mPosition.y + mAnimation.getHeight(); }
+    public float getBottom() { return mPosition.y + mAnimation.getHeight(); }
 
     public void moveX(int value) { mPosition.x += value; }
 

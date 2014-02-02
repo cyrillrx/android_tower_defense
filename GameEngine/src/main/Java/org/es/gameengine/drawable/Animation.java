@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Point;
+import android.graphics.PointF;
 
 import org.es.gameengine.AnimationCallback;
 
@@ -117,7 +118,7 @@ public class Animation {
         return false;
     }
 
-    public void draw(Canvas canvas, Point position) {
+    public void draw(Canvas canvas, PointF position) {
         canvas.drawBitmap(getCurrentFrame(), position.x, position.y, null);
     }
 
