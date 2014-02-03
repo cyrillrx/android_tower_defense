@@ -3,6 +3,7 @@ package org.es.minigames.towerdefense.drawable.tower;
 import android.content.res.Resources;
 
 import org.es.gameengine.drawable.Animation;
+import org.es.gameengine.drawable.BitmapAnimation;
 import org.es.minigames.R;
 
 import java.util.ArrayList;
@@ -26,10 +27,10 @@ public class TowerFactory {
     public static Tower createBasicTower(Resources resources) {
 
         List<Animation> mAnimations = new ArrayList<>();
-        mAnimations.add(Tower.DIRECTION_LEFT,   new Animation(resources, RES_BASIC_TOWER_LEFT,  -1, false, null));
-        mAnimations.add(Tower.DIRECTION_RIGHT,  new Animation(resources, RES_BASIC_TOWER_RIGHT, -1, false, null));
-        mAnimations.add(Tower.DIRECTION_UP,     new Animation(resources, RES_BASIC_TOWER_UP,    -1, false, null));
-        mAnimations.add(Tower.DIRECTION_DOWN,   new Animation(resources, RES_BASIC_TOWER_DOWN,  -1, false, null));
+        mAnimations.add(Tower.DIRECTION_LEFT,   new BitmapAnimation(resources, RES_BASIC_TOWER_LEFT,  -1, false, null));
+        mAnimations.add(Tower.DIRECTION_RIGHT,  new BitmapAnimation(resources, RES_BASIC_TOWER_RIGHT, -1, false, null));
+        mAnimations.add(Tower.DIRECTION_UP,     new BitmapAnimation(resources, RES_BASIC_TOWER_UP,    -1, false, null));
+        mAnimations.add(Tower.DIRECTION_DOWN,   new BitmapAnimation(resources, RES_BASIC_TOWER_DOWN,  -1, false, null));
 
         return createTower(mAnimations,
                 BASIC_TOWER_HEALTH,
