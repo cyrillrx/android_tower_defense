@@ -4,14 +4,16 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.util.Log;
 
-import org.es.gameengine.drawable.Sprite;
+import org.es.gameengine.AnimationCallback;
 import org.es.gameengine.drawable.Animation;
 import org.es.gameengine.drawable.Background;
+import org.es.gameengine.drawable.BitmapAnimation;
+import org.es.gameengine.drawable.Sprite;
 import org.es.minigames.BuildConfig;
 import org.es.minigames.R;
 
 /** Created by Cyril on 02/10/13. */
-public class Hero extends Sprite {
+public class Hero extends Sprite implements AnimationCallback{
 
     private static final String TAG = "Hero";
 
@@ -42,7 +44,7 @@ public class Hero extends Sprite {
         super(null);
 
         mBackground = background;
-        mWalkLeft = new Animation(resources,
+        mWalkLeft = new BitmapAnimation(resources,
                 new int[] {
                         R.drawable.hero_left_1,
                         R.drawable.hero_left_2,
@@ -50,9 +52,9 @@ public class Hero extends Sprite {
                         R.drawable.hero_left_4,
                         R.drawable.hero_left_5,
                         R.drawable.hero_left_6,
-                }, 800, true, this);
+                }, 150, true, this);
 
-        mWalkRight = new Animation(resources,
+        mWalkRight = new BitmapAnimation(resources,
                 new int[] {
                         R.drawable.hero_right_1,
                         R.drawable.hero_right_2,
@@ -60,7 +62,7 @@ public class Hero extends Sprite {
                         R.drawable.hero_right_4,
                         R.drawable.hero_right_5,
                         R.drawable.hero_right_6,
-                }, 800, true, this);
+                }, 150, true, this);
 
         mAnimation = mWalkRight;
     }
