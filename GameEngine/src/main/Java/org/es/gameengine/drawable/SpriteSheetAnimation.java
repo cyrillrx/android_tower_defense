@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.RectF;
 
 import org.es.gameengine.AnimationCallback;
 
@@ -23,12 +24,12 @@ public class SpriteSheetAnimation extends Animation {
      *
      * @param spriteSheet The Bitmap of the sprite sheet.
      * @param frameRects The rectangles to cut the sheet to create the animation.
-     * @param animationDuration Animation duration in milliseconds.
+     * @param frameDuration Frame duration in milliseconds.
      * @param isLoop True if the animation is supposed to play loop.
      * @param callback The object that will be called when the animation ends.
      */
-    public SpriteSheetAnimation(Bitmap spriteSheet, Rect[] frameRects, float animationDuration, boolean isLoop, AnimationCallback callback) {
-        super(animationDuration, isLoop, callback);
+    public SpriteSheetAnimation(Bitmap spriteSheet, Rect[] frameRects, float frameDuration, boolean isLoop, AnimationCallback callback) {
+        super(frameDuration, isLoop, callback);
         mSpriteSheet = spriteSheet;
         mFrameRects = frameRects;
     }
@@ -38,20 +39,22 @@ public class SpriteSheetAnimation extends Animation {
      *
      * @param resources Context resources used to load sprite sheet bitmap.
      * @param resourceId The id of the sprite sheet resource.
-     * @param animationDuration Animation duration in milliseconds.
+     * @param frameDuration Frame duration in milliseconds.
      * @param isLoop True if the animation is supposed to play loop.
      * @param callback The object that will be called when the animation ends.
      */
-    public SpriteSheetAnimation(Resources resources, int resourceId, Rect[] frameRects, float animationDuration, boolean isLoop, AnimationCallback callback) {
-        this(BitmapFactory.decodeResource(resources, resourceId), frameRects, animationDuration, isLoop, callback);
+    public SpriteSheetAnimation(Resources resources, int resourceId, Rect[] frameRects, float frameDuration, boolean isLoop, AnimationCallback callback) {
+        this(BitmapFactory.decodeResource(resources, resourceId), frameRects, frameDuration, isLoop, callback);
     }
 
     @Override
     public void draw(Canvas canvas, PointF position) {
         Rect src = mFrameRects[mCurrentFrameId];
-        Rect dest = new Rect(src);
-        dest.left = (int) position.x;
-        dest.top = (int) position.y;
+        RectF dest = new RectF(
+                position.x,
+                position.y,
+                position.x + src.width(),
+                position.y + src.height());
         canvas.drawBitmap(mSpriteSheet, src, dest, null);
     }
 

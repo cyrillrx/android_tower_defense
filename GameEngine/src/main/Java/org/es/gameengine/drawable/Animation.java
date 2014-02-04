@@ -34,15 +34,15 @@ public abstract class Animation {
     private long mStartTime;
 
     /**
-     * @param animationDuration Animation duration in milliseconds.
+     * @param frameDuration Frame duration in milliseconds.
      * @param isLoop True if the animation is supposed to play loop.
      * @param callback The object that will be called when the animation ends.
      */
-    public Animation(float animationDuration, boolean isLoop, AnimationCallback callback) {
+    public Animation(float frameDuration, boolean isLoop, AnimationCallback callback) {
 
         mCallback = callback;
         mIsLoop = isLoop;
-        mFrameDuration = animationDuration / (float) getFrameCount();
+        mFrameDuration = frameDuration;
 
         mState = State.STATE_STOPPED;
         mStartTime = -1;

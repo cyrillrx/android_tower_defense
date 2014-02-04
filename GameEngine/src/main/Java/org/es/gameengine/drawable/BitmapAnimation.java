@@ -20,12 +20,12 @@ public class BitmapAnimation extends Animation {
      * Constructor taking a bitmap array.
      *
      * @param bitmaps The animation bitmaps.
-     * @param animationDuration Animation duration in milliseconds.
+     * @param frameDuration Frame duration in milliseconds.
      * @param isLoop True if the animation is supposed to play loop.
      * @param callback The object that will be called when the animation ends.
      */
-    public BitmapAnimation(Bitmap[] bitmaps, float animationDuration, boolean isLoop, AnimationCallback callback) {
-        super(animationDuration, isLoop, callback);
+    public BitmapAnimation(Bitmap[] bitmaps, float frameDuration, boolean isLoop, AnimationCallback callback) {
+        super(frameDuration, isLoop, callback);
         mFrames = bitmaps;
     }
 
@@ -34,12 +34,12 @@ public class BitmapAnimation extends Animation {
      *
      * @param resources Context resources used to load animation bitmaps.
      * @param resourceIds The resource ids used to instantiate animation bitmaps.
-     * @param animationDuration Animation duration in milliseconds.
+     * @param frameDuration Frame duration in milliseconds.
      * @param isLoop True if the animation is supposed to play loop.
      * @param callback The object that will be called when the animation ends.
      */
-    public BitmapAnimation(Resources resources, int[] resourceIds, float animationDuration, boolean isLoop, AnimationCallback callback) {
-        this(getBitmapsFromResources(resources, resourceIds), animationDuration, isLoop, callback);
+    public BitmapAnimation(Resources resources, int[] resourceIds, float frameDuration, boolean isLoop, AnimationCallback callback) {
+        this(getBitmapsFromResources(resources, resourceIds), frameDuration, isLoop, callback);
     }
 
     /**
