@@ -1,16 +1,16 @@
-package org.es.minigames.towerdefense.drawable.unit;
+package org.es.minigames.towerdefense.unit;
 
 import android.graphics.Canvas;
 
-import org.es.minigames.towerdefense.drawable.AbstractUnit;
+import org.es.minigames.towerdefense.unit.AbstractUnit;
 
 /**
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public class Monster extends AbstractUnit {
+public class Enemy extends AbstractUnit {
 
-    protected Monster(int health, int damage, int attackRange, int attackDelay, int weight) {
+    protected Enemy(int health, int damage, int attackRange, int attackDelay, int weight) {
         super(health, damage, attackRange, attackDelay, weight);
     }
 

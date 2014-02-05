@@ -6,8 +6,8 @@ import android.view.SurfaceHolder;
 
 import org.es.gameengine.DrawingThread;
 import org.es.gameengine.UserEvent;
-import org.es.minigames.towerdefense.drawable.tower.Tower;
-import org.es.minigames.towerdefense.drawable.tower.TowerFactory;
+import org.es.minigames.towerdefense.unit.Tower;
+import org.es.minigames.towerdefense.unit.TowerFactory;
 
 /**
  * @author Cyril Leroux

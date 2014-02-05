@@ -1,9 +1,9 @@
-package org.es.minigames.towerdefense.drawable.tower;
+package org.es.minigames.towerdefense.unit;
 
 import android.graphics.Canvas;
 
 import org.es.gameengine.drawable.Animation;
-import org.es.minigames.towerdefense.drawable.AbstractUnit;
+import org.es.minigames.towerdefense.unit.AbstractUnit;
 
 import java.util.ArrayList;
 import java.util.List;

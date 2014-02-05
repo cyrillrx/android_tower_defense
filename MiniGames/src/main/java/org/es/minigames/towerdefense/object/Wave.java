@@ -1,6 +1,6 @@
 package org.es.minigames.towerdefense.object;
 
-import org.es.minigames.towerdefense.drawable.unit.Monster;
+import org.es.minigames.towerdefense.unit.Enemy;
 
 import java.util.Map;
 
@@ -12,6 +12,6 @@ import java.util.Map;
  */
 public class Wave {
 
-    private Map<Monster.Type, Integer> mMonsterCount;
+    private Map<Enemy.Type, Integer> mMonsterCount;
     private int mDuration;
 }

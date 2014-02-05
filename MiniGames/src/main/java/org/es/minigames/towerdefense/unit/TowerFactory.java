@@ -1,10 +1,9 @@
-package org.es.minigames.towerdefense.drawable.tower;
+package org.es.minigames.towerdefense.unit;
 
 import android.content.res.Resources;
 import android.graphics.Rect;
 
 import org.es.gameengine.drawable.Animation;
-import org.es.gameengine.drawable.BitmapAnimation;
 import org.es.gameengine.drawable.SpriteSheetAnimation;
 import org.es.minigames.R;
 

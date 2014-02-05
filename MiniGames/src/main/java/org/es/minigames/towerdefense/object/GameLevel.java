@@ -1,7 +1,5 @@
 package org.es.minigames.towerdefense.object;
 
-import org.es.minigames.towerdefense.drawable.Battleground;
-
 import java.util.List;
 
 /**
