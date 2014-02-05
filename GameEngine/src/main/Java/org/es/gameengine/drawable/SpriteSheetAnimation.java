@@ -11,7 +11,7 @@ import android.graphics.RectF;
 import org.es.gameengine.AnimationCallback;
 
 /**
- * A spriteSheetAnimation is an Animation created from a sprite sheet and a rectangle array.<br />
+ * A SpriteSheetAnimation is an Animation created from a sprite sheet and a rectangle array.<br />
  * Created by Cyril Leroux on 03/02/14.
  */
 public class SpriteSheetAnimation extends Animation {
