@@ -13,18 +13,17 @@ import org.es.gameengine.drawable.Sprite;
 import org.es.minigames.BuildConfig;
 import org.es.minigames.R;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.EnumMap;
 
 /** Created by Cyril on 02/10/13. */
-public class Hero implements Sprite, AnimationCallback {
+public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
 
     private static final String TAG = "Hero";
 
     // Hero states
-
-    private static final int ANIM_WALK_LEFT = 0;
-    private static final int ANIM_WALK_RIGHT = 1;
+    public static enum AnimId {
+        WALK_LEFT, WALK_RIGHT
+    }
 
     private static final int STATE_STATIC = 0;
     private static final int STATE_WALKING = 1;
@@ -44,22 +43,22 @@ public class Hero implements Sprite, AnimationCallback {
     //    private float mVelocityX = 0;
     //    private float mVelocityY = 0;
 
-    private final GenericSprite mSprite;
+    private final Sprite<AnimId> mSprite;
     private final Background mBackground;
 
     public Hero(Resources resources, Background background) {
         mSprite = new GenericSprite(getAnimations(resources, this));
-        mSprite.setAnimationId(ANIM_WALK_LEFT);
+        mSprite.setAnimationId(AnimId.WALK_LEFT);
         mBackground = background;
 
         mState = STATE_WALKING;
     }
 
-    private static Map<Integer, Animation> getAnimations(Resources resources, AnimationCallback callback) {
+    private static EnumMap<AnimId, Animation> getAnimations(Resources resources, AnimationCallback callback) {
 
-        Map<Integer, Animation> animations = new HashMap<>();
+        EnumMap<AnimId, Animation> animations = new EnumMap<>(AnimId.class);
 
-        animations.put(ANIM_WALK_LEFT, new BitmapAnimation(resources,
+        animations.put(AnimId.WALK_LEFT, new BitmapAnimation(resources,
                 new int[]{
                         R.drawable.hero_left_1,
                         R.drawable.hero_left_2,
@@ -69,7 +68,7 @@ public class Hero implements Sprite, AnimationCallback {
                         R.drawable.hero_left_6,
                 }, 150, true, callback));
 
-        animations.put(ANIM_WALK_RIGHT, new BitmapAnimation(resources,
+        animations.put(AnimId.WALK_RIGHT, new BitmapAnimation(resources,
                 new int[]{
                         R.drawable.hero_right_1,
                         R.drawable.hero_right_2,
@@ -108,10 +107,10 @@ public class Hero implements Sprite, AnimationCallback {
 
     private boolean updatePosition() {
         if (getAnimation().isRunning()) {
-            if (ANIM_WALK_LEFT == getAnimationId()) {
+            if (AnimId.WALK_LEFT.equals(getAnimationId())) {
                 mBackground.setScrollSpeed(mCurrentSpeed, 1000);
 
-            } else if (ANIM_WALK_RIGHT == getAnimationId()) {
+            } else if (AnimId.WALK_RIGHT.equals(getAnimationId())) {
                 mBackground.setScrollSpeed(-1 * mCurrentSpeed, 1000);
             }
         } else {
@@ -143,8 +142,13 @@ public class Hero implements Sprite, AnimationCallback {
     }
 
     @Override
-    public int getAnimationId() {
+    public AnimId getAnimationId() {
         return mSprite.getAnimationId();
+    }
+
+    @Override
+    public void setAnimationId(AnimId state) {
+        mSprite.setAnimationId(state);
     }
 
     @Override
@@ -153,8 +157,8 @@ public class Hero implements Sprite, AnimationCallback {
     }
 
     @Override
-    public void setAnimationId(final int id) {
-        mSprite.setAnimationId(id);
+    public Animation getAnimation(AnimId animationEnum) {
+        return mSprite.getAnimation(animationEnum);
     }
 
     @Override
@@ -164,16 +168,16 @@ public class Hero implements Sprite, AnimationCallback {
     }
 
     /** Change the animation if necessary. */
-    protected void switchAnimation(int animationId) {
-        if (animationId == mSprite.getAnimationId()) {
+    protected void switchState(AnimId state) {
+        if (state.equals(mSprite.getAnimationId())) {
             return;
         }
-        setAnimationId(animationId);
+        setAnimationId(state);
     }
 
     public void walkLeft() {
         mState = STATE_WALKING;
-        switchAnimation(ANIM_WALK_LEFT);
+        switchState(AnimId.WALK_LEFT);
         if (!getAnimation().isRunning()) {
             mCurrentSpeed = WALKING_SPEED;
             startAnimation();
@@ -182,7 +186,7 @@ public class Hero implements Sprite, AnimationCallback {
 
     public void walkRight() {
         mState = STATE_WALKING;
-        switchAnimation(ANIM_WALK_RIGHT);
+        switchState(AnimId.WALK_RIGHT);
         if (!getAnimation().isRunning()) {
             mCurrentSpeed = WALKING_SPEED;
             startAnimation();
@@ -191,7 +195,7 @@ public class Hero implements Sprite, AnimationCallback {
 
     public void jump() {
         mState = STATE_JUMPING;
-        // switchAnimation();
+        // switchState();
         //        xt = vx * t;
         //        yt = vy * t - (g * t²)/2;
     }
