@@ -3,7 +3,7 @@ package org.es.gameengine.drawable;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
-import java.util.Map;
+import java.util.EnumMap;
 
 /**
  * A sprite is a simple animated element.<br />
@@ -11,14 +11,14 @@ import java.util.Map;
  * <br />
  * Created by Cyril on 25/09/13.
  */
-public class GenericSprite implements Sprite {
+public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Sprite<AnimationId> {
 
-    protected Map<Integer, Animation> mAnimations;
-    /** The current animation id. */
-    protected int mCurrentAnimationId = 0;
+    protected EnumMap<AnimationId, Animation> mAnimations;
+    /** The current animation state. */
+    protected AnimationId mAnimationId = null;
     protected PointF mPosition;
 
-    public GenericSprite(Map<Integer, Animation> animations) {
+    public GenericSprite(EnumMap<AnimationId, Animation> animations) {
         mAnimations = animations;
         mPosition = new PointF();
     }
@@ -45,13 +45,16 @@ public class GenericSprite implements Sprite {
     }
 
     @Override
-    public int getAnimationId() { return mCurrentAnimationId; }
+    public AnimationId getAnimationId() { return mAnimationId; }
 
     @Override
-    public void setAnimationId(final int id) { mCurrentAnimationId = id; }
+    public void setAnimationId(AnimationId animationId) { mAnimationId = animationId; }
 
     @Override
-    public Animation getAnimation() { return mAnimations.get(mCurrentAnimationId); }
+    public Animation getAnimation() { return getAnimation(mAnimationId); }
+
+    @Override
+    public Animation getAnimation(AnimationId animationId) { return mAnimations.get(animationId); }
 
     public int getWidth() { return getAnimation().getWidth(); }
 
