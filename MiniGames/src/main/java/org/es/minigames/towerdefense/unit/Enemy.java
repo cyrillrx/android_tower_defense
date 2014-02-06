@@ -2,16 +2,25 @@ package org.es.minigames.towerdefense.unit;
 
 import android.graphics.Canvas;
 
-import org.es.minigames.towerdefense.unit.AbstractUnit;
+import org.es.gameengine.AnimationCallback;
+import org.es.gameengine.drawable.Animation;
+import org.es.gameengine.drawable.Sprite;
 
 /**
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public class Enemy extends AbstractUnit {
+public class Enemy extends AbstractUnit implements Sprite<Enemy.AnimationId>, AnimationCallback {
 
-    protected Enemy(int health, int damage, int attackRange, int attackDelay, int weight) {
+    public static enum AnimationId {
+        LEFT, RIGHT, UP, DOWN
+    }
+
+    private final Sprite<Enemy.AnimationId> mSprite;
+
+    protected Enemy(Sprite<Enemy.AnimationId> sprite, int health, int damage, int attackRange, int attackDelay, int weight) {
         super(health, damage, attackRange, attackDelay, weight);
+        mSprite = sprite;
     }
 
     @Override
@@ -21,14 +30,27 @@ public class Enemy extends AbstractUnit {
 
     @Override
     public void draw(Canvas canvas) {
-
+        mSprite.draw(canvas);
     }
 
-    public static enum Type {
-        SMALL,
-        MEDIUM,
-        BIG
-    }
+    @Override
+    public void onAnimationStopped() {  }
 
-    private Type mType;
+    @Override
+    public void startAnimation() { mSprite.startAnimation(); }
+
+    @Override
+    public void stopAnimation() { mSprite.stopAnimation(); }
+
+    @Override
+    public AnimationId getAnimationId() { return mSprite.getAnimationId(); }
+
+    @Override
+    public void setAnimationId(AnimationId animationId) { mSprite.setAnimationId(animationId); }
+
+    @Override
+    public Animation getAnimation() { return mSprite.getAnimation(); }
+
+    @Override
+    public Animation getAnimation(AnimationId animationId) { return mSprite.getAnimation(animationId); }
 }
