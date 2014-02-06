@@ -38,7 +38,7 @@ public class TowerFactory {
         mAnimations.put(Tower.AnimationId.RIGHT,      new SpriteSheetAnimation(resources, RES_BASIC_TOWER_SS, new Rect[] { new Rect(300, 150, 450, 300) }, -1, false, null));
         mAnimations.put(Tower.AnimationId.RIGHT_DOWN, new SpriteSheetAnimation(resources, RES_BASIC_TOWER_SS, new Rect[] { new Rect(450, 150, 600, 300) }, -1, false, null));
 
-        return createTower(new GenericSprite<>(mAnimations),
+        return createTower(new GenericSprite<>(mAnimations, Tower.AnimationId.DOWN),
                 BASIC_TOWER_HEALTH,
                 BASIC_TOWER_DAMAGE,
                 BASIC_TOWER_ATTACK_RANGE, BASIC_TOWER_ATTACK_DELAY,

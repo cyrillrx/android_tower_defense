@@ -15,6 +15,9 @@ public class Enemy extends AbstractUnit implements Sprite<Enemy.AnimationId>, An
     public static enum AnimationId {
         LEFT, RIGHT, UP, DOWN
     }
+    public static enum Type {
+        SMALL, MEDIUM, BIG
+    }
 
     private final Sprite<Enemy.AnimationId> mSprite;
 

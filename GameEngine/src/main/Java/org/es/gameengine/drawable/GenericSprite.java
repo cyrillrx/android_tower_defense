@@ -18,8 +18,9 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
     protected AnimationId mAnimationId = null;
     protected PointF mPosition;
 
-    public GenericSprite(EnumMap<AnimationId, Animation> animations) {
+    public GenericSprite(EnumMap<AnimationId, Animation> animations, AnimationId startAnimationId) {
         mAnimations = animations;
+        mAnimationId = startAnimationId;
         mPosition = new PointF();
     }
 

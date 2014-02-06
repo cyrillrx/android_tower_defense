@@ -47,8 +47,7 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     private final Background mBackground;
 
     public Hero(Resources resources, Background background) {
-        mSprite = new GenericSprite(getAnimations(resources, this));
-        mSprite.setAnimationId(AnimId.WALK_LEFT);
+        mSprite = new GenericSprite(getAnimations(resources, this), AnimId.WALK_LEFT);
         mBackground = background;
 
         mState = STATE_WALKING;
