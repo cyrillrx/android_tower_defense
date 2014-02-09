@@ -11,6 +11,8 @@ public interface Sprite<AnimationId extends Enum<AnimationId>> extends DrawableE
 
     public void stopAnimation();
 
+    public void updateAnimation();
+
     /** @return The current animation id. */
     public AnimationId getAnimationId();
 
@@ -22,4 +24,10 @@ public interface Sprite<AnimationId extends Enum<AnimationId>> extends DrawableE
 
     /** @return The animation matching the animation id. */
     public Animation getAnimation(AnimationId animationId);
+
+    /** Add value to the abscissa of the sprite. */
+    public void moveX(int value);
+
+    /** Add value to the ordinate of the sprite. */
+    public void moveY(int value);
 }
