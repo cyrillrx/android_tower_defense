@@ -17,7 +17,7 @@ import org.es.gameengine.AnimationCallback;
 public class SpriteSheetAnimation extends Animation {
 
     private final Bitmap mSpriteSheet;
-    private final Rect[] mFrameRects;
+    private final Rect[] mFrames;
 
     /**
      * Constructor taking a sprite sheet.
@@ -31,25 +31,12 @@ public class SpriteSheetAnimation extends Animation {
     public SpriteSheetAnimation(Bitmap spriteSheet, Rect[] frameRects, float frameDuration, boolean isLoop, AnimationCallback callback) {
         super(frameDuration, isLoop, callback);
         mSpriteSheet = spriteSheet;
-        mFrameRects = frameRects;
-    }
-
-    /**
-     * Constructor that will load a bitmap array from the resources.
-     *
-     * @param resources Context resources used to load sprite sheet bitmap.
-     * @param resourceId The id of the sprite sheet resource.
-     * @param frameDuration Frame duration in milliseconds.
-     * @param isLoop True if the animation is supposed to play loop.
-     * @param callback The object that will be called when the animation ends.
-     */
-    public SpriteSheetAnimation(Resources resources, int resourceId, Rect[] frameRects, float frameDuration, boolean isLoop, AnimationCallback callback) {
-        this(BitmapFactory.decodeResource(resources, resourceId), frameRects, frameDuration, isLoop, callback);
+        mFrames = frameRects;
     }
 
     @Override
     public void draw(Canvas canvas, PointF position) {
-        Rect src = mFrameRects[mCurrentFrameId];
+        Rect src = mFrames[mCurrentFrameId];
         RectF dest = new RectF(
                 position.x,
                 position.y,
@@ -60,16 +47,16 @@ public class SpriteSheetAnimation extends Animation {
 
 
     protected int getFrameCount() {
-        return mFrameRects.length;
+        return mFrames.length;
     }
 
     /** @return The current frame. */
     protected Bitmap getCurrentFrame() {
         return Bitmap.createBitmap(mSpriteSheet,
-                mFrameRects[mCurrentFrameId].left,
-                mFrameRects[mCurrentFrameId].top,
-                mFrameRects[mCurrentFrameId].width(),
-                mFrameRects[mCurrentFrameId].height());
+                mFrames[mCurrentFrameId].left,
+                mFrames[mCurrentFrameId].top,
+                mFrames[mCurrentFrameId].width(),
+                mFrames[mCurrentFrameId].height());
     }
 
 }
