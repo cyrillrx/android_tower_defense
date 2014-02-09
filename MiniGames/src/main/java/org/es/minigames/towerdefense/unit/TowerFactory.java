@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import org.es.gameengine.drawable.Animation;
 import org.es.gameengine.drawable.GenericSprite;
 import org.es.gameengine.drawable.Sprite;
+import org.es.gameengine.drawable.SpriteSheet;
 import org.es.gameengine.drawable.SpriteSheetAnimation;
 import org.es.minigames.R;
 
@@ -36,15 +37,42 @@ public class TowerFactory {
 
     private static Tower createBasicTower(Resources resources) {
 
-        EnumMap<Tower.AnimationId, Animation> mAnimations = new EnumMap<>(Tower.AnimationId.class);
-        mAnimations.put(Tower.AnimationId.DOWN, new SpriteSheetAnimation(resources, RES_BASIC_TOWER_SS, new Rect[]{new Rect(0, 0, 150, 150)}, -1, false, null));
-        mAnimations.put(Tower.AnimationId.DOWN_LEFT, new SpriteSheetAnimation(resources, RES_BASIC_TOWER_SS, new Rect[]{new Rect(150, 0, 300, 150)}, -1, false, null));
-        mAnimations.put(Tower.AnimationId.LEFT, new SpriteSheetAnimation(resources, RES_BASIC_TOWER_SS, new Rect[]{new Rect(300, 0, 450, 150)}, -1, false, null));
-        mAnimations.put(Tower.AnimationId.LEFT_UP, new SpriteSheetAnimation(resources, RES_BASIC_TOWER_SS, new Rect[]{new Rect(450, 0, 600, 150)}, -1, false, null));
-        mAnimations.put(Tower.AnimationId.UP, new SpriteSheetAnimation(resources, RES_BASIC_TOWER_SS, new Rect[]{new Rect(0, 150, 150, 300)}, -1, false, null));
-        mAnimations.put(Tower.AnimationId.UP_RIGHT, new SpriteSheetAnimation(resources, RES_BASIC_TOWER_SS, new Rect[]{new Rect(150, 150, 150, 300)}, -1, false, null));
-        mAnimations.put(Tower.AnimationId.RIGHT, new SpriteSheetAnimation(resources, RES_BASIC_TOWER_SS, new Rect[]{new Rect(300, 150, 450, 300)}, -1, false, null));
-        mAnimations.put(Tower.AnimationId.RIGHT_DOWN, new SpriteSheetAnimation(resources, RES_BASIC_TOWER_SS, new Rect[]{new Rect(450, 150, 600, 300)}, -1, false, null));
+        final SpriteSheet spriteSheet = new SpriteSheet(resources, RES_BASIC_TOWER_SS, 4, 2);
+
+        final EnumMap<Tower.AnimationId, Animation> mAnimations = new EnumMap<>(Tower.AnimationId.class);
+
+        mAnimations.put(Tower.AnimationId.DOWN,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{ spriteSheet.getRect(0, 0) }, -1, false, null));
+
+        mAnimations.put(Tower.AnimationId.DOWN_LEFT,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{ spriteSheet.getRect(0, 1) }, -1, false, null));
+
+        mAnimations.put(Tower.AnimationId.LEFT,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{ spriteSheet.getRect(0, 2) }, -1, false, null));
+
+        mAnimations.put(Tower.AnimationId.LEFT_UP,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{ spriteSheet.getRect(0, 3) }, -1, false, null));
+
+        mAnimations.put(Tower.AnimationId.UP,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{ spriteSheet.getRect(1, 0) }, -1, false, null));
+
+        mAnimations.put(Tower.AnimationId.UP_RIGHT,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{ spriteSheet.getRect(1, 1) }, -1, false, null));
+
+        mAnimations.put(Tower.AnimationId.RIGHT,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{ spriteSheet.getRect(1, 2) }, -1, false, null));
+
+        mAnimations.put(Tower.AnimationId.RIGHT_DOWN,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{ spriteSheet.getRect(1, 3) }, -1, false, null));
+
 
         return createTower(new GenericSprite<>(mAnimations, Tower.AnimationId.DOWN),
                 BASIC_TOWER_HEALTH,

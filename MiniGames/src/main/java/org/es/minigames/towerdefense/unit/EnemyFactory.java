@@ -6,6 +6,7 @@ import android.graphics.Rect;
 import org.es.gameengine.drawable.Animation;
 import org.es.gameengine.drawable.GenericSprite;
 import org.es.gameengine.drawable.Sprite;
+import org.es.gameengine.drawable.SpriteSheet;
 import org.es.gameengine.drawable.SpriteSheetAnimation;
 import org.es.minigames.R;
 
@@ -36,32 +37,46 @@ public class EnemyFactory {
 
     private static Enemy createCrawlingEnemy(Resources resources) {
 
-        EnumMap<Enemy.AnimationId, Animation> mAnimations = new EnumMap<>(Enemy.AnimationId.class);
-        mAnimations.put(Enemy.AnimationId.DOWN, new SpriteSheetAnimation(resources, RES_MONSTERS_SS,
-                new Rect[]{
-                        new Rect(0, 0, 42, 42),
-                        new Rect(42, 0, 84, 42),
-                        new Rect(84, 0, 126, 42),
-                        new Rect(42, 0, 84, 42)
-                }, 200, true, null));
-        mAnimations.put(Enemy.AnimationId.LEFT, new SpriteSheetAnimation(resources, RES_MONSTERS_SS,
-                new Rect[]{
-                        new Rect(0, 32, 32, 64),
-                        new Rect(32, 32, 64, 64),
-                        new Rect(64, 32, 96, 64)
-                }, 200, true, null));
-        mAnimations.put(Enemy.AnimationId.RIGHT, new SpriteSheetAnimation(resources, RES_MONSTERS_SS,
-                new Rect[]{
-                        new Rect(0, 90, 45, 135),
-                        new Rect(45, 90, 90, 135),
-                        new Rect(90, 90, 135, 135)
-                }, 200, true, null));
-        mAnimations.put(Enemy.AnimationId.UP, new SpriteSheetAnimation(resources, RES_MONSTERS_SS,
-                new Rect[]{
-                        new Rect(0, 120, 40, 160),
-                        new Rect(40, 120, 80, 160),
-                        new Rect(80, 120, 120, 160)
-                }, 200, true, null));
+        final SpriteSheet spriteSheet = new SpriteSheet(resources, RES_MONSTERS_SS, 12, 8);
+
+        final EnumMap<Enemy.AnimationId, Animation> mAnimations = new EnumMap<>(Enemy.AnimationId.class);
+
+        mAnimations.put(Enemy.AnimationId.DOWN,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{
+                                spriteSheet.getRect(0, 0),
+                                spriteSheet.getRect(0, 1),
+                                spriteSheet.getRect(0, 2),
+                                spriteSheet.getRect(0, 1)
+                        }, 200, true, null));
+
+        mAnimations.put(Enemy.AnimationId.LEFT,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{
+                                spriteSheet.getRect(1, 0),
+                                spriteSheet.getRect(1, 1),
+                                spriteSheet.getRect(1, 2),
+                                spriteSheet.getRect(1, 1)
+                        }, 200, true, null));
+
+        mAnimations.put(Enemy.AnimationId.RIGHT,
+                new SpriteSheetAnimation(spriteSheet.getBitmap(),
+                        new Rect[]{
+                                spriteSheet.getRect(2, 0),
+                                spriteSheet.getRect(2, 1),
+                                spriteSheet.getRect(2, 2),
+                                spriteSheet.getRect(2, 1)
+                        }, 200, true, null));
+
+        mAnimations.put(Enemy.AnimationId.UP,
+                new SpriteSheetAnimation(
+                        spriteSheet.getBitmap(),
+                        new Rect[]{
+                                spriteSheet.getRect(3, 0),
+                                spriteSheet.getRect(3, 1),
+                                spriteSheet.getRect(3, 2),
+                                spriteSheet.getRect(3, 1)
+                        }, 200, true, null));
 
         return createEnemy(new GenericSprite<>(mAnimations,
                 Enemy.AnimationId.DOWN),
