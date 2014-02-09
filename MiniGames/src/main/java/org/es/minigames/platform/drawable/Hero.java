@@ -22,7 +22,8 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
 
     // Hero states
     public static enum AnimId {
-        WALK_LEFT, WALK_RIGHT
+        WALK_LEFT,
+        WALK_RIGHT
     }
 
     private static final int STATE_STATIC = 0;
@@ -119,46 +120,40 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
         return true;
     }
 
-
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
         mSprite.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        mSprite.draw(canvas);
-    }
+    public void draw(Canvas canvas) { mSprite.draw(canvas); }
 
     @Override
-    public void startAnimation() {
-        mSprite.startAnimation();
-    }
+    public void startAnimation() { mSprite.startAnimation(); }
 
     @Override
-    public void stopAnimation() {
-        mSprite.stopAnimation();
-    }
+    public void stopAnimation() { mSprite.stopAnimation(); }
 
     @Override
-    public AnimId getAnimationId() {
-        return mSprite.getAnimationId();
-    }
+    public AnimId getAnimationId() { return mSprite.getAnimationId(); }
 
     @Override
-    public void setAnimationId(AnimId state) {
-        mSprite.setAnimationId(state);
-    }
+    public void setAnimationId(AnimId animationId) { mSprite.setAnimationId(animationId); }
 
     @Override
-    public Animation getAnimation() {
-        return mSprite.getAnimation();
-    }
+    public Animation getAnimation() { return mSprite.getAnimation(); }
 
     @Override
-    public Animation getAnimation(AnimId animationEnum) {
-        return mSprite.getAnimation(animationEnum);
-    }
+    public void updateAnimation() { mSprite.updateAnimation(); }
+
+    @Override
+    public Animation getAnimation(AnimId animationId) { return mSprite.getAnimation(animationId); }
+
+    @Override
+    public void moveX(int value) { mSprite.moveX(value); }
+
+    @Override
+    public void moveY(int value) { mSprite.moveY(value); }
 
     @Override
     public void onAnimationStopped() {
