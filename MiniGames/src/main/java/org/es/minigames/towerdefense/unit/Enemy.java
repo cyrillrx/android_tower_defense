@@ -15,8 +15,9 @@ public class Enemy extends AbstractUnit implements Sprite<Enemy.AnimationId>, An
     public static enum AnimationId {
         LEFT, RIGHT, UP, DOWN
     }
+
     public static enum Type {
-        SMALL, MEDIUM, BIG
+        CRAWLING, FLYING, BIG
     }
 
     private final Sprite<Enemy.AnimationId> mSprite;
@@ -27,23 +28,24 @@ public class Enemy extends AbstractUnit implements Sprite<Enemy.AnimationId>, An
     }
 
     @Override
-    public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        mSprite.draw(canvas);
-    }
-
-    @Override
     public void onAnimationStopped() {  }
+
+    @Override
+    public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
+        mSprite.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
+    }
+
+    @Override
+    public void draw(Canvas canvas) { mSprite.draw(canvas); }
 
     @Override
     public void startAnimation() { mSprite.startAnimation(); }
 
     @Override
     public void stopAnimation() { mSprite.stopAnimation(); }
+
+    @Override
+    public void updateAnimation() { mSprite.updateAnimation(); }
 
     @Override
     public AnimationId getAnimationId() { return mSprite.getAnimationId(); }
@@ -56,4 +58,10 @@ public class Enemy extends AbstractUnit implements Sprite<Enemy.AnimationId>, An
 
     @Override
     public Animation getAnimation(AnimationId animationId) { return mSprite.getAnimation(animationId); }
+
+    @Override
+    public void moveX(int value) { mSprite.moveX(value); }
+
+    @Override
+    public void moveY(int value) { mSprite.moveY(value); }
 }

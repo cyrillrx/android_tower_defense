@@ -17,6 +17,10 @@ import java.util.List;
  */
 public class Tower extends AbstractUnit implements Sprite<Tower.AnimationId>, AnimationCallback {
 
+    public static enum Type {
+        BASIC
+    }
+
     public static enum AnimationId {
         DOWN,
         DOWN_LEFT,
@@ -40,23 +44,24 @@ public class Tower extends AbstractUnit implements Sprite<Tower.AnimationId>, An
     }
 
     @Override
-    public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-
-    }
-
-    @Override
-    public void draw(Canvas canvas) {
-        mSprite.draw(canvas);
-    }
-
-    @Override
     public void onAnimationStopped() {  }
+
+    @Override
+    public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
+        mSprite.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
+    }
+
+    @Override
+    public void draw(Canvas canvas) { mSprite.draw(canvas); }
 
     @Override
     public void startAnimation() { mSprite.startAnimation(); }
 
     @Override
     public void stopAnimation() { mSprite.stopAnimation(); }
+
+    @Override
+    public void updateAnimation() { mSprite.updateAnimation(); }
 
     @Override
     public AnimationId getAnimationId() { return mSprite.getAnimationId(); }
@@ -69,4 +74,10 @@ public class Tower extends AbstractUnit implements Sprite<Tower.AnimationId>, An
 
     @Override
     public Animation getAnimation(AnimationId animationId) { return mSprite.getAnimation(animationId); }
+
+    @Override
+    public void moveX(int value) { mSprite.moveX(value); }
+
+    @Override
+    public void moveY(int value) { mSprite.moveY(value); }
 }
