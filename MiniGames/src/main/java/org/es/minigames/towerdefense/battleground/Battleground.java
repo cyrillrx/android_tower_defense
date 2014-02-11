@@ -25,9 +25,21 @@ public class Battleground implements DrawableElement {
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
 
+        final float screenRatio = (float) surfaceWidth / (float) surfaceHeight;
+        final float battlegroundRatio = (float) mColumnCount / (float) mRowCount;
+
+        final float tileSize = (battlegroundRatio < screenRatio) ?
+                (float) surfaceWidth / (float) mColumnCount :
+                (float) surfaceHeight / (float) mRowCount;
+
+        int currentX = 0;
+        int currentY = 0;
+
+        // For each line
         for (int y = 0; y < mRowCount; y++) {
+            // For each element in the line
             for (int x = 0; x < mColumnCount; x++) {
-                //mTiles[y][x] =
+                mTiles[y][x] = new Tile(currentX, currentY, currentX + tileSize, currentY + tileSize);
             }
         }
     }
