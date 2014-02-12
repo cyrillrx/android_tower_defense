@@ -123,6 +123,8 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
         mSprite.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
+        mSprite.setPosition(surfaceWidth/2f - getAnimation().getWidth()/2f,
+                surfaceHeight/2f - getAnimation().getHeight()/2f);
     }
 
     @Override
