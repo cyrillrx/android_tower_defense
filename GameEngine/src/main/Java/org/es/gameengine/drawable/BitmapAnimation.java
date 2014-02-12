@@ -27,6 +27,7 @@ public class BitmapAnimation extends Animation {
     public BitmapAnimation(Bitmap[] bitmaps, float frameDuration, boolean isLoop, AnimationCallback callback) {
         super(frameDuration, isLoop, callback);
         mFrames = bitmaps;
+        setBounds(mFrames[0].getWidth(), mFrames[0].getHeight());
     }
 
     /**
@@ -61,7 +62,9 @@ public class BitmapAnimation extends Animation {
 
     @Override
     public void draw(Canvas canvas, PointF position) {
-        canvas.drawBitmap(getCurrentFrame(), position.x, position.y, null);
+        // Todo : Optimize
+        Bitmap bmp = Bitmap.createScaledBitmap(getCurrentFrame(), (int) mBoundsX, (int) mBoundsY, false);
+        canvas.drawBitmap(bmp, position.x, position.y, null);
     }
 
     @Override

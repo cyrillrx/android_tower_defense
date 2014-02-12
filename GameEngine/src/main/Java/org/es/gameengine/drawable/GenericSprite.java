@@ -34,7 +34,6 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
             // Get old position
             final float oldCenterX = mPosition.x + getWidth() / 2;
             final float oldCenterY = mPosition.y + getHeight() / 2;
-            // Change size
             // Set new position
             mPosition.x = oldCenterX / mOldSurfaceW * surfaceWidth  - getWidth()  / 2;
             mPosition.y = oldCenterY / mOldSurfaceH * surfaceHeight - getHeight() / 2;

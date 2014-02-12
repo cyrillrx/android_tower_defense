@@ -21,6 +21,8 @@ public abstract class Animation {
     }
 
     protected int mCurrentFrameId;
+    protected float mBoundsX;
+    protected float mBoundsY;
 
     private final AnimationCallback mCallback;
     /** True if the animation is supposed to play loop. */
@@ -49,6 +51,12 @@ public abstract class Animation {
     }
 
     public abstract void draw(Canvas canvas, PointF position);
+
+    /** Set the destination size of the bitmap to draw. */
+    public void setBounds(float width, float height) {
+        mBoundsX = width;
+        mBoundsY = height;
+    }
 
     /** @return The number of frames in the animation. */
     protected abstract int getFrameCount();

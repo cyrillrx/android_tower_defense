@@ -1,8 +1,6 @@
 package org.es.gameengine.drawable;
 
-import android.content.res.Resources;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -23,15 +21,16 @@ public class SpriteSheetAnimation extends Animation {
      * Constructor taking a sprite sheet.
      *
      * @param spriteSheet The Bitmap of the sprite sheet.
-     * @param frameRects The rectangles to cut the sheet to create the animation.
+     * @param frames The rectangles to cut the sheet to create the animation.
      * @param frameDuration Frame duration in milliseconds.
      * @param isLoop True if the animation is supposed to play loop.
      * @param callback The object that will be called when the animation ends.
      */
-    public SpriteSheetAnimation(Bitmap spriteSheet, Rect[] frameRects, float frameDuration, boolean isLoop, AnimationCallback callback) {
+    public SpriteSheetAnimation(Bitmap spriteSheet, Rect[] frames, float frameDuration, boolean isLoop, AnimationCallback callback) {
         super(frameDuration, isLoop, callback);
         mSpriteSheet = spriteSheet;
-        mFrames = frameRects;
+        mFrames = frames;
+        setBounds(frames[0].width(), frames[0].height());
     }
 
     @Override
@@ -40,15 +39,12 @@ public class SpriteSheetAnimation extends Animation {
         RectF dest = new RectF(
                 position.x,
                 position.y,
-                position.x + src.width(),
-                position.y + src.height());
+                position.x + mBoundsX,
+                position.y + mBoundsY);
         canvas.drawBitmap(mSpriteSheet, src, dest, null);
     }
 
-
-    protected int getFrameCount() {
-        return mFrames.length;
-    }
+    protected int getFrameCount() { return mFrames.length; }
 
     /** @return The current frame. */
     protected Bitmap getCurrentFrame() {
@@ -58,5 +54,4 @@ public class SpriteSheetAnimation extends Animation {
                 mFrames[mCurrentFrameId].width(),
                 mFrames[mCurrentFrameId].height());
     }
-
 }
