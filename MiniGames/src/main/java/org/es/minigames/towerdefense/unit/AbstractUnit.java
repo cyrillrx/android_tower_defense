@@ -1,7 +1,5 @@
 package org.es.minigames.towerdefense.unit;
 
-import android.graphics.PointF;
-
 import org.es.gameengine.drawable.DrawableElement;
 
 /**
@@ -25,15 +23,11 @@ public abstract class AbstractUnit implements DrawableElement {
     /** Weighting of the unit. Used to calculate the unit cost. */
     protected int mWeight;
 
-    protected final PointF mPosition;
-
     protected AbstractUnit(int health, int damage, int attackRange, int attackDelay, int weight) {
         this.mHealth = health;
         this.mDamage = damage;
         this.mAttackRange = attackRange;
         this.mAttackDelay = attackDelay;
         this.mWeight = weight;
-
-        mPosition = new PointF();
     }
 }
