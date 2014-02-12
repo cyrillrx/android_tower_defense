@@ -79,7 +79,7 @@ public class EnemyFactory {
                         }, 200, true, null));
 
         return createEnemy(new GenericSprite<>(mAnimations,
-                Enemy.AnimationId.DOWN),
+                Enemy.AnimationId.RIGHT),
                 CRAWLING_HEALTH,
                 CRAWLING_DAMAGE,
                 CRAWLING_ATTACK_RANGE, CRAWLING_ATTACK_DELAY,

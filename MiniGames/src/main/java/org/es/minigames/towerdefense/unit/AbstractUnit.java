@@ -1,6 +1,10 @@
 package org.es.minigames.towerdefense.unit;
 
+import android.graphics.Canvas;
+
+import org.es.gameengine.drawable.Animation;
 import org.es.gameengine.drawable.DrawableElement;
+import org.es.gameengine.drawable.Sprite;
 
 /**
  * This class represents a fighting unit.
@@ -8,7 +12,9 @@ import org.es.gameengine.drawable.DrawableElement;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public abstract class AbstractUnit implements DrawableElement {
+public abstract class AbstractUnit<AnimationId extends Enum<AnimationId>> implements Sprite<AnimationId>, DrawableElement {
+
+    protected final Sprite<AnimationId> mSprite;
 
     /** Health points of the unit. */
     protected int mHealth;
@@ -23,11 +29,50 @@ public abstract class AbstractUnit implements DrawableElement {
     /** Weighting of the unit. Used to calculate the unit cost. */
     protected int mWeight;
 
-    protected AbstractUnit(int health, int damage, int attackRange, int attackDelay, int weight) {
-        this.mHealth = health;
-        this.mDamage = damage;
-        this.mAttackRange = attackRange;
-        this.mAttackDelay = attackDelay;
-        this.mWeight = weight;
+    protected AbstractUnit(Sprite<AnimationId> sprite,  int health, int damage, int attackRange, int attackDelay, int weight) {
+        mSprite = sprite;
+        mHealth = health;
+        mDamage = damage;
+        mAttackRange = attackRange;
+        mAttackDelay = attackDelay;
+        mWeight = weight;
     }
+
+    @Override
+    public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
+        mSprite.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
+    }
+
+    @Override
+    public void draw(Canvas canvas) { mSprite.draw(canvas); }
+
+    @Override
+    public void startAnimation() { mSprite.startAnimation(); }
+
+    @Override
+    public void stopAnimation() { mSprite.stopAnimation(); }
+
+    @Override
+    public void updateAnimation() { mSprite.updateAnimation(); }
+
+    @Override
+    public AnimationId getAnimationId() { return mSprite.getAnimationId(); }
+
+    @Override
+    public void setAnimationId(AnimationId animationId) { mSprite.setAnimationId(animationId); }
+
+    @Override
+    public Animation getAnimation() { return mSprite.getAnimation(); }
+
+    @Override
+    public Animation getAnimation(AnimationId animationId) { return mSprite.getAnimation(animationId); }
+
+    @Override
+    public void setPosition(float x, float y) { mSprite.setPosition(x, y); }
+
+    @Override
+    public void moveX(int value) { mSprite.moveX(value); }
+
+    @Override
+    public void moveY(int value) { mSprite.moveY(value); }
 }
