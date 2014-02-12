@@ -76,6 +76,9 @@ public class Tower extends AbstractUnit implements Sprite<Tower.AnimationId>, An
     public Animation getAnimation(AnimationId animationId) { return mSprite.getAnimation(animationId); }
 
     @Override
+    public void setPosition(float x, float y) { mSprite.setPosition(x, y); }
+
+    @Override
     public void moveX(int value) { mSprite.moveX(value); }
 
     @Override

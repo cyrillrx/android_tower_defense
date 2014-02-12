@@ -71,6 +71,12 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
     public Animation getAnimation(AnimationId animationId) { return mAnimations.get(animationId); }
 
     @Override
+    public void setPosition(float x, float y) {
+        mPosition.x = x;
+        mPosition.y = y;
+    }
+
+    @Override
     public void moveX(int value) { mPosition.x += value; }
 
     @Override

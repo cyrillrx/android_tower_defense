@@ -150,6 +150,9 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     public Animation getAnimation(AnimId animationId) { return mSprite.getAnimation(animationId); }
 
     @Override
+    public void setPosition(float x, float y) { mSprite.setPosition(x, y); }
+
+    @Override
     public void moveX(int value) { mSprite.moveX(value); }
 
     @Override

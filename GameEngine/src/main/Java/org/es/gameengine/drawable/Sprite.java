@@ -25,6 +25,9 @@ public interface Sprite<AnimationId extends Enum<AnimationId>> extends DrawableE
     /** @return The animation matching the animation id. */
     public Animation getAnimation(AnimationId animationId);
 
+    /** Set the position of the sprite in the canvas. */
+    public void setPosition(float x, float y);
+
     /** Add value to the abscissa of the sprite. */
     public void moveX(int value);
 
