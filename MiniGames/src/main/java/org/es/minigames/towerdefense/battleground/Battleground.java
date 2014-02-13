@@ -21,6 +21,7 @@ public class Battleground implements DrawableElement {
     private final float mColumnCount;
     private final float mRowCount;
     private final Tile[][] mTiles;
+    // TODO mDrawable should evolve to a list of towers or static elements (handle barricades)
     private final Set<DrawableElement> mDrawables;
     private float mTileSize = 0;
 

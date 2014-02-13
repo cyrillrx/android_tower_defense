@@ -6,11 +6,7 @@ import android.view.SurfaceHolder;
 
 import org.es.gameengine.DrawingThread;
 import org.es.gameengine.UserEvent;
-import org.es.minigames.towerdefense.battleground.Battleground;
-import org.es.minigames.towerdefense.unit.Enemy;
-import org.es.minigames.towerdefense.unit.EnemyFactory;
-import org.es.minigames.towerdefense.unit.Tower;
-import org.es.minigames.towerdefense.unit.TowerFactory;
+import org.es.minigames.towerdefense.process.GameMgr;
 
 /**
  * @author Cyril Leroux
@@ -18,36 +14,21 @@ import org.es.minigames.towerdefense.unit.TowerFactory;
  */
 public class TowerDefenseThread extends DrawingThread {
 
-    Battleground mBackground;
-    Enemy[] mEnemies = new Enemy[1];
+    private final GameMgr mGameMgr;
 
     public TowerDefenseThread(SurfaceHolder surfaceHolder, Context context) {
         super(surfaceHolder, context);
-
-        mBackground = new Battleground(21, 11);
-        mBackground.addTower(TowerFactory.createTower(Tower.Type.BASIC, mResources), 10, 5);
-
-        mEnemies[0] = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, mResources);
-        mEnemies[0].startAnimation();
-
+        mGameMgr = new GameMgr(mResources);
     }
 
     @Override
     protected void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-
-        mBackground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-
-        for (Enemy enemy : mEnemies) {
-            enemy.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-        }
-
+        mGameMgr.updateSurfaceSize(surfaceWidth, surfaceHeight);
     }
 
     @Override
     protected boolean update() {
-        mEnemies[0].moveX(1);;
-        mEnemies[0].updateAnimation();
-        return false;
+        return mGameMgr.update();
     }
 
     @Override
@@ -57,11 +38,6 @@ public class TowerDefenseThread extends DrawingThread {
 
     @Override
     protected void doDraw(Canvas canvas) {
-
-        mBackground.draw(canvas);
-
-        for (Enemy enemy : mEnemies) {
-            enemy.draw(canvas);
-        }
+        mGameMgr.draw(canvas);
     }
 }
