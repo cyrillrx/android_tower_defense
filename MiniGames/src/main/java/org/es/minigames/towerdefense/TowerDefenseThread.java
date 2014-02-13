@@ -6,10 +6,7 @@ import android.view.SurfaceHolder;
 
 import org.es.gameengine.DrawingThread;
 import org.es.gameengine.UserEvent;
-import org.es.gameengine.drawable.Background;
-import org.es.minigames.R;
 import org.es.minigames.towerdefense.battleground.Battleground;
-import org.es.minigames.towerdefense.battleground.Tile;
 import org.es.minigames.towerdefense.unit.Enemy;
 import org.es.minigames.towerdefense.unit.EnemyFactory;
 import org.es.minigames.towerdefense.unit.Tower;
