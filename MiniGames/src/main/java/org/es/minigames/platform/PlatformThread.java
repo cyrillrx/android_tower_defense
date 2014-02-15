@@ -5,14 +5,15 @@ import android.graphics.Canvas;
 import android.util.Log;
 import android.view.SurfaceHolder;
 
-import org.es.gameengine.DrawingThread;
-import org.es.gameengine.UserEvent;
-import org.es.gameengine.drawable.Background;
+import org.es.engine.gamemechanic.DrawingThread;
+import org.es.engine.gamemechanic.UserEvent;
+import org.es.engine.graphics.drawable.Background;
 import org.es.minigames.R;
 import org.es.minigames.platform.drawable.Hero;
 
 /**
- * Created by Cyril on 22/09/13.
+ * @author Cyril Leroux
+ *         Created on 22/09/13.
  */
 public class PlatformThread extends DrawingThread {
 

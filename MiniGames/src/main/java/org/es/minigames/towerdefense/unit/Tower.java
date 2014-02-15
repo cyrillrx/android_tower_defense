@@ -1,7 +1,7 @@
 package org.es.minigames.towerdefense.unit;
 
-import org.es.gameengine.AnimationCallback;
-import org.es.gameengine.drawable.Sprite;
+import org.es.engine.graphics.animation.AnimationCallback;
+import org.es.engine.graphics.sprite.Sprite;
 
 /**
  * @author Cyril Leroux
@@ -24,12 +24,12 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
         RIGHT_DOWN
     }
 
-    public Tower(Sprite<Tower.AnimationId> sprite, int health, int damage, int attackRange, int attackDelay, int weight) {
+    public Tower(Sprite<AnimationId> sprite, int health, int damage, int attackRange, int attackDelay, int weight) {
         super(sprite, health, damage, attackRange, attackDelay, weight);
     }
 
     @Override
-    public void onAnimationStopped() {  }
+    public void onAnimationStopped() { }
 
     @Override
     public void stopAnimation() { mSprite.stopAnimation(); }

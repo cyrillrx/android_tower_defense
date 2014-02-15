@@ -2,13 +2,13 @@ apply plugin: 'android'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion '19'
+    buildToolsVersion '19.0.1'
 
     defaultConfig {
-        versionCode 1
-        versionName 'Pre-Alpha 0.1'
         minSdkVersion 8
         targetSdkVersion 19
+        versionCode 1
+        versionName "Pre-Alpha 0.1"
     }
 
     signingConfigs {
@@ -39,6 +39,8 @@ android {
 }
 
 dependencies {
-    compile project(':GameEngine')
-	compile 'com.google.android.gms:play-services:+'
+    compile project(':Graphics')
+    compile project(':GameMechanic')
+    compile 'com.google.android.gms:play-services:+'
+    compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }

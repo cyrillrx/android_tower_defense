@@ -3,18 +3,20 @@ package org.es.minigames.towerdefense.unit;
 import android.content.res.Resources;
 import android.graphics.Rect;
 
-import org.es.gameengine.drawable.Animation;
-import org.es.gameengine.drawable.GenericSprite;
-import org.es.gameengine.drawable.Sprite;
-import org.es.gameengine.drawable.SpriteSheet;
-import org.es.gameengine.drawable.SpriteSheetAnimation;
+import org.es.engine.graphics.animation.Animation;
+import org.es.engine.graphics.animation.SpriteSheetAnimation;
+import org.es.engine.graphics.sprite.GenericSprite;
+import org.es.engine.graphics.sprite.Sprite;
+import org.es.engine.graphics.sprite.SpriteSheet;
 import org.es.minigames.R;
 
 import java.util.EnumMap;
 
 /**
  * A factory to build Enemy units.
- * Created by Cyril Leroux on 06/02/14.
+ *
+ * @author Cyril Leroux
+ *         Created on 06/02/14.
  */
 public class EnemyFactory {
 

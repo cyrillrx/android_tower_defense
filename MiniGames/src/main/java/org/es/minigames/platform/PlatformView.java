@@ -7,12 +7,13 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import org.es.gameengine.DrawingThread;
-import org.es.gameengine.DrawingView;
-import org.es.gameengine.UserEvent;
+import org.es.engine.gamemechanic.DrawingThread;
+import org.es.engine.gamemechanic.DrawingView;
+import org.es.engine.gamemechanic.UserEvent;
 
 /**
- * Created by Cyril on 22/09/13.
+ * @author Cyril Leroux
+ *         Created on 22/09/13.
  */
 public class PlatformView extends DrawingView {
 

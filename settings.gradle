@@ -1,1 +1,1 @@
-include ':MiniGames', ':GameEngine'
+include ':MiniGames', ':Graphics', ':GameMechanic'

@@ -4,11 +4,12 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 
-import org.es.gameengine.DrawingThread;
-import org.es.gameengine.DrawingView;
+import org.es.engine.gamemechanic.DrawingThread;
+import org.es.engine.gamemechanic.DrawingView;
 
 /**
- * Created by Cyril on 18/09/13.
+ * @author Cyril Leroux
+ *         Created on 18/09/13.
  */
 public class ScrollingBackgroundView extends DrawingView {
 

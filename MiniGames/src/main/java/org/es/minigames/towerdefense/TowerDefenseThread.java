@@ -4,8 +4,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
-import org.es.gameengine.DrawingThread;
-import org.es.gameengine.UserEvent;
+import org.es.engine.gamemechanic.DrawingThread;
+import org.es.engine.gamemechanic.UserEvent;
 import org.es.minigames.towerdefense.process.GameMgr;
 
 /**

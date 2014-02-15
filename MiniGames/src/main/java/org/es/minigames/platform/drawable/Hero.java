@@ -4,29 +4,27 @@ import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.util.Log;
 
-import org.es.gameengine.AnimationCallback;
-import org.es.gameengine.drawable.Animation;
-import org.es.gameengine.drawable.Background;
-import org.es.gameengine.drawable.BitmapAnimation;
-import org.es.gameengine.drawable.GenericSprite;
-import org.es.gameengine.drawable.Sprite;
+import org.es.engine.graphics.animation.Animation;
+import org.es.engine.graphics.animation.AnimationCallback;
+import org.es.engine.graphics.animation.BitmapAnimation;
+import org.es.engine.graphics.drawable.Background;
+import org.es.engine.graphics.sprite.GenericSprite;
+import org.es.engine.graphics.sprite.Sprite;
 import org.es.minigames.BuildConfig;
 import org.es.minigames.R;
 
 import java.util.EnumMap;
 
-/** Created by Cyril on 02/10/13. */
+
+/**
+ * @author Cyril Leroux
+ *         Created on 02/10/13.
+ */
 public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
 
     private static final String TAG = "Hero";
-
-    // Hero states
-    public static enum AnimId {
-        WALK_LEFT,
-        WALK_RIGHT
-    }
-
     private static final int STATE_STATIC = 0;
+    private int mState = STATE_STATIC;
     private static final int STATE_WALKING = 1;
     private static final int STATE_JUMPING = 2;
 
@@ -37,16 +35,12 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     private static final float WALKING_SPEED = 200;
     /** Max speed of the character in pixels per second. */
     private static final float MAX_SPEED = 800;
-
-    private int mState = STATE_STATIC;
-    /** Character current speed in pixels per second. */
-    private float mCurrentSpeed = 0;
-    //    private float mVelocityX = 0;
-    //    private float mVelocityY = 0;
-
     private final Sprite<AnimId> mSprite;
     private final Background mBackground;
-
+    //    private float mVelocityX = 0;
+    //    private float mVelocityY = 0;
+    /** Character current speed in pixels per second. */
+    private float mCurrentSpeed = 0;
     public Hero(Resources resources, Background background) {
         mSprite = new GenericSprite(getAnimations(resources, this), AnimId.WALK_LEFT);
         mBackground = background;
@@ -197,5 +191,11 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
         // switchState();
         //        xt = vx * t;
         //        yt = vy * t - (g * t²)/2;
+    }
+
+    // Hero states
+    public static enum AnimId {
+        WALK_LEFT,
+        WALK_RIGHT
     }
 }

@@ -3,7 +3,8 @@ package org.es.minigames.towerdefense.battleground;
 import org.es.minigames.towerdefense.unit.AbstractUnit;
 
 /**
- * Created by Cyril Leroux on 12/02/14.
+ * @author Cyril Leroux
+ *         Created on 12/02/14.
  */
 public class BattlegroundHelper {
 

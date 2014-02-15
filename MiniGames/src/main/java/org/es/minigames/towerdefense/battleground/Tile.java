@@ -3,30 +3,29 @@ package org.es.minigames.towerdefense.battleground;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
-import org.es.gameengine.drawable.DrawableElement;
+import org.es.engine.graphics.drawable.DrawableElement;
 import org.es.minigames.towerdefense.unit.AbstractUnit;
 
 /**
- * The Tile class represents a piece of battleground.<br />
- * <br />
- * Created by Cyril Leroux on 11/02/14.
+ * The Tile class represents a piece of battleground.
+ *
+ * @author Cyril Leroux
+ *         Created on 11/02/14.
  */
 public class Tile implements DrawableElement {
 
-    private AbstractUnit mBindedUnit = null;
     private final RectF mBoundingRect;
+    private AbstractUnit mBindedUnit = null;
+
+    public Tile() {
+        mBoundingRect = new RectF();
+    }
 
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) { }
 
     @Override
-    public void draw(Canvas canvas) {
-
-    }
-
-    public Tile() {
-        mBoundingRect = new RectF();
-    }
+    public void draw(Canvas canvas) { }
 
     public RectF getRect() { return mBoundingRect; }
 

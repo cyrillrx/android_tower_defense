@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Cyril Leroux on 13/02/14.
+ * @author Cyril Leroux
+ *         Created on 13/02/14.
  */
 public class GameMgr {
 

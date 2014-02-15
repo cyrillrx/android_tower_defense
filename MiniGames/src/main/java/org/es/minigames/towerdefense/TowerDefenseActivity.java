@@ -1,6 +1,5 @@
 package org.es.minigames.towerdefense;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import org.es.minigames.BaseGameActivity;

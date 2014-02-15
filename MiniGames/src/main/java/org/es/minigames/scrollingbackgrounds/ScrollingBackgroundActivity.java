@@ -8,7 +8,8 @@ import android.view.MenuItem;
 import org.es.minigames.R;
 
 /**
- * Created by Cyril on 18/09/13.
+ * @author Cyril Leroux
+ *         Created on 18/09/13.
  */
 public class ScrollingBackgroundActivity extends Activity {
 

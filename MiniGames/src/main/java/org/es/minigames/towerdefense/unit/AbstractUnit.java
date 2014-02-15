@@ -2,9 +2,9 @@ package org.es.minigames.towerdefense.unit;
 
 import android.graphics.Canvas;
 
-import org.es.gameengine.drawable.Animation;
-import org.es.gameengine.drawable.DrawableElement;
-import org.es.gameengine.drawable.Sprite;
+import org.es.engine.graphics.animation.Animation;
+import org.es.engine.graphics.drawable.DrawableElement;
+import org.es.engine.graphics.sprite.Sprite;
 
 /**
  * This class represents a fighting unit.

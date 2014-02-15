@@ -7,6 +7,10 @@ import android.view.MenuItem;
 
 import org.es.minigames.R;
 
+/**
+ * @author Cyril Leroux
+ *         Created on 22/09/13.
+ */
 public class PlatformActivity extends Activity {
 
     @Override

@@ -1,7 +1,7 @@
 package org.es.minigames.towerdefense.unit;
 
-import org.es.gameengine.AnimationCallback;
-import org.es.gameengine.drawable.Sprite;
+import org.es.engine.graphics.animation.AnimationCallback;
+import org.es.engine.graphics.sprite.Sprite;
 
 /**
  * @author Cyril Leroux
@@ -17,7 +17,7 @@ public class Enemy extends AbstractUnit<Enemy.AnimationId> implements AnimationC
         CRAWLING, FLYING, BIG
     }
 
-    protected Enemy(Sprite<Enemy.AnimationId> sprite, int health, int damage, int attackRange, int attackDelay, int weight) {
+    protected Enemy(Sprite<AnimationId> sprite, int health, int damage, int attackRange, int attackDelay, int weight) {
         super(sprite, health, damage, attackRange, attackDelay, weight);
     }
 
