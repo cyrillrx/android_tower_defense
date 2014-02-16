@@ -2,6 +2,7 @@ package org.es.minigames.platform.drawable;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.PointF;
 import android.util.Log;
 
 import org.es.engine.graphics.animation.Animation;
@@ -146,13 +147,22 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     public Animation getAnimation(AnimId animationId) { return mSprite.getAnimation(animationId); }
 
     @Override
+    public PointF getPosition() { return mSprite.getPosition(); }
+
+    @Override
     public void setPosition(float x, float y) { mSprite.setPosition(x, y); }
 
-    @Override
-    public void moveX(int value) { mSprite.moveX(value); }
-
-    @Override
-    public void moveY(int value) { mSprite.moveY(value); }
+//    /** Add value to the abscissa of the sprite. */
+//    public void moveX(int value) {
+//        PointF currentPos = mSprite.getPosition();
+//        mSprite.setPosition(currentPos.x + value, currentPos.y);
+//    }
+//
+//    /** Add value to the ordinate of the sprite. */
+//    public void moveY(int value) {
+//        PointF currentPos = mSprite.getPosition();
+//        mSprite.setPosition(currentPos.x, currentPos.y + value);
+//    }
 
     @Override
     public void onAnimationStopped() {

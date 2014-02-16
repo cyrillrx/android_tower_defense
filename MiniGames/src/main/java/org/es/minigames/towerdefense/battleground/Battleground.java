@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 
 import org.es.engine.graphics.drawable.DrawableElement;
+import org.es.minigames.towerdefense.unit.Enemy;
 import org.es.minigames.towerdefense.unit.Tower;
 
 import java.util.HashSet;
@@ -23,6 +24,8 @@ public class Battleground implements DrawableElement {
     private final Tile[][] mTiles;
     // TODO mDrawable should evolve to a list of towers or static elements (handle barricades)
     private final Set<DrawableElement> mDrawables;
+    private final Set<Enemy> mEnemies;
+    private final Set<Tower> mTowers;
     private float mTileSize = 0;
 
     public Battleground(int columnCount, int rowCount) {
@@ -30,6 +33,8 @@ public class Battleground implements DrawableElement {
         mRowCount = rowCount;
         mTiles = BattlegroundHelper.initTiles(columnCount, rowCount);
         mDrawables = new HashSet<>();
+        mEnemies = new HashSet<>();
+        mTowers = new HashSet<>();
     }
 
     @Override
@@ -54,13 +59,9 @@ public class Battleground implements DrawableElement {
         paint.setAntiAlias(true);
         canvas.drawRect(canvas.getClipBounds(), paint);
 
-        // Draw the grid
-        paint.setStrokeWidth(0.3f);
-        paint.setColor(Color.BLUE);
-        paint.setStyle(Paint.Style.STROKE);
         for (Tile[] row : mTiles) {
             for (Tile tile : row) {
-                canvas.drawRect(tile.getRect(), paint);
+                tile.draw(canvas);
             }
         }
 
@@ -68,15 +69,32 @@ public class Battleground implements DrawableElement {
         for (DrawableElement drawable : mDrawables) {
             drawable.draw(canvas);
         }
-
     }
 
     public Tile getTile(int x, int y) {
         return mTiles[y][x];
     }
 
+    public void update() {
+        for (Tower tower : mTowers) {
+            tower.update(mEnemies);
+        }
+        for (Enemy enemy : mEnemies) {
+            enemy.moveX(0.03f, mTileSize);
+            enemy.updateAnimation();
+        }
+    }
+
     public void addTower(Tower tower, int x, int y) {
-        mDrawables.add(tower);
+        //mDrawables.add(tower);
+        mTowers.add(tower);
+        tower.setPosition(x, y);
         mTiles[y][x].bindUnit(tower);
+    }
+
+    public void spawnEnemy(Enemy enemy, int x, int y) {
+        mDrawables.add(enemy);
+        mEnemies.add(enemy);
+        enemy.setPosition(x, y);
     }
 }

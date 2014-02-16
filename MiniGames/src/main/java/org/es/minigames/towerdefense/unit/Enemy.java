@@ -1,5 +1,7 @@
 package org.es.minigames.towerdefense.unit;
 
+import android.graphics.PointF;
+
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.sprite.Sprite;
 
@@ -23,7 +25,4 @@ public class Enemy extends AbstractUnit<Enemy.AnimationId> implements AnimationC
 
     @Override
     public void onAnimationStopped() {  }
-
-    @Override
-    public void stopAnimation() { mSprite.stopAnimation(); }
 }

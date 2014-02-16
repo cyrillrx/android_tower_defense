@@ -28,7 +28,8 @@ public class TowerDefenseThread extends DrawingThread {
 
     @Override
     protected boolean update() {
-        return mGameMgr.update();
+        mGameMgr.update();
+        return false;
     }
 
     @Override

@@ -8,7 +8,7 @@ import android.os.Parcel;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public class Player implements com.google.android.gms.games.Player {
+public abstract class Player implements com.google.android.gms.games.Player {
 
     private int mHealthPoint;
     private int mMoney;
@@ -33,6 +33,7 @@ public class Player implements com.google.android.gms.games.Player {
     public void setMoney(int mMoney) {
         this.mMoney = mMoney;
     }
+
 
     @Override
     public String getPlayerId() {
@@ -93,4 +94,6 @@ public class Player implements com.google.android.gms.games.Player {
     public void writeToParcel(Parcel parcel, int i) {
 
     }
+
+
 }

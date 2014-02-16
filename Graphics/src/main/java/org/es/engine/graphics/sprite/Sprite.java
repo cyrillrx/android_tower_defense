@@ -1,5 +1,7 @@
 package org.es.engine.graphics.sprite;
 
+import android.graphics.PointF;
+
 import org.es.engine.graphics.animation.Animation;
 import org.es.engine.graphics.drawable.DrawableElement;
 
@@ -29,12 +31,9 @@ public interface Sprite<AnimationId extends Enum<AnimationId>> extends DrawableE
     /** @return The animation matching the animation id. */
     public Animation getAnimation(AnimationId animationId);
 
+    /** Get the position of the sprite in the canvas. */
+    public PointF getPosition();
+
     /** Set the position of the sprite in the canvas. */
     public void setPosition(float x, float y);
-
-    /** Add value to the abscissa of the sprite. */
-    public void moveX(int value);
-
-    /** Add value to the ordinate of the sprite. */
-    public void moveY(int value);
 }

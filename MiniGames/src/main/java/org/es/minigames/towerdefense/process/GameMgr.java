@@ -18,8 +18,7 @@ import java.util.List;
  */
 public class GameMgr {
 
-    private Battleground mBattleground;
-    private List<Enemy> mEnemies = new ArrayList<>();
+    private final Battleground mBattleground;
 
     public GameMgr(Resources resources) {
 
@@ -28,32 +27,18 @@ public class GameMgr {
 
         Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, resources);
         enemy.startAnimation();
-        mEnemies.add(enemy);
+        mBattleground.spawnEnemy(enemy, 0, 2);
     }
 
     public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-
         mBattleground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-
-        for (Enemy enemy : mEnemies) {
-            enemy.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-        }
     }
 
-    public boolean update() {
-
-        for (Enemy enemy : mEnemies) {
-            enemy.moveX(1);
-            enemy.updateAnimation();
-        }
-        return false;
+    public void update() {
+        mBattleground.update();
     }
 
     public void draw(Canvas canvas) {
-
         mBattleground.draw(canvas);
-        for (Enemy enemy : mEnemies) {
-            enemy.draw(canvas);
-        }
     }
 }

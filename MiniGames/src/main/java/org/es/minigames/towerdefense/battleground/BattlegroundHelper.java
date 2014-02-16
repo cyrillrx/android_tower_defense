@@ -70,7 +70,8 @@ public class BattlegroundHelper {
                     unit.getAnimation().setBounds(tileSize, tileSize);
                     float posX = tile.centerX() - tileSize / 2f;
                     float posY = tile.centerY() - tileSize / 2f;
-                    unit.setPosition(posX, posY);
+                    unit.setCoef(tileSize);
+                    unit.setPosition(posX / tileSize, posY / tileSize);
                 }
 
                 currentX += tileSize;

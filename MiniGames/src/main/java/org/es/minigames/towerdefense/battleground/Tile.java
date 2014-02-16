@@ -1,6 +1,8 @@
 package org.es.minigames.towerdefense.battleground;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.RectF;
 
 import org.es.engine.graphics.drawable.DrawableElement;
@@ -25,7 +27,20 @@ public class Tile implements DrawableElement {
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) { }
 
     @Override
-    public void draw(Canvas canvas) { }
+    public void draw(Canvas canvas) {
+
+        // Draw the grid
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(0.3f);
+        paint.setColor(Color.BLUE);
+        paint.setStyle(Paint.Style.STROKE);
+        canvas.drawRect(getRect(), paint);
+
+        if (mBindedUnit != null) {
+            mBindedUnit.draw(canvas);
+        }
+    }
 
     public RectF getRect() { return mBoundingRect; }
 
