@@ -25,8 +25,8 @@ public abstract class Animation {
     private final float mFrameDuration;
 
     protected int mCurrentFrameId;
-    private float mBoundsX;
-    private float mBoundsY;
+    private float mWidth;
+    private float mHeight;
     /** The current state of the animation. It can be either one of RUNNING, STOPPING or STOPPED. */
     private State mState;
     /** Time of the last bitmap update. */
@@ -52,13 +52,13 @@ public abstract class Animation {
 
     /** Set the destination size of the bitmap to draw. */
     public void setBounds(float width, float height) {
-        mBoundsX = width;
-        mBoundsY = height;
+        mWidth = width;
+        mHeight = height;
     }
 
-    public float getWidth() { return mBoundsX; }
+    public float getWidth() { return mWidth; }
 
-    public float getHeight() { return mBoundsY; }
+    public float getHeight() { return mHeight; }
 
     /** @return The number of frames in the animation. */
     protected abstract int getFrameCount();
