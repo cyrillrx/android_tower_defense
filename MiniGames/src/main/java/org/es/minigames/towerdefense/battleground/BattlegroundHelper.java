@@ -1,6 +1,6 @@
 package org.es.minigames.towerdefense.battleground;
 
-import org.es.minigames.towerdefense.unit.AbstractUnit;
+import android.content.res.Resources;
 
 /**
  * @author Cyril Leroux
@@ -14,7 +14,7 @@ public class BattlegroundHelper {
      * @param rowCount The number of rows in the grid.
      * @return The initialized grid.
      */
-    public static Tile[][] initTiles(final int columnCount, final int rowCount) {
+    public static Tile[][] initTiles(final int columnCount, final int rowCount, Resources resources) {
 
         Tile[][] grid = new Tile[rowCount][columnCount];
 
@@ -22,7 +22,7 @@ public class BattlegroundHelper {
         for (int y = 0; y < rowCount; y++) {
             // For each element in the line
             for (int x = 0; x < columnCount; x++) {
-                grid[y][x] = new Tile();
+                grid[y][x] = TileFactory.createTile(x, y, Tile.Type.GRASS, resources);
             }
         }
         return grid;
@@ -66,12 +66,7 @@ public class BattlegroundHelper {
             for (final Tile tile : row) {
                 tile.setRect(currentX, currentY, currentX + tileSize, currentY + tileSize);
                 if (!tile.isEmpty()) {
-                    AbstractUnit unit = tile.getBindedUnit();
-                    unit.getAnimation().setBounds(tileSize, tileSize);
-                    float posX = tile.centerX() - tileSize / 2f;
-                    float posY = tile.centerY() - tileSize / 2f;
-                    unit.setCoef(tileSize);
-                    unit.setPosition(posX / tileSize, posY / tileSize);
+                    tile.getBoundUnit().setCoef(tileSize);
                 }
 
                 currentX += tileSize;

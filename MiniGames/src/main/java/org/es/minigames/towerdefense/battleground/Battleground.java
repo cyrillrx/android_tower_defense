@@ -1,15 +1,15 @@
 package org.es.minigames.towerdefense.battleground;
 
+import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 
 import org.es.engine.graphics.drawable.DrawableElement;
 import org.es.minigames.towerdefense.unit.Enemy;
 import org.es.minigames.towerdefense.unit.Tower;
-
-import java.util.HashSet;
-import java.util.Set;
+import org.es.minigames.utils.DrawingParam;
 
 /**
  * Class that represents the battlefield.
@@ -21,37 +21,30 @@ public class Battleground implements DrawableElement {
 
     private final float mColumnCount;
     private final float mRowCount;
-    private final Tile[][] mTiles;
-    // TODO mDrawable should evolve to a list of towers or static elements (handle barricades)
-    private final Set<DrawableElement> mDrawables;
-    private final Set<Enemy> mEnemies;
-    private final Set<Tower> mTowers;
-    private float mTileSize = 0;
+    private final PointF mPosition;
+    private final DrawingParam mDrawingParam;
 
-    public Battleground(int columnCount, int rowCount) {
+    private final Tile[][] mTiles;
+
+    public Battleground(int columnCount, int rowCount, Resources resources) {
         mColumnCount = columnCount;
         mRowCount = rowCount;
-        mTiles = BattlegroundHelper.initTiles(columnCount, rowCount);
-        mDrawables = new HashSet<>();
-        mEnemies = new HashSet<>();
-        mTowers = new HashSet<>();
+        mTiles = BattlegroundHelper.initTiles(columnCount, rowCount, resources);
+        mPosition = new PointF(0, 0);
+        mDrawingParam = new DrawingParam();
     }
 
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-        mTileSize = BattlegroundHelper.getTileSize(surfaceWidth, surfaceHeight, mColumnCount, mRowCount);
-        BattlegroundHelper.updateTileSizes(mTiles, mTileSize);
-
-        // update
-        for (DrawableElement drawable : mDrawables) {
-            drawable.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-        }
-
+        float tileSize = BattlegroundHelper.getTileSize(surfaceWidth, surfaceHeight, mColumnCount, mRowCount);
+        mDrawingParam.setCoef(tileSize);
+        BattlegroundHelper.updateTileSizes(mTiles, tileSize);
     }
 
     @Override
     public void draw(Canvas canvas) {
 
+        // TODO to delete
         // Draw the background
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.WHITE);
@@ -64,37 +57,42 @@ public class Battleground implements DrawableElement {
                 tile.draw(canvas);
             }
         }
-
-        // Draw the elements
-        for (DrawableElement drawable : mDrawables) {
-            drawable.draw(canvas);
-        }
     }
 
-    public Tile getTile(int x, int y) {
-        return mTiles[y][x];
+    @Override
+    public float getPosX() { return mPosition.x; }
+
+    @Override
+    public float getPosY() { return mPosition.y; }
+
+    @Override
+    public void setPosition(float x, float y) { mPosition.set(x, y); }
+
+    @Override
+    public float getWidth() { return mColumnCount; }
+
+    @Override
+    public float getHeight() { return mRowCount; }
+
+    public float getCoef() { return mDrawingParam.getCoef(); }
+
+    public void update() { }
+
+    /** Add a tower to the center of the selected tile. */
+    public void addTower(Tower tower, int columnId, int rowId) {
+        Tile tile = mTiles[rowId][columnId];
+        tile.bindUnit(tower);
+        final float posX = tile.getCenterX() - tower.getWidth() / 2f;
+        final float posY = tile.getCenterY() - tower.getHeight() / 2f;
+        tower.setPosition(posX, posY);
     }
 
-    public void update() {
-        for (Tower tower : mTowers) {
-            tower.update(mEnemies);
-        }
-        for (Enemy enemy : mEnemies) {
-            enemy.moveX(0.03f, mTileSize);
-            enemy.updateAnimation();
-        }
-    }
-
-    public void addTower(Tower tower, int x, int y) {
-        //mDrawables.add(tower);
-        mTowers.add(tower);
-        tower.setPosition(x, y);
-        mTiles[y][x].bindUnit(tower);
-    }
-
-    public void spawnEnemy(Enemy enemy, int x, int y) {
-        mDrawables.add(enemy);
-        mEnemies.add(enemy);
-        enemy.setPosition(x, y);
+    /** Spawn the enemy in the center of the selected tile. */
+    // TODO The spawnEnemy should have a other parameter to specify from where the unit is suppose to appear.
+    public void spawnEnemy(Enemy enemy, int columnId, int rowId) {
+        Tile tile = mTiles[rowId][columnId];
+        final float posX = tile.getCenterX() - enemy.getWidth() / 2f;
+        final float posY = tile.getCenterY() - enemy.getHeight() / 2f;
+        enemy.setPosition(posX, posY);
     }
 }

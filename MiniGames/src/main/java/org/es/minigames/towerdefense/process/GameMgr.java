@@ -9,8 +9,8 @@ import org.es.minigames.towerdefense.unit.EnemyFactory;
 import org.es.minigames.towerdefense.unit.Tower;
 import org.es.minigames.towerdefense.unit.TowerFactory;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author Cyril Leroux
@@ -19,26 +19,65 @@ import java.util.List;
 public class GameMgr {
 
     private final Battleground mBattleground;
+    // TODO mDrawable should evolve to a list of towers or static elements (handle barricades)
+    //private final Set<DrawableElement> mDrawables;
+    private final Set<Enemy> mEnemies;
+    private final Set<Tower> mTowers;
 
     public GameMgr(Resources resources) {
 
-        mBattleground = new Battleground(15, 7);
-        mBattleground.addTower(TowerFactory.createTower(Tower.Type.BASIC, resources), 7, 3);
+        mBattleground = new Battleground(15, 7, resources);
+        mEnemies = new HashSet<>();
+        mTowers = new HashSet<>();
+
+        Tower tower = TowerFactory.createTower(Tower.Type.BASIC, resources);
+        mTowers.add(tower);
+        mBattleground.addTower(tower, 7, 3);
 
         Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, resources);
         enemy.startAnimation();
+        mEnemies.add(enemy);
         mBattleground.spawnEnemy(enemy, 0, 2);
     }
 
     public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
         mBattleground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
+
+        final float coef = mBattleground.getCoef();
+        for (Enemy enemy : mEnemies) {
+            enemy.setCoef(coef);
+            enemy.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
+        }
     }
 
     public void update() {
         mBattleground.update();
+
+        for (Tower tower : mTowers) {
+            tower.update(mEnemies);
+        }
+
+        for (Enemy enemy : mEnemies) {
+            enemy.moveX(0.03f);
+            enemy.updateAnimation();
+            // Loop
+            if (enemy.getPosX() > mBattleground.getWidth()) {
+                mBattleground.spawnEnemy(enemy, 0, 2);
+            }
+        }
     }
 
     public void draw(Canvas canvas) {
         mBattleground.draw(canvas);
+
+        // Draw the elements
+        for (Enemy enemy : mEnemies) {
+            enemy.draw(canvas);
+        }
+
+        // Draw the elements
+        for (Tower tower : mTowers) {
+            tower.draw(canvas);
+        }
     }
 }
