@@ -2,17 +2,16 @@ package org.es.minigames.platform.drawable;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 import android.util.Log;
 
 import org.es.engine.graphics.animation.Animation;
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.animation.BitmapAnimation;
-import org.es.engine.graphics.drawable.Background;
 import org.es.engine.graphics.sprite.GenericSprite;
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.minigames.BuildConfig;
 import org.es.minigames.R;
+import org.es.minigames.scrollingbackgrounds.drawable.Background;
 
 import java.util.EnumMap;
 
@@ -147,22 +146,19 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     public Animation getAnimation(AnimId animationId) { return mSprite.getAnimation(animationId); }
 
     @Override
-    public PointF getPosition() { return mSprite.getPosition(); }
+    public float getPosX() { return mSprite.getPosX(); }
+
+    @Override
+    public float getPosY() { return mSprite.getPosY(); }
 
     @Override
     public void setPosition(float x, float y) { mSprite.setPosition(x, y); }
 
-//    /** Add value to the abscissa of the sprite. */
-//    public void moveX(int value) {
-//        PointF currentPos = mSprite.getPosition();
-//        mSprite.setPosition(currentPos.x + value, currentPos.y);
-//    }
-//
-//    /** Add value to the ordinate of the sprite. */
-//    public void moveY(int value) {
-//        PointF currentPos = mSprite.getPosition();
-//        mSprite.setPosition(currentPos.x, currentPos.y + value);
-//    }
+    @Override
+    public float getWidth() { return mSprite.getWidth(); }
+
+    @Override
+    public float getHeight() { return mSprite.getHeight(); }
 
     @Override
     public void onAnimationStopped() {

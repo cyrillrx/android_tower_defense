@@ -7,9 +7,9 @@ import android.view.SurfaceHolder;
 
 import org.es.engine.gamemechanic.DrawingThread;
 import org.es.engine.gamemechanic.UserEvent;
-import org.es.engine.graphics.drawable.Background;
 import org.es.minigames.R;
 import org.es.minigames.platform.drawable.Hero;
+import org.es.minigames.scrollingbackgrounds.drawable.Background;
 
 /**
  * @author Cyril Leroux
