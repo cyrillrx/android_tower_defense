@@ -37,6 +37,7 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
             // Get old position
             final float oldCenterX = mPosition.x + getWidth() / 2;
             final float oldCenterY = mPosition.y + getHeight() / 2;
+
             // Set new position
             mPosition.x = oldCenterX / mOldSurfaceW * surfaceWidth  - getWidth()  / 2;
             mPosition.y = oldCenterY / mOldSurfaceH * surfaceHeight - getHeight() / 2;
@@ -47,9 +48,20 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        getAnimation().draw(canvas, mPosition);
-    }
+    public void draw(Canvas canvas) { getAnimation().draw(canvas, mPosition); }
+
+    @Override
+    public float getPosX() { return mPosition.x; }
+
+    @Override
+    public float getPosY() { return mPosition.y; }
+
+    @Override
+    public void setPosition(float x, float y) { mPosition.set(x, y); }
+
+    public float getWidth() { return getAnimation().getWidth(); }
+
+    public float getHeight() { return getAnimation().getHeight(); }
 
     @Override
     public void startAnimation() { getAnimation().start(); }
@@ -71,25 +83,4 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
 
     @Override
     public Animation getAnimation(AnimationId animationId) { return mAnimations.get(animationId); }
-
-    @Override
-    public PointF getPosition() { return mPosition; }
-
-    @Override
-    public void setPosition(float x, float y) {
-        mPosition.x = x;
-        mPosition.y = y;
-    }
-
-    public int getWidth() { return getAnimation().getWidth(); }
-
-    public int getHeight() { return getAnimation().getHeight(); }
-
-    public float getLeft() { return mPosition.x; }
-
-    public float getTop() { return mPosition.y; }
-
-    public float getRight() { return mPosition.x + getWidth(); }
-
-    public float getBottom() { return mPosition.y + getHeight(); }
 }

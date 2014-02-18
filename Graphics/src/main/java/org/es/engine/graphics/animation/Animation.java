@@ -1,6 +1,5 @@
 package org.es.engine.graphics.animation;
 
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.PointF;
 
@@ -26,8 +25,8 @@ public abstract class Animation {
     private final float mFrameDuration;
 
     protected int mCurrentFrameId;
-    protected float mBoundsX;
-    protected float mBoundsY;
+    private float mBoundsX;
+    private float mBoundsY;
     /** The current state of the animation. It can be either one of RUNNING, STOPPING or STOPPED. */
     private State mState;
     /** Time of the last bitmap update. */
@@ -57,11 +56,12 @@ public abstract class Animation {
         mBoundsY = height;
     }
 
+    public float getWidth() { return mBoundsX; }
+
+    public float getHeight() { return mBoundsY; }
+
     /** @return The number of frames in the animation. */
     protected abstract int getFrameCount();
-
-    /** @return The current frame. */
-    protected abstract Bitmap getCurrentFrame();
 
     public void start() {
 
@@ -127,8 +127,4 @@ public abstract class Animation {
     }
 
     public long getStartTime() { return mStartTime; }
-
-    public int getWidth() { return getCurrentFrame().getWidth(); }
-
-    public int getHeight() { return getCurrentFrame().getHeight(); }
 }

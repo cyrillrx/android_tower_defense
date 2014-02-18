@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.PointF;
+import android.graphics.RectF;
 
 /**
  * A BitmapAnimation is an Animation created from a bitmap array.
@@ -62,18 +63,17 @@ public class BitmapAnimation extends Animation {
 
     @Override
     public void draw(Canvas canvas, PointF position) {
-        // Todo : Optimize
-        Bitmap bmp = Bitmap.createScaledBitmap(getCurrentFrame(), (int) mBoundsX, (int) mBoundsY, false);
-        canvas.drawBitmap(bmp, position.x, position.y, null);
+        final RectF dest = new RectF(
+                position.x,
+                position.y,
+                position.x + getWidth(),
+                position.y + getHeight()
+        );
+        canvas.drawBitmap(mFrames[mCurrentFrameId], null, dest, null);
     }
 
     @Override
     protected int getFrameCount() {
         return mFrames.length;
-    }
-
-    @Override
-    protected Bitmap getCurrentFrame() {
-        return mFrames[mCurrentFrameId];
     }
 }

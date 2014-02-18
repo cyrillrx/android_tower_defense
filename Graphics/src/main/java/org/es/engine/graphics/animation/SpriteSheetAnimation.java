@@ -39,19 +39,10 @@ public class SpriteSheetAnimation extends Animation {
         RectF dest = new RectF(
                 position.x,
                 position.y,
-                position.x + mBoundsX,
-                position.y + mBoundsY);
+                position.x + getWidth(),
+                position.y + getHeight());
         canvas.drawBitmap(mSpriteSheet, src, dest, null);
     }
 
     protected int getFrameCount() { return mFrames.length; }
-
-    /** @return The current frame. */
-    protected Bitmap getCurrentFrame() {
-        return Bitmap.createBitmap(mSpriteSheet,
-                mFrames[mCurrentFrameId].left,
-                mFrames[mCurrentFrameId].top,
-                mFrames[mCurrentFrameId].width(),
-                mFrames[mCurrentFrameId].height());
-    }
 }
