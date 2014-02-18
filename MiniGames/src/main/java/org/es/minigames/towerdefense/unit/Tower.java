@@ -3,6 +3,7 @@ package org.es.minigames.towerdefense.unit;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PointF;
 
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.sprite.Sprite;
@@ -66,6 +67,60 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
         updateAnimation();
     }
 
+    @Override
+    public void updateAnimation() {
+        updateAfterRotation();
+        super.updateAnimation();
+    }
+
+    // TODO comment
+    // TODO optimize
+    private void updateAfterRotation() {
+        float halfRange = 45f / 2f;
+        double angle = Math.abs(mRotationAngle);
+
+        if (angle > (315 - halfRange) % 360.0 &&
+                angle < (315 + halfRange) % 360.0 &&
+                getAnimationId() != AnimationId.RIGHT_DOWN) {
+            setAnimationId(AnimationId.RIGHT_DOWN);
+
+        } if (angle > (270 - halfRange) % 360.0 &&
+                angle < (270 + halfRange) % 360.0 &&
+                getAnimationId() != AnimationId.DOWN) {
+            setAnimationId(AnimationId.DOWN);
+
+        } else if (angle > (225 - halfRange) % 360.0 &&
+                angle < (225 + halfRange) % 360.0 &&
+                getAnimationId() != AnimationId.DOWN_LEFT) {
+            setAnimationId(AnimationId.DOWN_LEFT);
+
+        } else if (angle > (180 - halfRange) % 360.0 &&
+                angle < (180 + halfRange) % 360.0 &&
+                getAnimationId() != AnimationId.LEFT) {
+            setAnimationId(AnimationId.LEFT);
+
+        } else if (angle > (135 - halfRange) % 360.0 &&
+                angle < (135 + halfRange) % 360.0 &&
+                getAnimationId() != AnimationId.LEFT_UP) {
+            setAnimationId(AnimationId.LEFT_UP);
+
+        } else if (angle > (90 - halfRange) % 360.0 &&
+                angle < (90 + halfRange) % 360.0 &&
+                getAnimationId() != AnimationId.UP) {
+            setAnimationId(AnimationId.UP);
+
+        } else if (angle > (45 - halfRange) % 360.0 &&
+                angle < (45 + halfRange) % 360.0 &&
+                getAnimationId() != AnimationId.UP_RIGHT) {
+            setAnimationId(AnimationId.UP_RIGHT);
+
+        } else if (angle > (0 - halfRange) % 360.0 &&
+                angle < (0 + halfRange) % 360.0 &&
+                getAnimationId() != AnimationId.RIGHT) {
+            setAnimationId(AnimationId.RIGHT);
+        }
+    }
+
     /** @return True if the tower is currently following a unit. */
     private boolean isFollowing() {
         return mFollowed != null;
@@ -81,14 +136,16 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
 
     /**
      * Check if a unit is in sight.
+     *
      * @param destructibleElement
      * @return True is the unit is in sight. False otherwise.
      */
     private boolean isInSight(Destructible destructibleElement) {
-        return true;
         // TODO
-        //        PointF position = unit.getPosition();
-        //        return mAttackRange >= PositionUtils.distance(mPosition.x, mPosition.x, position.x, position.y);
+        final float posX = destructibleElement.getCenterX();
+        final float posY = destructibleElement.getCenterY();
+        final double distance = PositionUtils.distance(getCenterX(), getCenterY(), posX, posY);
+        return mAttackRange >= distance;
     }
 
     /**
@@ -112,13 +169,18 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
                 nearestUnit = (AbstractUnit) element;
                 continue;
             }
-
             nearestUnit = (AbstractUnit) nearest(element, nearestUnit);
         }
-
         return nearestUnit;
     }
 
+    /**
+     * Get the nearest of both elements passed in parameter
+     *
+     * @param element1
+     * @param element2
+     * @return The nearest element.
+     */
     private Destructible nearest(Destructible element1, Destructible element2) {
         final float elem1X = element1.getCenterX();
         final float elem1Y = element1.getCenterY();
@@ -132,8 +194,8 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
     /**
      * Act on the element being followed.
      * <ul>
-     *     <li>Turn towards the followed element.</li>
-     *     <li>Shot the followed element.</li>
+     * <li>Turn towards the followed element.</li>
+     * <li>Shot the followed element.</li>
      * </ul>
      */
     private void actOnFollowed() {
@@ -144,6 +206,7 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
 
     /**
      * Turns the tower towards the element in parameter.
+     *
      * @param element The element towards which to turn to.
      */
     private void turnTowards(Destructible element) {
