@@ -1,11 +1,13 @@
-package org.es.engine.graphics.drawable;
+package org.es.minigames.scrollingbackgrounds.drawable;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Point;
+import android.graphics.PointF;
 import android.util.Log;
+
+import org.es.engine.graphics.drawable.DrawableElement;
 
 /**
  * @author Cyril Leroux
@@ -18,7 +20,7 @@ public class Background implements DrawableElement {
     private static final int STATE_SCROLLING = 0;
     private static final int STATE_STOPPED = 1;
 
-    private Point[] mPositions = new Point[2];
+    private PointF[] mPositions = new PointF[2];
     private Bitmap mBitmap;
     private float mScrollValue = 0;
 
@@ -32,8 +34,8 @@ public class Background implements DrawableElement {
         options.inSampleSize = 2;
         mBitmap = BitmapFactory.decodeResource(resources, resId, options);
 
-        mPositions[0] = new Point(0, 0);
-        mPositions[1] = new Point();
+        mPositions[0] = new PointF(0, 0);
+        mPositions[1] = new PointF();
     }
 
     @Override
@@ -50,7 +52,7 @@ public class Background implements DrawableElement {
     @Override
     public void draw(Canvas canvas) {
 
-        for (Point position : mPositions) {
+        for (PointF position : mPositions) {
             if (position.x > canvas.getWidth() || position.x + mBitmap.getWidth() < 0) {
                 continue;
             }
@@ -59,6 +61,21 @@ public class Background implements DrawableElement {
 
         updateScrollX(canvas);
     }
+
+    @Override
+    public float getPosX() { return mPositions[0].x; }
+
+    @Override
+    public float getPosY() { return mPositions[0].y; }
+
+    @Override
+    public void setPosition(float x, float y) { }
+
+    @Override
+    public float getWidth() { return mBitmap.getWidth() * 2; }
+
+    @Override
+    public float getHeight() { return mBitmap.getHeight(); }
 
     private void updateScrollX(Canvas canvas) {
 
@@ -71,7 +88,7 @@ public class Background implements DrawableElement {
         final float value = mScrollValue * elapsedTime / mDuration;
 
         // Update positions
-        for (Point position : mPositions) {
+        for (PointF position : mPositions) {
             position.x += value;
         }
 
