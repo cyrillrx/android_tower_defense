@@ -58,6 +58,7 @@ public class GameMgr {
         }
 
         for (Enemy enemy : mEnemies) {
+            // TODO Enemy IA (like destination) should be move inside Enemy class
             enemy.moveX(0.03f);
             enemy.updateAnimation();
             // Loop
@@ -68,16 +69,37 @@ public class GameMgr {
     }
 
     public void draw(Canvas canvas) {
+
+        // Draw background
         mBattleground.draw(canvas);
 
         // Draw the elements
+        // Its important to draw towers first if there are flying enemies.
+        for (Tower tower : mTowers) {
+            tower.draw(canvas);
+        }
         for (Enemy enemy : mEnemies) {
             enemy.draw(canvas);
         }
 
+        // Draw animations (such as missiles).
+
+        //
+        drawHUD(canvas);
+    }
+
+    /** Draw the Head-up display. */
+    protected void drawHUD(Canvas canvas) {
+
         // Draw the elements
         for (Tower tower : mTowers) {
-            tower.draw(canvas);
+            tower.drawHUD(canvas);
         }
+        for (Enemy enemy : mEnemies) {
+            enemy.drawHUD(canvas);
+        }
+
+        // Draw main HUD
+        // TODO
     }
 }

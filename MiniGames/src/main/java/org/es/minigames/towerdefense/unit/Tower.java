@@ -40,22 +40,31 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
         super(sprite, 1f, 1f, weight, health, damage, attackRange, attackDelay);
     }
 
-    // TODO delete : just for debug
-    @Override
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
+
+    public void drawHUD(Canvas canvas) {
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(1f);
+        paint.setStyle(Paint.Style.STROKE);
 
         if (isFollowing()) {
-            Paint paint = new Paint();
             paint.setColor(Color.RED);
-            paint.setStrokeWidth(1f);
+
             canvas.drawLine(
                     getCenterX() * getCoef(),
                     getCenterY() * getCoef(),
                     mFollowed.getCenterX() * getCoef(),
                     mFollowed.getCenterY() * getCoef(),
                     paint);
+        } else {
+            paint.setColor(Color.BLUE);
         }
+
+        canvas.drawCircle(
+                getCenterX() * getCoef(),
+                getCenterY() * getCoef(),
+                mAttackRange * getCoef(), paint);
     }
 
     @Override
@@ -75,6 +84,7 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
 
     // TODO comment
     // TODO optimize
+    // TODO rename
     private void updateAfterRotation() {
         float halfRange = 45f / 2f;
         double angle = Math.abs(mRotationAngle);

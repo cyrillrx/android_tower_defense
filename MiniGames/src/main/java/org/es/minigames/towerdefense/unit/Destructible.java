@@ -47,6 +47,7 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
 
     public float getCoef() { return mDrawingParam.getCoef(); }
 
+    // TODO add comment
     public void setCoef(float coef) {
         mDrawingParam.setCoef(coef);
         // handle zoom and offset
@@ -57,6 +58,9 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     public void setOffset(float offsetX, float offsetY) {
         mDrawingParam.setOffset(offsetX, offsetY);
     }
+
+    /** Draw the Head-up display. */
+    public void drawHUD(Canvas canvas) { }
 
     /** @return The centerX position on the grid. */
     public float getCenterX() { return getPosX() + getWidth() / 2f; }
