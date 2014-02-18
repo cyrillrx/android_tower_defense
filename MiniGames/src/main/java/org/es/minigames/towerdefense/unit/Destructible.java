@@ -50,11 +50,8 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     public void setCoef(float coef) {
         mDrawingParam.setCoef(coef);
         // handle zoom and offset
-        mSprite.setPosition(
-                mPosition.x * mDrawingParam.getCoef() + mDrawingParam.getOffset().x,
-                mPosition.y * mDrawingParam.getCoef() + mDrawingParam.getOffset().y
-        );
-         getAnimation().setBounds(mWidth * coef, mHeight * coef);
+        updateSpritePosition();
+        updateSpriteDimensions();
     }
 
     public void setOffset(float offsetX, float offsetY) {
@@ -67,9 +64,24 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     /** @return The centerY position on the grid. */
     public float getCenterY() { return getPosY() + getHeight() / 2f; }
 
+    /** Update zoom and position of the sprite. */
+    private void updateSpritePosition() {
+        // handle zoom and offset
+        mSprite.setPosition(
+                mPosition.x * mDrawingParam.getCoef() + mDrawingParam.getOffset().x,
+                mPosition.y * mDrawingParam.getCoef() + mDrawingParam.getOffset().y
+        );
+    }
+
+    /** Update sprite dimensions. */
+    private void updateSpriteDimensions() {
+        mSprite.getAnimation().setBounds(mWidth * mDrawingParam.getCoef(), mHeight * mDrawingParam.getCoef());
+    }
+
     //
     // Drawable functions
     //
+
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
         mSprite.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
@@ -87,11 +99,7 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     @Override
     public void setPosition(float x, float y) {
         mPosition.set(x, y);
-        // handle zoom and offset
-        mSprite.setPosition(
-                mPosition.x * mDrawingParam.getCoef() + mDrawingParam.getOffset().x,
-                mPosition.y * mDrawingParam.getCoef() + mDrawingParam.getOffset().y
-        );
+        updateSpritePosition();
     }
 
     @Override
@@ -117,7 +125,11 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     public AnimationId getAnimationId() { return mSprite.getAnimationId(); }
 
     @Override
-    public void setAnimationId(AnimationId animationId) { mSprite.setAnimationId(animationId); }
+    public void setAnimationId(AnimationId animationId) {
+        mSprite.setAnimationId(animationId);
+        updateSpritePosition();
+        updateSpriteDimensions();
+    }
 
     @Override
     public Animation getAnimation() { return mSprite.getAnimation(); }
