@@ -1,7 +1,10 @@
 package org.es.minigames.towerdefense.unit;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.PointF;
+import android.graphics.Rect;
 
 import org.es.engine.graphics.animation.Animation;
 import org.es.engine.graphics.sprite.Sprite;
@@ -30,12 +33,15 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     private final float mHeight;
     /** Weighting of the unit. Used to calculate the unit cost or reward. */
     protected final int mWeight;
+    /** Health points of the unit. */
+    protected int mHealth;
 
-    public Destructible(Sprite<AnimationId> sprite, float width, float height, int weight) {
+    public Destructible(Sprite<AnimationId> sprite, float width, float height, int weight, int health) {
         mSprite = sprite;
         mWidth  = width;
         mHeight = height;
         mWeight = weight;
+        mHealth = health;
 
         mPosition = new PointF();
         mDrawingParam = new DrawingParam();
@@ -44,6 +50,10 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     //
     // New functions
     //
+
+    public void receiveDamages(AbstractUnit attacker) {
+        mHealth -= attacker.mDamage;
+    }
 
     public float getCoef() { return mDrawingParam.getCoef(); }
 
@@ -60,7 +70,25 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     }
 
     /** Draw the Head-up display. */
-    public void drawHUD(Canvas canvas) { }
+    public void drawHUD(Canvas canvas) {
+
+        final String hp = String.valueOf(mHealth) + " HP";
+
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(1f);
+        paint.setColor(Color.RED);
+        paint.setStyle(Paint.Style.STROKE);
+
+        Rect bounds = new Rect();
+        paint.getTextBounds(hp, 0, hp.length(), bounds);
+
+        canvas.drawText(hp,
+                getCenterX() * getCoef() - bounds.width() / 2f,
+                getPosY() * getCoef() - bounds.height(),
+                paint);
+
+    }
 
     /** @return The centerX position on the grid. */
     public float getCenterX() { return getPosX() + getWidth() / 2f; }

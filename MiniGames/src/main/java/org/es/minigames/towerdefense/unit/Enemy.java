@@ -17,8 +17,8 @@ public class Enemy extends AbstractUnit<Enemy.AnimationId> implements AnimationC
         CRAWLING, FLYING, BIG
     }
 
-    protected Enemy(Sprite<AnimationId> sprite, float width, float height, int weight,
-                    int health, int damage, int attackRange, int attackDelay) {
+    protected Enemy(Sprite<AnimationId> sprite, float width, float height, int weight, int health,
+                    int damage, int attackRange, int attackDelay) {
         super(sprite, width, height, weight, health, damage, attackRange, attackDelay);
     }
 

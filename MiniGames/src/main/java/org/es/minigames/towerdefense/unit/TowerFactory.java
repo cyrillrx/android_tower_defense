@@ -24,8 +24,8 @@ public class TowerFactory {
     private static final int BASIC_TOWER_WEIGHT = 2;
     private static final int BASIC_TOWER_HEALTH = 200;
     private static final int BASIC_TOWER_DAMAGE = 20;
-    private static final int BASIC_TOWER_ATTACK_RANGE = 4;
-    private static final int BASIC_TOWER_ATTACK_DELAY = 1000;
+    private static final float BASIC_TOWER_ATTACK_RANGE = 3;
+    private static final long BASIC_TOWER_ATTACK_DELAY = 1000;
 
     public static Tower createTower(Tower.Type type, Resources resources) {
 
@@ -84,7 +84,7 @@ public class TowerFactory {
     }
 
     private static Tower createTower(Sprite<Tower.AnimationId> sprite, int weight,
-                                     int health, int damage, int attackRange, int attackDelay) {
+                                     int health, int damage, float attackRange, long attackDelay) {
         return new Tower(sprite, weight, health, damage, attackRange, attackDelay);
     }
 }

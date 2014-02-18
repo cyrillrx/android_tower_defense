@@ -3,7 +3,6 @@ package org.es.minigames.towerdefense.unit;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PointF;
 
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.sprite.Sprite;
@@ -35,11 +34,10 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
     /** The current element followed by the tower. */
     private Destructible mFollowed;
 
-    public Tower(Sprite<AnimationId> sprite, int weight,
-                 int health, int damage, int attackRange, int attackDelay) {
+    public Tower(Sprite<AnimationId> sprite, int weight, int health,
+                 int damage, float attackRange, long attackDelay) {
         super(sprite, 1f, 1f, weight, health, damage, attackRange, attackDelay);
     }
-
 
     public void drawHUD(Canvas canvas) {
 
@@ -211,7 +209,7 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
     private void actOnFollowed() {
         if (mFollowed == null) { return; }
         turnTowards(mFollowed);
-        // TODO shoot
+        shoot(mFollowed);
     }
 
     /**
@@ -223,5 +221,15 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
         final float posX = element.getCenterX();
         final float posY = element.getCenterY();
         mRotationAngle = PositionUtils.angleInDegrees(getCenterX(), getCenterY(), posX, posY);
+    }
+
+    private void shoot(Destructible element) {
+        long delay = System.currentTimeMillis() - mLastAttack;
+
+        if (delay < mAttackDelay) { return ; }
+
+        // Do attack !
+        mFollowed.receiveDamages(this);
+        mLastAttack = System.currentTimeMillis();
     }
 }

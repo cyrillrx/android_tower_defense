@@ -10,23 +10,21 @@ import org.es.engine.graphics.sprite.Sprite;
  */
 public abstract class AbstractUnit<AnimationId extends Enum<AnimationId>> extends Destructible<AnimationId> {
 
-    /** Health points of the unit. */
-    protected int mHealth;
     /** Damage caused by each attack of the unit. */
     protected int mDamage;
     /** Attack range of the unit. Expressed in tiles. */
-    protected int mAttackRange;
+    protected float mAttackRange;
     /** Delay in milliseconds between two attacks. */
-    protected int mAttackDelay;
+    protected long mAttackDelay;
     /** Timestamp of the last attack in milliseconds. */
-    protected int mLastAttack;
+    protected long mLastAttack;
 
     /** The rotation angle of the unit in degrees. */
     protected double mRotationAngle;
 
-    protected AbstractUnit(Sprite<AnimationId> sprite, float width, float height, int weight,
-                           int health, int damage, int attackRange, int attackDelay) {
-        super(sprite, width, height, weight);
+    protected AbstractUnit(Sprite<AnimationId> sprite, float width, float height, int weight, int health,
+                           int damage, float attackRange, long attackDelay) {
+        super(sprite, width, height, weight, health);
         mHealth = health;
         mDamage = damage;
         mAttackRange = attackRange;
