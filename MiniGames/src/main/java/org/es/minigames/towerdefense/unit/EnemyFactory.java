@@ -20,27 +20,28 @@ import java.util.EnumMap;
  */
 public class EnemyFactory {
 
+    // TODO create a configClass
     private static final int RES_MONSTERS_SS = R.drawable.sprite_sheet_monsters;
+    private static final float CRAWLING_WIDTH = 0.5f;
+    private static final float CRAWLING_HEIGHT = 0.5f;
+    private static final int CRAWLING_WEIGHT = 2;
     private static final int CRAWLING_HEALTH = 200;
     private static final int CRAWLING_DAMAGE = 20;
     private static final int CRAWLING_ATTACK_RANGE = 3;
     private static final int CRAWLING_ATTACK_DELAY = 1000;
-    private static final int CRAWLING_WEIGHT = 2;
 
     public static Enemy createEnemy(Enemy.Type type, Resources resources) {
 
         switch (type) {
             case CRAWLING:
-                return createCrawlingEnemy(resources);
             default:
-                return null;
+                return createCrawlingEnemy(resources);
         }
     }
 
     private static Enemy createCrawlingEnemy(Resources resources) {
 
         final SpriteSheet spriteSheet = new SpriteSheet(resources, RES_MONSTERS_SS, 12, 8);
-
         final EnumMap<Enemy.AnimationId, Animation> mAnimations = new EnumMap<>(Enemy.AnimationId.class);
 
         mAnimations.put(Enemy.AnimationId.DOWN,
@@ -80,15 +81,16 @@ public class EnemyFactory {
                                 spriteSheet.getRect(3, 1)
                         }, 200, true, null));
 
-        return createEnemy(new GenericSprite<>(mAnimations,
-                Enemy.AnimationId.RIGHT),
+        return createEnemy(
+                new GenericSprite<>(mAnimations, Enemy.AnimationId.RIGHT),
+                CRAWLING_WIDTH, CRAWLING_HEIGHT, CRAWLING_WEIGHT,
                 CRAWLING_HEALTH,
                 CRAWLING_DAMAGE,
-                CRAWLING_ATTACK_RANGE, CRAWLING_ATTACK_DELAY,
-                CRAWLING_WEIGHT);
+                CRAWLING_ATTACK_RANGE, CRAWLING_ATTACK_DELAY);
     }
 
-    protected static Enemy createEnemy(Sprite<Enemy.AnimationId> sprite, int health, int damage, int attackRange, int attackDelay, int weight) {
-        return new Enemy(sprite, health, damage, attackRange, attackDelay, weight);
+    protected static Enemy createEnemy(Sprite<Enemy.AnimationId> sprite, float width, float height, int weight,
+                                       int health, int damage, int attackRange, int attackDelay) {
+        return new Enemy(sprite, width, height, weight, health, damage, attackRange, attackDelay);
     }
 }

@@ -21,19 +21,18 @@ import java.util.EnumMap;
 public class TowerFactory {
 
     private static final int RES_BASIC_TOWER_SS = R.drawable.sprite_sheet_tower_1;
+    private static final int BASIC_TOWER_WEIGHT = 2;
     private static final int BASIC_TOWER_HEALTH = 200;
     private static final int BASIC_TOWER_DAMAGE = 20;
     private static final int BASIC_TOWER_ATTACK_RANGE = 4;
     private static final int BASIC_TOWER_ATTACK_DELAY = 1000;
-    private static final int BASIC_TOWER_WEIGHT = 2;
 
     public static Tower createTower(Tower.Type type, Resources resources) {
 
         switch (type) {
             case BASIC:
-                return createBasicTower(resources);
             default:
-                return null;
+                return createBasicTower(resources);
         }
     }
 
@@ -76,14 +75,16 @@ public class TowerFactory {
                         new Rect[]{ spriteSheet.getRect(1, 3) }, -1, false, null));
 
 
-        return createTower(new GenericSprite<>(mAnimations, Tower.AnimationId.DOWN),
+        return createTower(
+                new GenericSprite<>(mAnimations, Tower.AnimationId.DOWN),
+                BASIC_TOWER_WEIGHT,
                 BASIC_TOWER_HEALTH,
                 BASIC_TOWER_DAMAGE,
-                BASIC_TOWER_ATTACK_RANGE, BASIC_TOWER_ATTACK_DELAY,
-                BASIC_TOWER_WEIGHT);
+                BASIC_TOWER_ATTACK_RANGE, BASIC_TOWER_ATTACK_DELAY);
     }
 
-    private static Tower createTower(Sprite<Tower.AnimationId> sprite, int health, int damage, int attackRange, int attackDelay, int weight) {
-        return new Tower(sprite, health, damage, attackRange, attackDelay, weight);
+    private static Tower createTower(Sprite<Tower.AnimationId> sprite, int weight,
+                                     int health, int damage, int attackRange, int attackDelay) {
+        return new Tower(sprite, weight, health, damage, attackRange, attackDelay);
     }
 }

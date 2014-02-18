@@ -1,7 +1,5 @@
 package org.es.minigames.towerdefense.unit;
 
-import android.graphics.PointF;
-
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.sprite.Sprite;
 
@@ -19,10 +17,21 @@ public class Enemy extends AbstractUnit<Enemy.AnimationId> implements AnimationC
         CRAWLING, FLYING, BIG
     }
 
-    protected Enemy(Sprite<AnimationId> sprite, int health, int damage, int attackRange, int attackDelay, int weight) {
-        super(sprite, health, damage, attackRange, attackDelay, weight);
+    protected Enemy(Sprite<AnimationId> sprite, float width, float height, int weight,
+                    int health, int damage, int attackRange, int attackDelay) {
+        super(sprite, width, height, weight, health, damage, attackRange, attackDelay);
     }
 
     @Override
     public void onAnimationStopped() {  }
+
+    /** Add value to the abscissa of the sprite. */
+    public void moveX(float value) {
+        setPosition(getPosX() + value, getPosY());
+    }
+
+    /** Add value to the ordinate of the sprite. */
+    public void moveY(float value) {
+        setPosition(getPosX() + value, getPosY() + value);
+    }
 }
