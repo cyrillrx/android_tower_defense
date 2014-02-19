@@ -1,5 +1,8 @@
 package org.es.minigames.towerdefense.unit;
 
+import android.graphics.Canvas;
+import android.graphics.Paint;
+
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.sprite.Sprite;
 
@@ -20,6 +23,16 @@ public class Enemy extends AbstractUnit<Enemy.AnimationId> implements AnimationC
     protected Enemy(Sprite<AnimationId> sprite, float width, float height, int weight, int health,
                     int damage, int attackRange, int attackDelay) {
         super(sprite, width, height, weight, health, damage, attackRange, attackDelay);
+    }
+
+    @Override
+    public void drawHUD(Canvas canvas) {
+        super.drawHUD(canvas);
+    }
+
+    @Override
+    public void drawDebugHUD(Canvas canvas, Paint paint) {
+        super.drawDebugHUD(canvas, paint);
     }
 
     @Override

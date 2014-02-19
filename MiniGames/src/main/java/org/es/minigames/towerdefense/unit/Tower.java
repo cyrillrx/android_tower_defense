@@ -39,16 +39,23 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
         super(sprite, 1f, 1f, weight, health, damage, attackRange, attackDelay);
     }
 
+    @Override
     public void drawHUD(Canvas canvas) {
+        super.drawHUD(canvas);
+    }
 
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setAntiAlias(true);
-        paint.setStrokeWidth(1f);
-        paint.setStyle(Paint.Style.STROKE);
+    @Override
+    public void drawDebugHUD(Canvas canvas, Paint paint) {
+        super.drawDebugHUD(canvas, paint);
 
+        // Save paint color.
+        int initialColor = paint.getColor();
+
+        // Change paint color depending on the focus state.
         if (isFollowing()) {
             paint.setColor(Color.RED);
 
+            // Draw a line from the tower to the focused element.
             canvas.drawLine(
                     getCenterX() * getCoef(),
                     getCenterY() * getCoef(),
@@ -59,10 +66,14 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
             paint.setColor(Color.BLUE);
         }
 
+        // Draw the range of sight.
         canvas.drawCircle(
                 getCenterX() * getCoef(),
                 getCenterY() * getCoef(),
                 mAttackRange * getCoef(), paint);
+
+        // restore paint color.
+        paint.setColor(initialColor);
     }
 
     @Override

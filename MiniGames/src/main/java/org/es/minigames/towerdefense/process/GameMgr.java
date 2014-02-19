@@ -2,6 +2,7 @@ package org.es.minigames.towerdefense.process;
 
 import android.content.res.Resources;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 import org.es.minigames.towerdefense.battleground.Battleground;
 import org.es.minigames.towerdefense.unit.Enemy;
@@ -74,7 +75,7 @@ public class GameMgr {
         mBattleground.draw(canvas);
 
         // Draw the elements
-        // Its important to draw towers first if there are flying enemies.
+        // It is important to draw towers first if there are flying enemies.
         for (Tower tower : mTowers) {
             tower.draw(canvas);
         }
@@ -83,23 +84,33 @@ public class GameMgr {
         }
 
         // Draw animations (such as missiles).
+        // TODO Draw the animations
 
-        //
+        // Draw the main HUD
         drawHUD(canvas);
     }
 
-    /** Draw the Head-up display. */
+    /**
+     * Draw the main Head-up display.<br />
+     * Scores, GUI, ...
+     */
     protected void drawHUD(Canvas canvas) {
 
+        Paint debugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        debugPaint.setAntiAlias(true);
+        debugPaint.setStrokeWidth(1f);
+        debugPaint.setStyle(Paint.Style.STROKE);
+
         // Draw the elements
+        // It is important to draw towers first if there are flying enemies.
         for (Tower tower : mTowers) {
             tower.drawHUD(canvas);
+            tower.drawDebugHUD(canvas, debugPaint);
         }
         for (Enemy enemy : mEnemies) {
             enemy.drawHUD(canvas);
+            enemy.drawDebugHUD(canvas, debugPaint);
         }
-
-        // Draw main HUD
-        // TODO
+        // TODO Draw the main HUD
     }
 }

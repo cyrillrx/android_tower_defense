@@ -70,24 +70,29 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     }
 
     /** Draw the Head-up display. */
-    public void drawHUD(Canvas canvas) {
+    public void drawHUD(Canvas canvas) { }
 
-        final String hp = String.valueOf(mHealth) + " HP";
+    /** Draw the debug Head-up display. */
+    public void drawDebugHUD(Canvas canvas, Paint paint) {
 
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setAntiAlias(true);
-        paint.setStrokeWidth(1f);
+        // Save and change paint color.
+        int initialColor = paint.getColor();
         paint.setColor(Color.RED);
-        paint.setStyle(Paint.Style.STROKE);
 
-        Rect bounds = new Rect();
-        paint.getTextBounds(hp, 0, hp.length(), bounds);
+        // Text to display the remaining life of the element.
+        final String hpText = String.valueOf(mHealth) + " HP";
+        // Get text bounds
+        final Rect textBounds = new Rect();
+        paint.getTextBounds(hpText, 0, hpText.length(), textBounds);
 
-        canvas.drawText(hp,
-                getCenterX() * getCoef() - bounds.width() / 2f,
-                getPosY() * getCoef() - bounds.height(),
+        // Draw the text centered above the element.
+        canvas.drawText(hpText,
+                getCenterX() * getCoef() - textBounds.width() / 2f,
+                getPosY() * getCoef() - textBounds.height(),
                 paint);
 
+        // restore paint color.
+        paint.setColor(initialColor);
     }
 
     /** @return The centerX position on the grid. */
