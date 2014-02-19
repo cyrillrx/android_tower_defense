@@ -33,12 +33,16 @@ public class GameMgr {
 
         Tower tower = TowerFactory.createTower(Tower.Type.BASIC, resources);
         mTowers.add(tower);
-        mBattleground.addTower(tower, 7, 3);
+        mBattleground.addTower(tower, 7, 2);
+
+//        Tower tower2 = TowerFactory.createTower(Tower.Type.BASIC, resources);
+//        mTowers.add(tower2);
+//        mBattleground.addTower(tower2, 7, 4);
 
         Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, resources);
         enemy.startAnimation();
         mEnemies.add(enemy);
-        mBattleground.spawnEnemy(enemy, 0, 2);
+        mBattleground.spawnEnemy(enemy, 0, 3);
     }
 
     public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
@@ -64,7 +68,7 @@ public class GameMgr {
             enemy.updateAnimation();
             // Loop
             if (enemy.getPosX() > mBattleground.getWidth()) {
-                mBattleground.spawnEnemy(enemy, 0, 2);
+                mBattleground.spawnEnemy(enemy, 0, 3);
             }
         }
     }

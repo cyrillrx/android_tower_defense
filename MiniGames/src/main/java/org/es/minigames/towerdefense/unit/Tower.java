@@ -31,8 +31,18 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
         RIGHT_DOWN
     }
 
+    private static int getBisectorAngle(AnimationId animId) {
+        return 0;
+    }
+
     /** The current element followed by the tower. */
     private Destructible mFollowed;
+
+    /**
+     * The angle of the last update.<br />
+     * Used to optimize the update of rotation animation.
+     */
+    private double mLastAngle;
 
     public Tower(Sprite<AnimationId> sprite, int weight, int health,
                  int damage, float attackRange, long attackDelay) {
@@ -87,57 +97,55 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
 
     @Override
     public void updateAnimation() {
-        updateAfterRotation();
+        updateRotationAnimation();
         super.updateAnimation();
     }
 
     // TODO comment
     // TODO optimize
     // TODO rename
-    private void updateAfterRotation() {
-        float halfRange = 45f / 2f;
-        double angle = Math.abs(mRotationAngle);
+    private void updateRotationAnimation() {
 
-        if (angle > (315 - halfRange) % 360.0 &&
-                angle < (315 + halfRange) % 360.0 &&
-                getAnimationId() != AnimationId.RIGHT_DOWN) {
-            setAnimationId(AnimationId.RIGHT_DOWN);
+        if (mRotationAngle == mLastAngle) { return; }
 
-        } if (angle > (270 - halfRange) % 360.0 &&
-                angle < (270 + halfRange) % 360.0 &&
-                getAnimationId() != AnimationId.DOWN) {
+        double animationRange = 45.0;
+
+        if (updateToThisRotation(0, animationRange, AnimationId.RIGHT)) {
+            setAnimationId(AnimationId.RIGHT);
+
+        } else if (updateToThisRotation(45, animationRange, AnimationId.RIGHT_DOWN)) {
+            setAnimationId(AnimationId.RIGHT);
+
+        } else if (updateToThisRotation(90, animationRange, AnimationId.DOWN)) {
             setAnimationId(AnimationId.DOWN);
 
-        } else if (angle > (225 - halfRange) % 360.0 &&
-                angle < (225 + halfRange) % 360.0 &&
-                getAnimationId() != AnimationId.DOWN_LEFT) {
+        } else if (updateToThisRotation(135, animationRange, AnimationId.DOWN_LEFT)) {
             setAnimationId(AnimationId.DOWN_LEFT);
 
-        } else if (angle > (180 - halfRange) % 360.0 &&
-                angle < (180 + halfRange) % 360.0 &&
-                getAnimationId() != AnimationId.LEFT) {
+        } else if (updateToThisRotation(180, animationRange, AnimationId.LEFT)) {
             setAnimationId(AnimationId.LEFT);
 
-        } else if (angle > (135 - halfRange) % 360.0 &&
-                angle < (135 + halfRange) % 360.0 &&
-                getAnimationId() != AnimationId.LEFT_UP) {
+        } else if (updateToThisRotation(225, animationRange, AnimationId.LEFT_UP)) {
             setAnimationId(AnimationId.LEFT_UP);
 
-        } else if (angle > (90 - halfRange) % 360.0 &&
-                angle < (90 + halfRange) % 360.0 &&
-                getAnimationId() != AnimationId.UP) {
+        } else if (updateToThisRotation(270, animationRange, AnimationId.UP)) {
             setAnimationId(AnimationId.UP);
 
-        } else if (angle > (45 - halfRange) % 360.0 &&
-                angle < (45 + halfRange) % 360.0 &&
-                getAnimationId() != AnimationId.UP_RIGHT) {
+        } else if (updateToThisRotation(315, animationRange, AnimationId.UP_RIGHT)) {
             setAnimationId(AnimationId.UP_RIGHT);
-
-        } else if (angle > (0 - halfRange) % 360.0 &&
-                angle < (0 + halfRange) % 360.0 &&
-                getAnimationId() != AnimationId.RIGHT) {
-            setAnimationId(AnimationId.RIGHT);
         }
+
+        mLastAngle = mRotationAngle;
+    }
+
+    // TODO rename
+    private boolean updateToThisRotation(double bisectorAngle, double range, AnimationId animId) {
+
+        double halfRange = range / 2.0;
+        double angle = (mRotationAngle < 0) ? mRotationAngle + 360.0 : mRotationAngle;
+        return (angle % 360.0 > (bisectorAngle - halfRange) % 360.0) &&
+                (angle % 360.0 < (bisectorAngle + halfRange) % 360.0) &&
+                getAnimationId() != animId;
     }
 
     /** @return True if the tower is currently following a unit. */
@@ -188,11 +196,12 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
                 nearestUnit = (AbstractUnit) element;
                 continue;
             }
-            nearestUnit = (AbstractUnit) nearest(element, nearestUnit);
+            nearestUnit = (AbstractUnit) getNearest(element, nearestUnit);
         }
         return nearestUnit;
     }
 
+    // TODO move getNearest() function in PositionUtils class.
     /**
      * Get the nearest of both elements passed in parameter
      *
@@ -200,7 +209,7 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
      * @param element2
      * @return The nearest element.
      */
-    private Destructible nearest(Destructible element1, Destructible element2) {
+    private Destructible getNearest(Destructible element1, Destructible element2) {
         final float elem1X = element1.getCenterX();
         final float elem1Y = element1.getCenterY();
         final float elem2X = element2.getCenterX();
