@@ -1,8 +1,12 @@
 package org.es.minigames.towerdefense.process;
 
+import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Rect;
 
 import org.es.minigames.towerdefense.battleground.Battleground;
 import org.es.minigames.towerdefense.unit.Enemy;
@@ -19,13 +23,29 @@ import java.util.Set;
  */
 public class GameMgr {
 
+    private final Context mContext;
+    private final Paint mDebugPaint;
+    private float mSurfaceWidth;
+    private float mSurfaceHeight;
+
     private final Battleground mBattleground;
     // TODO mDrawable should evolve to a list of towers or static elements (handle barricades)
     //private final Set<DrawableElement> mDrawables;
     private final Set<Enemy> mEnemies;
     private final Set<Tower> mTowers;
 
-    public GameMgr(Resources resources) {
+    public GameMgr(Context context) {
+        mContext = context;
+        mDebugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mDebugPaint.setAntiAlias(true);
+        mDebugPaint.setStrokeWidth(1f);
+        mDebugPaint.setStyle(Paint.Style.STROKE);
+        mDebugPaint.setTextSize(20f);
+
+        mSurfaceWidth = 0;
+        mSurfaceHeight = 0;
+
+        final Resources resources = context.getResources();
 
         mBattleground = new Battleground(15, 7, resources);
         mEnemies = new HashSet<>();
@@ -46,6 +66,8 @@ public class GameMgr {
     }
 
     public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
+        mSurfaceWidth = surfaceWidth;
+        mSurfaceHeight = surfaceHeight;
         mBattleground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
 
         final float coef = mBattleground.getCoef();
@@ -95,26 +117,64 @@ public class GameMgr {
     }
 
     /**
-     * Draw the main Head-up display.<br />
-     * Scores, GUI, ...
+     * Draw all Head-up display.
+     * <ul>
+     *     <li>Draw towers HUD</li>
+     *     <li>Draw enemies HUD</li>
+     *     <li>Draw main HUD</li>
+     * </ul>
      */
     protected void drawHUD(Canvas canvas) {
-
-        Paint debugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        debugPaint.setAntiAlias(true);
-        debugPaint.setStrokeWidth(1f);
-        debugPaint.setStyle(Paint.Style.STROKE);
 
         // Draw the elements
         // It is important to draw towers first if there are flying enemies.
         for (Tower tower : mTowers) {
             tower.drawHUD(canvas);
-            tower.drawDebugHUD(canvas, debugPaint);
+            tower.drawDebugHUD(canvas, mDebugPaint);
         }
         for (Enemy enemy : mEnemies) {
             enemy.drawHUD(canvas);
-            enemy.drawDebugHUD(canvas, debugPaint);
+            enemy.drawDebugHUD(canvas, mDebugPaint);
         }
+
+        drawMainHUD(canvas);
+        drawMainHUDDebug(canvas);
+    }
+
+
+    /**
+     * Draw the main Head-up display.<br />
+     * Scores, GUI, ...
+     */
+    protected void drawMainHUD(Canvas canvas) { }
+
+    /**
+     * Draw the main Head-up display.<br />
+     * Scores, GUI, ...
+     */
+    protected void drawMainHUDDebug(Canvas canvas) {
         // TODO Draw the main HUD
+        try {
+            PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
+
+            final String versionCode = "Version Code: " + String.valueOf(info.versionCode);
+            final String versionName = "Version Name: " + info.versionName;
+            Rect textBoundsCode = new Rect();
+            mDebugPaint.getTextBounds(versionCode, 0, versionCode.length(), textBoundsCode);
+            Rect textBoundsName = new Rect();
+            mDebugPaint.getTextBounds(versionName, 0, versionName.length(), textBoundsName);
+
+            float yCode = mSurfaceHeight - textBoundsCode.height();
+            float yName = yCode - textBoundsName.height();
+
+            // Save paint style
+            Paint.Style initialStyle = mDebugPaint.getStyle();
+            mDebugPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+            canvas.drawText(versionName, 0, yName,mDebugPaint);
+            canvas.drawText(versionCode, 0, yCode,mDebugPaint);
+            // Restore paint style
+            mDebugPaint.setStyle(initialStyle);
+
+        } catch (PackageManager.NameNotFoundException e) { }
     }
 }

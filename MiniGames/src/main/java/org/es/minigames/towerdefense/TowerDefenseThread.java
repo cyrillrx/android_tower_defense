@@ -18,7 +18,7 @@ public class TowerDefenseThread extends DrawingThread {
 
     public TowerDefenseThread(SurfaceHolder surfaceHolder, Context context) {
         super(surfaceHolder, context);
-        mGameMgr = new GameMgr(mResources);
+        mGameMgr = new GameMgr(context);
     }
 
     @Override
