@@ -8,7 +8,7 @@ android {
         minSdkVersion 9
         targetSdkVersion 19
         versionCode 1
-        versionName "Pre-Alpha 0.1"
+        versionName "Pre-Alpha v0.1"
     }
 
     signingConfigs {

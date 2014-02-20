@@ -36,12 +36,15 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     /** Health points of the unit. */
     protected int mHealth;
 
+    private boolean mDead;
+
     public Destructible(Sprite<AnimationId> sprite, float width, float height, int weight, int health) {
         mSprite = sprite;
         mWidth  = width;
         mHeight = height;
         mWeight = weight;
         mHealth = health;
+        mDead = false;
 
         mPosition = new PointF();
         mDrawingParam = new DrawingParam();
@@ -53,7 +56,10 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
 
     public void receiveDamages(Offensive attacker) {
         mHealth -= attacker.mDamage;
+        mDead = mHealth < 0;
     }
+
+    public boolean isDead() { return mDead; }
 
     public float getCoef() { return mDrawingParam.getCoef(); }
 

@@ -29,7 +29,6 @@ public class Tile implements DrawableElement {
 
     private boolean mBuildable;
     private boolean mWalkable;
-    private boolean mS;
 
 
     public Tile(int columnId, int rowId, Bitmap background) {
@@ -107,7 +106,10 @@ public class Tile implements DrawableElement {
     public boolean isEmpty() { return mBoundUnit == null; }
 
     /** @return True if the tile is available for building. */
-    public boolean isBuildable() { return mBoundUnit == null; }
+    public boolean isBuildable() { return mBuildable && isEmpty(); }
+
+    /** @return True if the tile is available for walking. */
+    public boolean isWalkable() { return mWalkable && isEmpty(); }
 
     public Offensive getBoundUnit() { return mBoundUnit; }
 

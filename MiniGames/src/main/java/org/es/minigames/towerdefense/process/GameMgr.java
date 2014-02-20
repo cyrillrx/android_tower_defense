@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 
 import org.es.minigames.towerdefense.battleground.Battleground;
@@ -25,14 +26,13 @@ public class GameMgr {
 
     private final Context mContext;
     private final Paint mDebugPaint;
-    private float mSurfaceWidth;
-    private float mSurfaceHeight;
-
     private final Battleground mBattleground;
     // TODO mDrawable should evolve to a list of towers or static elements (handle barricades)
     //private final Set<DrawableElement> mDrawables;
     private final Set<Enemy> mEnemies;
     private final Set<Tower> mTowers;
+    private float mSurfaceWidth;
+    private float mSurfaceHeight;
 
     public GameMgr(Context context) {
         mContext = context;
@@ -47,7 +47,10 @@ public class GameMgr {
 
         final Resources resources = context.getResources();
 
-        mBattleground = new Battleground(15, 7, resources);
+        mBattleground = new Battleground(15, 7,
+                new Point[]{new Point(0, 3)},
+                new Point[]{new Point(14, 3)},
+                resources);
         mEnemies = new HashSet<>();
         mTowers = new HashSet<>();
 
@@ -62,7 +65,7 @@ public class GameMgr {
         Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, resources);
         enemy.startAnimation();
         mEnemies.add(enemy);
-        mBattleground.spawnEnemy(enemy, 0, 3);
+        mBattleground.spawnEnemy(enemy, 0);
     }
 
     public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
@@ -78,19 +81,21 @@ public class GameMgr {
     }
 
     public void update() {
-        mBattleground.update();
+        //mBattleground.update();
 
         for (Tower tower : mTowers) {
             tower.update(mEnemies);
         }
 
         for (Enemy enemy : mEnemies) {
-            // TODO Enemy IA (like destination) should be move inside Enemy class
-            enemy.moveX(0.05f);
-            enemy.updateAnimation();
-            // Loop
-            if (enemy.getPosX() > mBattleground.getWidth()) {
-                mBattleground.spawnEnemy(enemy, 0, 3);
+            // TODO not always true
+            enemy.update(mBattleground, true);
+            if (enemy.isDead() || enemy.getPosX() > mBattleground.getWidth()) {
+//                mEnemies.remove(enemy);
+//                Enemy newEnemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, mContext.getResources());
+//                newEnemy.startAnimation();
+//                mEnemies.add(newEnemy);
+//                mBattleground.spawnEnemy(newEnemy, 0);
             }
         }
     }
@@ -119,9 +124,9 @@ public class GameMgr {
     /**
      * Draw all Head-up display.
      * <ul>
-     *     <li>Draw towers HUD</li>
-     *     <li>Draw enemies HUD</li>
-     *     <li>Draw main HUD</li>
+     * <li>Draw towers HUD</li>
+     * <li>Draw enemies HUD</li>
+     * <li>Draw main HUD</li>
      * </ul>
      */
     protected void drawHUD(Canvas canvas) {
@@ -170,8 +175,8 @@ public class GameMgr {
             // Save paint style
             Paint.Style initialStyle = mDebugPaint.getStyle();
             mDebugPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-            canvas.drawText(versionName, 0, yName,mDebugPaint);
-            canvas.drawText(versionCode, 0, yCode,mDebugPaint);
+            canvas.drawText(versionName, 0, yName, mDebugPaint);
+            canvas.drawText(versionCode, 0, yCode, mDebugPaint);
             // Restore paint style
             mDebugPaint.setStyle(initialStyle);
 

@@ -31,10 +31,6 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
         RIGHT_DOWN
     }
 
-    private static int getBisectorAngle(AnimationId animId) {
-        return 0;
-    }
-
     /** The current element followed by the tower. */
     private Destructible mFollowed;
 
@@ -49,110 +45,10 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
         super(sprite, 1f, 1f, weight, health, damage, attackRange, attackDelay);
     }
 
-    @Override
-    public void drawHUD(Canvas canvas) {
-        super.drawHUD(canvas);
-    }
-
-    @Override
-    public void drawDebugHUD(Canvas canvas, Paint paint) {
-        super.drawDebugHUD(canvas, paint);
-
-        // Save paint color.
-        int initialColor = paint.getColor();
-
-        // Change paint color depending on the focus state.
-        if (isFollowing()) {
-            paint.setColor(Color.RED);
-
-            // Draw a line from the tower to the focused element.
-            canvas.drawLine(
-                    getCenterX() * getCoef(),
-                    getCenterY() * getCoef(),
-                    mFollowed.getCenterX() * getCoef(),
-                    mFollowed.getCenterY() * getCoef(),
-                    paint);
-        } else {
-            paint.setColor(Color.BLUE);
-        }
-
-        // Draw the range of sight.
-        canvas.drawCircle(
-                getCenterX() * getCoef(),
-                getCenterY() * getCoef(),
-                mAttackRange * getCoef(), paint);
-
-        // restore paint color.
-        paint.setColor(initialColor);
-    }
-
-    @Override
-    public void onAnimationStopped() { }
-
     public void update(Collection<? extends Destructible> elementsOnScreen) {
         updateFollow(elementsOnScreen);
         actOnFollowed();
         updateAnimation();
-    }
-
-    @Override
-    public void updateAnimation() {
-        updateRotationAnimation();
-        super.updateAnimation();
-    }
-
-    // TODO comment
-    // TODO optimize
-    // TODO rename
-    private void updateRotationAnimation() {
-
-        if (mRotationAngle == mLastAngle) { return; }
-
-        double animationRange = 45.0;
-        if (isInRange(0, animationRange)) {
-            setAnimationId(AnimationId.RIGHT);
-
-        } else if (isInRange(315, animationRange)) {
-            setAnimationId(AnimationId.RIGHT_DOWN);
-
-        } else if (isInRange(270, animationRange)) {
-            setAnimationId(AnimationId.DOWN);
-
-        } else if (isInRange(225, animationRange)) {
-            setAnimationId(AnimationId.DOWN_LEFT);
-
-        } else if (isInRange(180, animationRange)) {
-            setAnimationId(AnimationId.LEFT);
-
-        } else if (isInRange(135, animationRange)) {
-            setAnimationId(AnimationId.LEFT_UP);
-
-        } else if (isInRange(90, animationRange)) {
-            setAnimationId(AnimationId.UP);
-
-        } else if (isInRange(45, animationRange)) {
-            setAnimationId(AnimationId.UP_RIGHT);
-        }
-
-        mLastAngle = mRotationAngle;
-    }
-
-    // TODO rename
-    private boolean isInRange(double bisectorAngle, double range) {
-        final double angle = (mRotationAngle < 0) ? mRotationAngle + 360.0 : mRotationAngle;
-        final double lowerBound = bisectorAngle - range / 2.0;
-        final double upperBound = bisectorAngle + range / 2.0;
-
-        if (lowerBound < 0) {
-            return angle > lowerBound + 360 || angle < upperBound;
-        }
-
-        return angle > lowerBound && angle < upperBound;
-    }
-
-    /** @return True if the tower is currently following a unit. */
-    private boolean isFollowing() {
-        return mFollowed != null;
     }
 
     /** Update the current state of the auto-follow. */
@@ -161,6 +57,11 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
             return;
         }
         mFollowed = getNearestUnitInSight(elementsOnScreen);
+    }
+
+    /** @return True if the tower is currently following a unit. */
+    private boolean isFollowing() {
+        return mFollowed != null;
     }
 
     /**
@@ -224,8 +125,8 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
     /**
      * Act on the element being followed.
      * <ul>
-     * <li>Turn towards the followed element.</li>
-     * <li>Shot the followed element.</li>
+     *     <li>Turn towards the followed element.</li>
+     *     <li>Shot the followed element.</li>
      * </ul>
      */
     private void actOnFollowed() {
@@ -254,4 +155,99 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
         mFollowed.receiveDamages(this);
         mLastAttack = System.currentTimeMillis();
     }
+
+    @Override
+    public void updateAnimation() {
+        updateRotationAnimation();
+        super.updateAnimation();
+    }
+
+    // TODO comment
+    // TODO optimize
+    // TODO rename
+    private void updateRotationAnimation() {
+
+        if (mRotationAngle == mLastAngle) { return; }
+
+        double animationRange = 45.0;
+        if (isInRange(0, animationRange)) {
+            setAnimationId(AnimationId.RIGHT);
+
+        } else if (isInRange(315, animationRange)) {
+            setAnimationId(AnimationId.RIGHT_DOWN);
+
+        } else if (isInRange(270, animationRange)) {
+            setAnimationId(AnimationId.DOWN);
+
+        } else if (isInRange(225, animationRange)) {
+            setAnimationId(AnimationId.DOWN_LEFT);
+
+        } else if (isInRange(180, animationRange)) {
+            setAnimationId(AnimationId.LEFT);
+
+        } else if (isInRange(135, animationRange)) {
+            setAnimationId(AnimationId.LEFT_UP);
+
+        } else if (isInRange(90, animationRange)) {
+            setAnimationId(AnimationId.UP);
+
+        } else if (isInRange(45, animationRange)) {
+            setAnimationId(AnimationId.UP_RIGHT);
+        }
+
+        mLastAngle = mRotationAngle;
+    }
+
+    // TODO rename
+    private boolean isInRange(double bisectorAngle, double range) {
+        final double angle = (mRotationAngle < 0) ? mRotationAngle + 360.0 : mRotationAngle;
+        final double lowerBound = bisectorAngle - range / 2.0;
+        final double upperBound = bisectorAngle + range / 2.0;
+
+        if (lowerBound < 0) {
+            return angle > lowerBound + 360 || angle < upperBound;
+        }
+
+        return angle > lowerBound && angle < upperBound;
+    }
+
+    @Override
+    public void drawHUD(Canvas canvas) {
+        super.drawHUD(canvas);
+    }
+
+    @Override
+    public void drawDebugHUD(Canvas canvas, Paint paint) {
+        super.drawDebugHUD(canvas, paint);
+
+        // Save paint color.
+        int initialColor = paint.getColor();
+
+        // Change paint color depending on the focus state.
+        if (isFollowing()) {
+            paint.setColor(Color.RED);
+
+            // Draw a line from the tower to the focused element.
+            canvas.drawLine(
+                    getCenterX() * getCoef(),
+                    getCenterY() * getCoef(),
+                    mFollowed.getCenterX() * getCoef(),
+                    mFollowed.getCenterY() * getCoef(),
+                    paint);
+        } else {
+            paint.setColor(Color.BLUE);
+        }
+
+        // Draw the range of sight.
+        canvas.drawCircle(
+                getCenterX() * getCoef(),
+                getCenterY() * getCoef(),
+                mAttackRange * getCoef(), paint);
+
+        // restore paint color.
+        paint.setColor(initialColor);
+    }
+
+    @Override
+    public void onAnimationStopped() { }
 }
