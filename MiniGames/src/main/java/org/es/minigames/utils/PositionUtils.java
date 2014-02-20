@@ -27,11 +27,48 @@ public class PositionUtils {
         return Math.sqrt(Math.pow(xb - xa, 2d) + Math.pow(yb - ya, 2d));
     }
 
-    public static final double angleInRadiant(double xa, double ya, double xb, double yb) {
+    /**
+     * Return the angle between points A and B using trigonometry.<br />
+     * A being the center of the unit circle.
+     * @param xa The abscissa of point A.
+     * @param ya The ordinate of point A.
+     * @param xb The abscissa of point B.
+     * @param yb The ordinate of point B.
+     * @param reverse True if the ordinates goes down instead of up. False otherwise.
+     * @return The angle in radiant.
+     */
+    public static final double angleInRadiant(double xa, double ya, double xb, double yb, boolean reverse) {
+        if (reverse) {
+            return Math.atan2(ya - yb, xb - xa);
+        }
+        // Standard formula
         return Math.atan2(yb - ya, xb - xa);
     }
 
+    /**
+     * Return the angle between points A and B using trigonometry.<br />
+     * A being the center of the unit circle.
+     * @param xa The abscissa of point A.
+     * @param ya The ordinate of point A.
+     * @param xb The abscissa of point B.
+     * @param yb The ordinate of point B.
+     * @param reverse True if the ordinates goes down instead of up. False otherwise.
+     * @return The angle in degrees.
+     */
+    public static final double angleInDegrees(double xa, double ya, double xb, double yb, boolean reverse) {
+        return Math.toDegrees(angleInRadiant(xa, ya, xb, yb, reverse));
+    }
+
+    /**
+     * Return the angle between points A and B using trigonometry.<br />
+     * A being the center of the unit circle.
+     * @param xa The abscissa of point A.
+     * @param ya The ordinate of point A.
+     * @param xb The abscissa of point B.
+     * @param yb The ordinate of point B.
+     * @return The angle in radiant.
+     */
     public static final double angleInDegrees(double xa, double ya, double xb, double yb) {
-        return Math.toDegrees(angleInRadiant(xa, ya, xb, yb));
+        return angleInDegrees(xa, ya, xb, yb, false);
     }
 }
