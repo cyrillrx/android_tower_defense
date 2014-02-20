@@ -3,7 +3,7 @@ package org.es.minigames.towerdefense.unit;
 import org.es.engine.graphics.sprite.Sprite;
 
 /**
- * This class represents a fighting unit.
+ * This class represents an element with offensive capabilities.
  *
  * @author Cyril Leroux
  *         Created on 30/01/14.
@@ -25,7 +25,6 @@ public abstract class AbstractUnit<AnimationId extends Enum<AnimationId>> extend
     protected AbstractUnit(Sprite<AnimationId> sprite, float width, float height, int weight, int health,
                            int damage, float attackRange, long attackDelay) {
         super(sprite, width, height, weight, health);
-        mHealth = health;
         mDamage = damage;
         mAttackRange = attackRange;
         mAttackDelay = attackDelay;

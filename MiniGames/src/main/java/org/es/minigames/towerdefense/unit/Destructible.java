@@ -161,8 +161,17 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     @Override
     public AnimationId getAnimationId() { return mSprite.getAnimationId(); }
 
+    /**
+     * Set the current animation id.<br />
+     * Does nothing if the passed animation id is the same as the current one.
+     * @param animationId The new animation Id
+     */
     @Override
     public void setAnimationId(AnimationId animationId) {
+        if (animationId == mSprite.getAnimationId()) {
+            return;
+        }
+
         mSprite.setAnimationId(animationId);
         updateSpritePosition();
         updateSpriteDimensions();
