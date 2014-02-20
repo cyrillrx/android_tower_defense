@@ -33,11 +33,11 @@ public class GameMgr {
 
         Tower tower = TowerFactory.createTower(Tower.Type.BASIC, resources);
         mTowers.add(tower);
-        mBattleground.addTower(tower, 7, 2);
+        mBattleground.addTower(tower, 5, 2);
 
-//        Tower tower2 = TowerFactory.createTower(Tower.Type.BASIC, resources);
-//        mTowers.add(tower2);
-//        mBattleground.addTower(tower2, 7, 4);
+        Tower tower2 = TowerFactory.createTower(Tower.Type.BASIC, resources);
+        mTowers.add(tower2);
+        mBattleground.addTower(tower2, 9, 4);
 
         Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, resources);
         enemy.startAnimation();
@@ -64,7 +64,7 @@ public class GameMgr {
 
         for (Enemy enemy : mEnemies) {
             // TODO Enemy IA (like destination) should be move inside Enemy class
-            enemy.moveX(0.03f);
+            enemy.moveX(0.05f);
             enemy.updateAnimation();
             // Loop
             if (enemy.getPosX() > mBattleground.getWidth()) {

@@ -109,29 +109,28 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
         if (mRotationAngle == mLastAngle) { return; }
 
         double animationRange = 45.0;
-
-        if (updateToThisRotation(0, animationRange, AnimationId.RIGHT)) {
+        if (isInRange(0, animationRange)) {
             setAnimationId(AnimationId.RIGHT);
 
-        } else if (updateToThisRotation(45, animationRange, AnimationId.RIGHT_DOWN)) {
-            setAnimationId(AnimationId.RIGHT);
+        } else if (isInRange(315, animationRange)) {
+            setAnimationId(AnimationId.RIGHT_DOWN);
 
-        } else if (updateToThisRotation(90, animationRange, AnimationId.DOWN)) {
+        } else if (isInRange(270, animationRange)) {
             setAnimationId(AnimationId.DOWN);
 
-        } else if (updateToThisRotation(135, animationRange, AnimationId.DOWN_LEFT)) {
+        } else if (isInRange(225, animationRange)) {
             setAnimationId(AnimationId.DOWN_LEFT);
 
-        } else if (updateToThisRotation(180, animationRange, AnimationId.LEFT)) {
+        } else if (isInRange(180, animationRange)) {
             setAnimationId(AnimationId.LEFT);
 
-        } else if (updateToThisRotation(225, animationRange, AnimationId.LEFT_UP)) {
+        } else if (isInRange(135, animationRange)) {
             setAnimationId(AnimationId.LEFT_UP);
 
-        } else if (updateToThisRotation(270, animationRange, AnimationId.UP)) {
+        } else if (isInRange(90, animationRange)) {
             setAnimationId(AnimationId.UP);
 
-        } else if (updateToThisRotation(315, animationRange, AnimationId.UP_RIGHT)) {
+        } else if (isInRange(45, animationRange)) {
             setAnimationId(AnimationId.UP_RIGHT);
         }
 
@@ -139,13 +138,16 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
     }
 
     // TODO rename
-    private boolean updateToThisRotation(double bisectorAngle, double range, AnimationId animId) {
+    private boolean isInRange(double bisectorAngle, double range) {
+        final double angle = (mRotationAngle < 0) ? mRotationAngle + 360.0 : mRotationAngle;
+        final double lowerBound = bisectorAngle - range / 2.0;
+        final double upperBound = bisectorAngle + range / 2.0;
 
-        double halfRange = range / 2.0;
-        double angle = (mRotationAngle < 0) ? mRotationAngle + 360.0 : mRotationAngle;
-        return (angle % 360.0 > (bisectorAngle - halfRange) % 360.0) &&
-                (angle % 360.0 < (bisectorAngle + halfRange) % 360.0) &&
-                getAnimationId() != animId;
+        if (lowerBound < 0) {
+            return angle > lowerBound + 360 || angle < upperBound;
+        }
+
+        return angle > lowerBound && angle < upperBound;
     }
 
     /** @return True if the tower is currently following a unit. */
@@ -240,7 +242,7 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
     private void turnTowards(Destructible element) {
         final float posX = element.getCenterX();
         final float posY = element.getCenterY();
-        mRotationAngle = PositionUtils.angleInDegrees(getCenterX(), getCenterY(), posX, posY);
+        mRotationAngle = PositionUtils.angleInDegrees(getCenterX(), getCenterY(), posX, posY, true);
     }
 
     private void shoot(Destructible element) {
