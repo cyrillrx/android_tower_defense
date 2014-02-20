@@ -20,7 +20,11 @@ public interface Sprite<AnimationId extends Enum<AnimationId>> extends DrawableE
     /** @return The current animation id. */
     public AnimationId getAnimationId();
 
-    /** Set the current animation id. */
+    /**
+     * Set the current animation id.
+     *
+     * @param animationId The new animation Id.
+     */
     public void setAnimationId(AnimationId animationId);
 
     /** @return The current animation. */
