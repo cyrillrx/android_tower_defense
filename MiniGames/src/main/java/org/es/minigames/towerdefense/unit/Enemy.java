@@ -10,7 +10,7 @@ import org.es.engine.graphics.sprite.Sprite;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public class Enemy extends AbstractUnit<Enemy.AnimationId> implements AnimationCallback {
+public class Enemy extends Offensive<Enemy.AnimationId> implements AnimationCallback {
 
     public static enum AnimationId {
         LEFT, RIGHT, UP, DOWN

@@ -14,7 +14,7 @@ import java.util.Collection;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationCallback {
+public class Tower extends Offensive<Tower.AnimationId> implements AnimationCallback {
 
     public static enum Type {
         BASIC
@@ -183,9 +183,9 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
      *
      * @return The nearest unit or null if no unit is in sight.
      */
-    private AbstractUnit getNearestUnitInSight(Collection<? extends Destructible> destructibleElements) {
+    private Offensive getNearestUnitInSight(Collection<? extends Destructible> destructibleElements) {
 
-        AbstractUnit nearestUnit = null;
+        Offensive nearestUnit = null;
         for (Destructible element : destructibleElements) {
             // If the element is not in sight, no need to go further. Go check the next one.
             if (!isInSight(element)) { continue; }
@@ -195,10 +195,10 @@ public class Tower extends AbstractUnit<Tower.AnimationId> implements AnimationC
 
             // The first element found is the nearest for the moment.
             if (nearestUnit == null) {
-                nearestUnit = (AbstractUnit) element;
+                nearestUnit = (Offensive) element;
                 continue;
             }
-            nearestUnit = (AbstractUnit) getNearest(element, nearestUnit);
+            nearestUnit = (Offensive) getNearest(element, nearestUnit);
         }
         return nearestUnit;
     }

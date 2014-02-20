@@ -51,7 +51,7 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     // New functions
     //
 
-    public void receiveDamages(AbstractUnit attacker) {
+    public void receiveDamages(Offensive attacker) {
         mHealth -= attacker.mDamage;
     }
 

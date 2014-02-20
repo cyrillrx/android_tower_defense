@@ -8,7 +8,7 @@ import org.es.engine.graphics.sprite.Sprite;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public abstract class AbstractUnit<AnimationId extends Enum<AnimationId>> extends Destructible<AnimationId> {
+public abstract class Offensive<AnimationId extends Enum<AnimationId>> extends Destructible<AnimationId> {
 
     /** Damage caused by each attack of the unit. */
     protected int mDamage;
@@ -22,8 +22,8 @@ public abstract class AbstractUnit<AnimationId extends Enum<AnimationId>> extend
     /** The rotation angle of the unit in degrees. */
     protected double mRotationAngle;
 
-    protected AbstractUnit(Sprite<AnimationId> sprite, float width, float height, int weight, int health,
-                           int damage, float attackRange, long attackDelay) {
+    protected Offensive(Sprite<AnimationId> sprite, float width, float height, int weight, int health,
+                        int damage, float attackRange, long attackDelay) {
         super(sprite, width, height, weight, health);
         mDamage = damage;
         mAttackRange = attackRange;

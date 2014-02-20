@@ -7,7 +7,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import org.es.engine.graphics.drawable.DrawableElement;
-import org.es.minigames.towerdefense.unit.AbstractUnit;
+import org.es.minigames.towerdefense.unit.Offensive;
 
 /**
  * The Tile class represents a piece of battleground.
@@ -25,13 +25,21 @@ public class Tile implements DrawableElement {
     private final int mPosX;
     private final int mPosY;
     private final RectF mBoundingRect;
-    private AbstractUnit mBoundUnit = null;
+    private Offensive mBoundUnit = null;
+
+    private boolean mBuildable;
+    private boolean mWalkable;
+    private boolean mS;
+
 
     public Tile(int columnId, int rowId, Bitmap background) {
         mPosX = columnId;
         mPosY = rowId;
         mBackground = background;
         mBoundingRect = new RectF();
+
+        mBuildable = true;
+        mWalkable = true;
     }
 
     @Override
@@ -99,9 +107,9 @@ public class Tile implements DrawableElement {
     public boolean isEmpty() { return mBoundUnit == null; }
 
     /** @return True if the tile is available for building. */
-    public boolean isBuildingLand() { return mBoundUnit == null; }
+    public boolean isBuildable() { return mBoundUnit == null; }
 
-    public AbstractUnit getBoundUnit() { return mBoundUnit; }
+    public Offensive getBoundUnit() { return mBoundUnit; }
 
-    public void bindUnit(AbstractUnit unit) { mBoundUnit = unit; }
+    public void bindUnit(Offensive unit) { mBoundUnit = unit; }
 }
