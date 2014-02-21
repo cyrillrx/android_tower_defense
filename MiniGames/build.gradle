@@ -17,7 +17,7 @@ android {
         }
 
         release {
-            storeFile file('../../keystore/release.keystore')
+            storeFile file('../../keystore/elasticboy_release.keystore')
         }
     }
 

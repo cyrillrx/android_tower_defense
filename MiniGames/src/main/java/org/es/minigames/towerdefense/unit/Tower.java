@@ -31,8 +31,8 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
         RIGHT_DOWN
     }
 
-    /** The current element followed by the tower. */
-    private Destructible mFollowed;
+    /** The current element focused by the tower. */
+    private Destructible mFocused;
 
     /**
      * The angle of the last update.<br />
@@ -46,22 +46,22 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
     }
 
     public void update(Collection<? extends Destructible> elementsOnScreen) {
-        updateFollow(elementsOnScreen);
-        actOnFollowed();
+        updateFocus(elementsOnScreen);
+        actOnFocused();
         updateAnimation();
     }
 
-    /** Update the current state of the auto-follow. */
-    private void updateFollow(Collection<? extends Destructible> elementsOnScreen) {
-        if (isFollowing() && isInSight(mFollowed)) {
+    /** Update the current state of focus. */
+    private void updateFocus(Collection<? extends Destructible> elementsOnScreen) {
+        if (isFocused() && isInSight(mFocused) && !mFocused.isOutOfPlay()) {
             return;
         }
-        mFollowed = getNearestUnitInSight(elementsOnScreen);
+        mFocused = getNearestUnitToFocus(elementsOnScreen);
     }
 
-    /** @return True if the tower is currently following a unit. */
-    private boolean isFollowing() {
-        return mFollowed != null;
+    /** @return True if the tower is currently focusing a unit. */
+    private boolean isFocused() {
+        return mFocused != null;
     }
 
     /**
@@ -79,12 +79,12 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
     }
 
     /**
-     * Research units in sight.
+     * Research units to focus on.
      * This method should ignore allies and neutral elements.
      *
      * @return The nearest unit or null if no unit is in sight.
      */
-    private Offensive getNearestUnitInSight(Collection<? extends Destructible> destructibleElements) {
+    private Offensive getNearestUnitToFocus(Collection<? extends Destructible> destructibleElements) {
 
         Offensive nearestUnit = null;
         for (Destructible element : destructibleElements) {
@@ -123,16 +123,16 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
     }
 
     /**
-     * Act on the element being followed.
+     * Act on the element being focused.
      * <ul>
-     *     <li>Turn towards the followed element.</li>
-     *     <li>Shot the followed element.</li>
+     *     <li>Turn towards the focused element.</li>
+     *     <li>Shot the focused element.</li>
      * </ul>
      */
-    private void actOnFollowed() {
-        if (mFollowed == null) { return; }
-        turnTowards(mFollowed);
-        shoot(mFollowed);
+    private void actOnFocused() {
+        if (mFocused == null) { return; }
+        turnTowards(mFocused);
+        shoot(mFocused);
     }
 
     /**
@@ -152,7 +152,7 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
         if (delay < mAttackDelay) { return ; }
 
         // Do attack !
-        mFollowed.receiveDamages(this);
+        mFocused.receiveDamages(this);
         mLastAttack = System.currentTimeMillis();
     }
 
@@ -224,15 +224,15 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
         int initialColor = paint.getColor();
 
         // Change paint color depending on the focus state.
-        if (isFollowing()) {
+        if (isFocused()) {
             paint.setColor(Color.RED);
 
             // Draw a line from the tower to the focused element.
             canvas.drawLine(
                     getCenterX() * getCoef(),
                     getCenterY() * getCoef(),
-                    mFollowed.getCenterX() * getCoef(),
-                    mFollowed.getCenterY() * getCoef(),
+                    mFocused.getCenterX() * getCoef(),
+                    mFocused.getCenterY() * getCoef(),
                     paint);
         } else {
             paint.setColor(Color.BLUE);

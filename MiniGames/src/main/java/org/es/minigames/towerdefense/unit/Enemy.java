@@ -63,6 +63,11 @@ public class Enemy extends Offensive<Enemy.AnimationId> implements AnimationCall
     public boolean isFinisher() { return mFinisher; }
 
     @Override
+    public boolean isOutOfPlay() {
+        return isDead() || isFinisher();
+    }
+
+    @Override
     public void drawHUD(Canvas canvas) {
         super.drawHUD(canvas);
     }

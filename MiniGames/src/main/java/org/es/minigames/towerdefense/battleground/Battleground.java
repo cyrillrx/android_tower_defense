@@ -110,5 +110,13 @@ public class Battleground implements DrawableElement {
     @Override
     public float getHeight() { return mRowCount; }
 
+    public float getCenterX() {
+        return getPosX() + getWidth() / 2f;
+    }
+
+    public float getCenterY() {
+        return getPosY() + getHeight() / 2f;
+    }
+
     public float getCoef() { return mDrawingParam.getCoef(); }
 }

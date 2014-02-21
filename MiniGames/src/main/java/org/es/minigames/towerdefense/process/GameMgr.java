@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 import org.es.minigames.towerdefense.battleground.Battleground;
+import org.es.minigames.towerdefense.unit.Destructible;
 import org.es.minigames.towerdefense.unit.Enemy;
 import org.es.minigames.towerdefense.unit.EnemyFactory;
 import org.es.minigames.towerdefense.unit.Tower;
@@ -31,8 +32,9 @@ public class GameMgr {
     //private final Set<DrawableElement> mDrawables;
     private final Set<Enemy> mEnemies;
     private final Set<Tower> mTowers;
-    private float mSurfaceWidth;
-    private float mSurfaceHeight;
+    private final Set<Destructible> mGarbage;
+    private int mSurfaceWidth;
+    private int mSurfaceHeight;
 
     public GameMgr(Context context) {
         mContext = context;
@@ -53,6 +55,7 @@ public class GameMgr {
                 resources);
         mEnemies = new HashSet<>();
         mTowers = new HashSet<>();
+        mGarbage = new HashSet<>();
 
         Tower tower = TowerFactory.createTower(Tower.Type.BASIC, resources);
         mTowers.add(tower);
@@ -62,10 +65,18 @@ public class GameMgr {
         mTowers.add(tower2);
         mBattleground.addTower(tower2, 9, 4);
 
-        Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, resources);
+        spawnEnemy();
+    }
+
+    // TODO move to Wave manager
+    public Enemy spawnEnemy() {
+        Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, mContext.getResources());
+        enemy.setCoef(mBattleground.getCoef());
+        enemy.onUpdateSurfaceSize(mSurfaceWidth, mSurfaceHeight);
         enemy.startAnimation();
         mEnemies.add(enemy);
         mBattleground.spawnEnemy(enemy, 0);
+        return enemy;
     }
 
     public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
@@ -73,9 +84,8 @@ public class GameMgr {
         mSurfaceHeight = surfaceHeight;
         mBattleground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
 
-        final float coef = mBattleground.getCoef();
         for (Enemy enemy : mEnemies) {
-            enemy.setCoef(coef);
+            enemy.setCoef(mBattleground.getCoef());
             enemy.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
         }
     }
@@ -84,19 +94,22 @@ public class GameMgr {
         //mBattleground.update();
 
         for (Tower tower : mTowers) {
+            if (tower.isOutOfPlay()) {
+                continue;
+            }
             tower.update(mEnemies);
         }
 
         for (Enemy enemy : mEnemies) {
+            if (enemy.isOutOfPlay()) {
+                mGarbage.add(enemy);
+                mEnemies.remove(enemy);
+                // spawn a new enemy
+                spawnEnemy();
+                continue;
+            }
             // TODO not always true
             enemy.update(mBattleground, true);
-            if (enemy.isDead() || enemy.getPosX() > mBattleground.getWidth()) {
-//                mEnemies.remove(enemy);
-//                Enemy newEnemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, mContext.getResources());
-//                newEnemy.startAnimation();
-//                mEnemies.add(newEnemy);
-//                mBattleground.spawnEnemy(newEnemy, 0);
-            }
         }
     }
 
@@ -151,14 +164,18 @@ public class GameMgr {
      * Draw the main Head-up display.<br />
      * Scores, GUI, ...
      */
-    protected void drawMainHUD(Canvas canvas) { }
+    protected void drawMainHUD(Canvas canvas) {
+        // TODO Draw the main HUD
+    }
 
+    // TODO update comment
     /**
      * Draw the main Head-up display.<br />
      * Scores, GUI, ...
      */
     protected void drawMainHUDDebug(Canvas canvas) {
-        // TODO Draw the main HUD
+
+        // Draw app version
         try {
             PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
 
@@ -181,5 +198,24 @@ public class GameMgr {
             mDebugPaint.setStyle(initialStyle);
 
         } catch (PackageManager.NameNotFoundException e) { }
+
+        for (Destructible destructible : mGarbage) {
+            if (destructible.isDead()) {
+                drawCenteredText("Dead !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
+
+            } else if (destructible instanceof Enemy && ((Enemy) destructible).isFinisher()){
+                drawCenteredText("Finnisher !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
+            }
+        }
+
+    }
+
+    // TODO move into utils
+    private static void drawCenteredText(String text, Canvas canvas, float centerX, float centerY, Paint paint) {
+        Rect textBounds = new Rect();
+        paint.getTextBounds(text, 0, text.length(), textBounds);
+        float posX = centerX - textBounds.width() / 2f;
+        float posY = centerY - textBounds.height() / 2f;
+        canvas.drawText(text, posX, posY, paint);
     }
 }
