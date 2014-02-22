@@ -4,7 +4,7 @@ import android.graphics.PointF;
 import android.graphics.RectF;
 
 /**
- * Class for mathematical.
+ * Class for position utils.
  *
  * @author Cyril Leroux
  *         Created 24/09/13.
@@ -12,7 +12,7 @@ import android.graphics.RectF;
 public class PositionUtils {
 
     /**
-     * This method indicates whether a point is within a rectangle or not.
+     * Indicates whether a point is within a rectangle or not.
      *
      * @param rect The rectangle in which to look for the point.
      * @param point The point.
@@ -89,13 +89,54 @@ public class PositionUtils {
     /**
      * Convert polar coordinates to cartesian coordinates.
      *
+     * @param angle The angle in degrees.
+     * @param radius The distance from the pole.
+     * @param reverse True if the ordinates goes down instead of up. False otherwise.
+     * @return The cartesian coordinates.
+     */
+    public static PointF polarToCartesian(double angle, float radius, boolean reverse) {
+        double angleInRadians = Math.toRadians(angle);
+        float x = Math.round(radius * Math.cos(angleInRadians) * 100f) / 100f;
+        float y = Math.round(radius * Math.sin(angleInRadians) * 100f) / 100f;
+        if (reverse) {
+            return new PointF(x, y * -1f);
+        }
+        // Standard formula
+        return new PointF(x, y);
+    }
+
+    /**
+     * Convert polar coordinates to cartesian coordinates.
+     *
      * @param angle The angle
      * @param radius The distance from the pole (called the radial coordinate or radius
      * @return The cartesian coordinates.
      */
-    public PointF polarToCartesian(double angle, float radius) {
-        float x = (float) (radius * Math.cos(angle));
-        float y = (float) (radius * Math.sin(angle));
-        return new PointF(x, y);
+    public static PointF polarToCartesian(double angle, float radius) {
+        return polarToCartesian(angle, radius, false);
+    }
+
+    /**
+     * Indicates whether an angle is within a range or not.
+     *
+     * @param angle The angle to check in degrees.
+     * Can be in the range [-180, 180] or [0, 360].
+     * @param bisectorAngle The bisector of the range.
+     * @param range the range in degrees.
+     * @return True if the angle is in the specified range. False otherwise.
+     */
+    public static boolean angleInRange(double angle, double bisectorAngle, double range) {
+        if (angle < 0) {
+            angle += 360.0;
+        }
+
+        final double lowerBound = bisectorAngle - range / 2.0;
+        final double upperBound = bisectorAngle + range / 2.0;
+
+        if (lowerBound < 0) {
+            return angle > lowerBound + 360 || angle < upperBound;
+        }
+
+        return angle > lowerBound && angle < upperBound;
     }
 }
