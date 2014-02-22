@@ -18,7 +18,7 @@ import org.es.minigames.towerdefense.unit.Offensive;
 public class Tile implements DrawableElement {
 
     public static enum Type {
-        GRASS, EARTH, SNOW, SAND
+        GRASS, METAL
     }
 
     private final Bitmap mBackground;

@@ -15,12 +15,16 @@ import org.es.minigames.R;
 public class TileFactory {
 
     private static Bitmap mGrass = null;
+    private static Bitmap mMetal = null;
 
     public static Tile createTile(int columnId, int rowId, Tile.Type type, Resources resources) {
 
         switch (type) {
+            case METAL:
+                return createMetalTile(columnId, rowId, resources);
+
             case GRASS:
-                default:
+            default:
                 return createGrassTile(columnId, rowId, resources);
         }
     }
@@ -31,5 +35,13 @@ public class TileFactory {
             mGrass = BitmapFactory.decodeResource(resources, R.drawable.tile_grass_004);
         }
         return new Tile(columnId, rowId, mGrass);
+    }
+
+    private static Tile createMetalTile(int columnId, int rowId, Resources  resources) {
+
+        if (mMetal == null) {
+            mMetal = BitmapFactory.decodeResource(resources, R.drawable.tile_metal_001);
+        }
+        return new Tile(columnId, rowId, mMetal);
     }
 }
