@@ -34,12 +34,6 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
     /** The current element focused by the tower. */
     private Destructible mFocused;
 
-    /**
-     * The angle of the last update.<br />
-     * Used to optimize the update of rotation animation.
-     */
-    private double mLastAngle;
-
     public Tower(Sprite<AnimationId> sprite, int weight, int health,
                  int damage, float attackRange, long attackDelay) {
         super(sprite, 1f, 1f, weight, health, damage, attackRange, attackDelay);
@@ -131,19 +125,8 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
      */
     private void actOnFocused() {
         if (mFocused == null) { return; }
-        turnTowards(mFocused);
+        turnTowards(mFocused.getCenterX(), mFocused.getCenterY());
         shoot(mFocused);
-    }
-
-    /**
-     * Turns the tower towards the element in parameter.
-     *
-     * @param element The element towards which to turn to.
-     */
-    private void turnTowards(Destructible element) {
-        final float posX = element.getCenterX();
-        final float posY = element.getCenterY();
-        mRotationAngle = PositionUtils.angleInDegrees(getCenterX(), getCenterY(), posX, posY, true);
     }
 
     private void shoot(Destructible element) {
@@ -157,58 +140,35 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
     }
 
     @Override
-    public void updateAnimation() {
-        updateRotationAnimation();
-        super.updateAnimation();
-    }
+    protected void doUpdateRotationAnimation() {
 
-    // TODO comment
-    // TODO optimize
-    // TODO rename
-    private void updateRotationAnimation() {
+        // Range covered by the animation.
+        final double animationRange = 45.0;
 
-        if (mRotationAngle == mLastAngle) { return; }
-
-        double animationRange = 45.0;
-        if (isInRange(0, animationRange)) {
+        if (PositionUtils.angleInRange(mRotationAngle, 0, animationRange)) {
             setAnimationId(AnimationId.RIGHT);
 
-        } else if (isInRange(315, animationRange)) {
-            setAnimationId(AnimationId.RIGHT_DOWN);
+        } else if (angleInRange(45, animationRange)) {
+            setAnimationId(AnimationId.UP_RIGHT);
 
-        } else if (isInRange(270, animationRange)) {
-            setAnimationId(AnimationId.DOWN);
-
-        } else if (isInRange(225, animationRange)) {
-            setAnimationId(AnimationId.DOWN_LEFT);
-
-        } else if (isInRange(180, animationRange)) {
-            setAnimationId(AnimationId.LEFT);
-
-        } else if (isInRange(135, animationRange)) {
-            setAnimationId(AnimationId.LEFT_UP);
-
-        } else if (isInRange(90, animationRange)) {
+        } else if (angleInRange(90, animationRange)) {
             setAnimationId(AnimationId.UP);
 
-        } else if (isInRange(45, animationRange)) {
-            setAnimationId(AnimationId.UP_RIGHT);
+        } else if (angleInRange(135, animationRange)) {
+            setAnimationId(AnimationId.LEFT_UP);
+
+        } else if (angleInRange(180, animationRange)) {
+            setAnimationId(AnimationId.LEFT);
+
+        } else if (angleInRange(225, animationRange)) {
+            setAnimationId(AnimationId.DOWN_LEFT);
+
+        } else if (angleInRange(270, animationRange)) {
+            setAnimationId(AnimationId.DOWN);
+
+        } else if (angleInRange(315, animationRange)) {
+            setAnimationId(AnimationId.RIGHT_DOWN);
         }
-
-        mLastAngle = mRotationAngle;
-    }
-
-    // TODO rename
-    private boolean isInRange(double bisectorAngle, double range) {
-        final double angle = (mRotationAngle < 0) ? mRotationAngle + 360.0 : mRotationAngle;
-        final double lowerBound = bisectorAngle - range / 2.0;
-        final double upperBound = bisectorAngle + range / 2.0;
-
-        if (lowerBound < 0) {
-            return angle > lowerBound + 360 || angle < upperBound;
-        }
-
-        return angle > lowerBound && angle < upperBound;
     }
 
     @Override

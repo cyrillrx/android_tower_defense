@@ -62,7 +62,6 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Spri
     public boolean isDead() { return mDead; }
 
     // TODO comment
-    // 
     public boolean isOutOfPlay() {
         return isDead();
     }
