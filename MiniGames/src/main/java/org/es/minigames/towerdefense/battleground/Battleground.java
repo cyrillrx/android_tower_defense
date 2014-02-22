@@ -40,6 +40,8 @@ public class Battleground implements DrawableElement {
     }
 
     /**
+     * The nearest goal point for the enemy.
+     * The position is expressed in tiles. No coefficient applied.
      * @param enemy
      * @return The nearest goal point for the enemy.
      */
@@ -47,7 +49,7 @@ public class Battleground implements DrawableElement {
         // TODO return the closest goal
         Point pt = mGoals[0];
         Tile tile = mTiles[pt.y][pt.x];
-        return new PointF(tile.getCenterX() * getCoef(), tile.getCenterY() * getCoef());
+        return new PointF(tile.getCenterX(), tile.getCenterY());
     }
 
     /** Spawn the enemy in the center of the selected spawn point. */
@@ -68,6 +70,10 @@ public class Battleground implements DrawableElement {
         final float posX = tile.getCenterX() - tower.getWidth() / 2f;
         final float posY = tile.getCenterY() - tower.getHeight() / 2f;
         tower.setPosition(posX, posY);
+    }
+
+    public Tile getTile(int x, int y) {
+        return mTiles[y][x];
     }
 
     @Override
