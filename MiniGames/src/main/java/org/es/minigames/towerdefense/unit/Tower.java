@@ -135,7 +135,7 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
         if (delay < mAttackDelay) { return ; }
 
         // Do attack !
-        mFocused.receiveDamages(this);
+        element.receiveDamages(this);
         mLastAttack = System.currentTimeMillis();
     }
 
@@ -180,8 +180,11 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
     public void drawDebugHUD(Canvas canvas, Paint paint) {
         super.drawDebugHUD(canvas, paint);
 
-        // Save paint color.
+        // Save paint color and style.
         int initialColor = paint.getColor();
+        Paint.Style initialStyle = paint.getStyle();
+
+        paint.setStyle(Paint.Style.STROKE);
 
         // Change paint color depending on the focus state.
         if (isFocused()) {
@@ -204,8 +207,9 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
                 getCenterY() * getCoef(),
                 mAttackRange * getCoef(), paint);
 
-        // restore paint color.
+        // restore paint color and style.
         paint.setColor(initialColor);
+        paint.setStyle(initialStyle);
     }
 
     @Override

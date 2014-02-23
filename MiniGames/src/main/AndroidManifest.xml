@@ -34,7 +34,8 @@
 
         <activity
                 android:name=".towerdefense.TowerDefenseActivity"
-                android:label="@string/title_activity_td" />
+                android:label="@string/title_activity_td"
+                android:screenOrientation="userLandscape" />
     </application>
 
 </manifest>

@@ -41,7 +41,7 @@ public class GameMgr {
         mDebugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mDebugPaint.setAntiAlias(true);
         mDebugPaint.setStrokeWidth(1f);
-        mDebugPaint.setStyle(Paint.Style.STROKE);
+        mDebugPaint.setStyle(Paint.Style.FILL);
         mDebugPaint.setTextSize(20f);
 
         mSurfaceWidth = 0;
@@ -91,7 +91,7 @@ public class GameMgr {
     }
 
     public void update() {
-        //mBattleground.update();
+//        mBattleground.update();
 
         for (Tower tower : mTowers) {
             if (tower.isOutOfPlay()) {
@@ -189,22 +189,19 @@ public class GameMgr {
             float yCode = mSurfaceHeight - textBoundsCode.height();
             float yName = yCode - textBoundsName.height();
 
-            // Save paint style
-            Paint.Style initialStyle = mDebugPaint.getStyle();
-            mDebugPaint.setStyle(Paint.Style.FILL_AND_STROKE);
             canvas.drawText(versionName, 0, yName, mDebugPaint);
             canvas.drawText(versionCode, 0, yCode, mDebugPaint);
-            // Restore paint style
-            mDebugPaint.setStyle(initialStyle);
 
         } catch (PackageManager.NameNotFoundException e) { }
 
         for (Destructible destructible : mGarbage) {
             if (destructible.isDead()) {
-                drawCenteredText("Dead !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
+                // TODO Code a ramaining text draw
+                //drawCenteredText("Dead !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
 
             } else if (destructible instanceof Enemy && ((Enemy) destructible).isFinisher()){
-                drawCenteredText("Finnisher !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
+                // TODO Code a ramaining text draw
+                //drawCenteredText("Finnisher !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
             }
         }
 
