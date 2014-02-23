@@ -8,9 +8,9 @@ import android.graphics.Point;
 import android.graphics.PointF;
 
 import org.es.engine.graphics.drawable.DrawableElement;
+import org.es.engine.graphics.utils.DrawingParam;
 import org.es.minigames.towerdefense.unit.Enemy;
 import org.es.minigames.towerdefense.unit.Tower;
-import org.es.minigames.utils.DrawingParam;
 
 /**
  * Class that represents the battlefield.
@@ -29,14 +29,14 @@ public class Battleground implements DrawableElement {
     private final Point[] mSpawnPoints;
     private final Point[] mGoals;
 
-    public Battleground(int columnCount, int rowCount, Point[] spawnPoints, Point[] goals, Resources resources) {
+    public Battleground(int columnCount, int rowCount, Point[] spawnPoints, Point[] goals, Resources resources, DrawingParam drawingParam) {
         mColumnCount = columnCount;
         mRowCount = rowCount;
         mTiles = BattlegroundHelper.initTiles(columnCount, rowCount, resources);
         mSpawnPoints = spawnPoints;
         mGoals = goals;
         mPosition = new PointF(0, 0);
-        mDrawingParam = new DrawingParam();
+        mDrawingParam = drawingParam;
     }
 
     /**
@@ -53,7 +53,6 @@ public class Battleground implements DrawableElement {
     }
 
     /** Spawn the enemy in the center of the selected spawn point. */
-    // TODO The spawnEnemy should have a other parameter to specify from where the unit is suppose to appear.
     // TODO Somehow allow to define out of range position but not too far from the border
     public void spawnEnemy(Enemy enemy, int spawnId) {
         Point spawn = mSpawnPoints[spawnId];
@@ -64,12 +63,17 @@ public class Battleground implements DrawableElement {
     }
 
     /** Add a tower to the center of the selected tile. */
-    public void addTower(Tower tower, int columnId, int rowId) {
+    public boolean addTower(Tower tower, int columnId, int rowId) {
+
         Tile tile = mTiles[rowId][columnId];
+        if (!tile.isBuildable()) {
+            return false;
+        }
         tile.bindUnit(tower);
         final float posX = tile.getCenterX() - tower.getWidth() / 2f;
         final float posY = tile.getCenterY() - tower.getHeight() / 2f;
         tower.setPosition(posX, posY);
+        return true;
     }
 
     public Tile getTile(int x, int y) {
@@ -78,13 +82,14 @@ public class Battleground implements DrawableElement {
 
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-        float tileSize = BattlegroundHelper.getTileSize(surfaceWidth, surfaceHeight, mColumnCount, mRowCount);
-        mDrawingParam.setCoef(tileSize);
-        BattlegroundHelper.updateTileSizes(mTiles, tileSize);
+        float minSize = BattlegroundHelper.minTileSize(surfaceWidth, surfaceHeight, mColumnCount, mRowCount);
+        mDrawingParam.setCoef(minSize);
+        float offsetY = (surfaceHeight - getHeight() *  mDrawingParam.coef()) / 2f;
+        mDrawingParam.setOffset(0, offsetY);
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, DrawingParam param) {
 
         // TODO to delete
         // Draw the background
@@ -96,7 +101,7 @@ public class Battleground implements DrawableElement {
 
         for (Tile[] row : mTiles) {
             for (Tile tile : row) {
-                tile.draw(canvas);
+                tile.draw(canvas, param);
             }
         }
     }
@@ -115,14 +120,4 @@ public class Battleground implements DrawableElement {
 
     @Override
     public float getHeight() { return mRowCount; }
-
-    public float getCenterX() {
-        return getPosX() + getWidth() / 2f;
-    }
-
-    public float getCenterY() {
-        return getPosY() + getHeight() / 2f;
-    }
-
-    public float getCoef() { return mDrawingParam.getCoef(); }
 }

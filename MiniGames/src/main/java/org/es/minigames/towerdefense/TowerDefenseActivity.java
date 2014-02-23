@@ -28,7 +28,7 @@ public class TowerDefenseActivity extends BaseGameActivity {
                     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
                     @Override
                     public void onSystemUiVisibilityChange(int flags) {
-                        //boolean visible = (flags & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == 0;
+                        boolean visible = (flags & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == View.VISIBLE;
                         // controls.setVisibility(visible ? View.VISIBLE : View.GONE);
                     }
                 });

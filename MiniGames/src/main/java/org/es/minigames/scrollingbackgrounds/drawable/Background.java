@@ -8,6 +8,7 @@ import android.graphics.PointF;
 import android.util.Log;
 
 import org.es.engine.graphics.drawable.DrawableElement;
+import org.es.engine.graphics.utils.DrawingParam;
 
 /**
  * @author Cyril Leroux
@@ -16,9 +17,6 @@ import org.es.engine.graphics.drawable.DrawableElement;
 public class Background implements DrawableElement {
 
     private static final String TAG = "Background";
-
-    private static final int STATE_SCROLLING = 0;
-    private static final int STATE_STOPPED = 1;
 
     private PointF[] mPositions = new PointF[2];
     private Bitmap mBitmap;
@@ -50,7 +48,7 @@ public class Background implements DrawableElement {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, DrawingParam param) {
 
         for (PointF position : mPositions) {
             if (position.x > canvas.getWidth() || position.x + mBitmap.getWidth() < 0) {

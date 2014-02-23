@@ -6,6 +6,7 @@ import android.graphics.Paint;
 
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.sprite.Sprite;
+import org.es.engine.graphics.utils.DrawingParam;
 import org.es.minigames.utils.PositionUtils;
 
 import java.util.Collection;
@@ -45,7 +46,11 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
         updateAnimation();
     }
 
-    /** Update the current state of focus. */
+    /**
+     * Update the current state of focus.
+     *
+     * @param elementsOnScreen The elements on screen.
+     */
     private void updateFocus(Collection<? extends Destructible> elementsOnScreen) {
         if (isFocused() && isInSight(mFocused) && !mFocused.isOutOfPlay()) {
             return;
@@ -61,13 +66,13 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
     /**
      * Check if a unit is in sight.
      *
-     * @param destructibleElement
-     * @return True is the unit is in sight. False otherwise.
+     * @param element The element to look for.
+     * @return True is the element is in sight. False otherwise.
      */
-    private boolean isInSight(Destructible destructibleElement) {
+    private boolean isInSight(Destructible element) {
         // TODO
-        final float posX = destructibleElement.getCenterX();
-        final float posY = destructibleElement.getCenterY();
+        final float posX = element.getCenterX();
+        final float posY = element.getCenterY();
         final double distance = PositionUtils.distance(getCenterX(), getCenterY(), posX, posY);
         return mAttackRange >= distance;
     }
@@ -102,8 +107,8 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
     /**
      * Get the nearest of both elements passed in parameter
      *
-     * @param element1
-     * @param element2
+     * @param element1 The position of the first element.
+     * @param element2 The position of the second element.
      * @return The nearest element.
      */
     private Destructible getNearest(Destructible element1, Destructible element2) {
@@ -146,39 +151,39 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
         final double animationRange = 45.0;
 
         if (PositionUtils.angleInRange(mRotationAngle, 0, animationRange)) {
-            setAnimationId(AnimationId.RIGHT);
+            changeAnimation(AnimationId.RIGHT);
 
         } else if (angleInRange(45, animationRange)) {
-            setAnimationId(AnimationId.UP_RIGHT);
+            changeAnimation(AnimationId.UP_RIGHT);
 
         } else if (angleInRange(90, animationRange)) {
-            setAnimationId(AnimationId.UP);
+            changeAnimation(AnimationId.UP);
 
         } else if (angleInRange(135, animationRange)) {
-            setAnimationId(AnimationId.LEFT_UP);
+            changeAnimation(AnimationId.LEFT_UP);
 
         } else if (angleInRange(180, animationRange)) {
-            setAnimationId(AnimationId.LEFT);
+            changeAnimation(AnimationId.LEFT);
 
         } else if (angleInRange(225, animationRange)) {
-            setAnimationId(AnimationId.DOWN_LEFT);
+            changeAnimation(AnimationId.DOWN_LEFT);
 
         } else if (angleInRange(270, animationRange)) {
-            setAnimationId(AnimationId.DOWN);
+            changeAnimation(AnimationId.DOWN);
 
         } else if (angleInRange(315, animationRange)) {
-            setAnimationId(AnimationId.RIGHT_DOWN);
+            changeAnimation(AnimationId.RIGHT_DOWN);
         }
     }
 
     @Override
-    public void drawHUD(Canvas canvas) {
-        super.drawHUD(canvas);
+    public void drawHUD(Canvas canvas, DrawingParam param) {
+        super.drawHUD(canvas, param);
     }
 
     @Override
-    public void drawDebugHUD(Canvas canvas, Paint paint) {
-        super.drawDebugHUD(canvas, paint);
+    public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint) {
+        super.drawDebugHUD(canvas, param, paint);
 
         // Save paint color and style.
         int initialColor = paint.getColor();
@@ -192,10 +197,10 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
 
             // Draw a line from the tower to the focused element.
             canvas.drawLine(
-                    getCenterX() * getCoef(),
-                    getCenterY() * getCoef(),
-                    mFocused.getCenterX() * getCoef(),
-                    mFocused.getCenterY() * getCoef(),
+                    getCenterX() * param.coef() + param.offsetX(),
+                    getCenterY() * param.coef() + param.offsetY(),
+                    mFocused.getCenterX() * param.coef() + param.offsetX(),
+                    mFocused.getCenterY() * param.coef() + param.offsetY(),
                     paint);
         } else {
             paint.setColor(Color.BLUE);
@@ -203,9 +208,9 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
 
         // Draw the range of sight.
         canvas.drawCircle(
-                getCenterX() * getCoef(),
-                getCenterY() * getCoef(),
-                mAttackRange * getCoef(), paint);
+                getCenterX() * param.coef() + param.offsetX(),
+                getCenterY() * param.coef() + param.offsetY(),
+                mAttackRange * param.coef(), paint);
 
         // restore paint color and style.
         paint.setColor(initialColor);

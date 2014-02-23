@@ -22,14 +22,14 @@ public class BattlegroundHelper {
         for (int y = 0; y < rowCount; y++) {
             // For each element in the line
             for (int x = 0; x < columnCount; x++) {
-                grid[y][x] = TileFactory.createTile(x, y, Tile.Type.GRASS, resources);
+                grid[y][x] = TileFactory.createTile(x, y, Tile.Type.METAL, resources);
             }
         }
         return grid;
     }
 
     /**
-     * Get the size of a tile.
+     * Get the minimum size of a tile for a given surface size.
      * The size is adjusted depending on the surface on which to draw.
      *
      * @param surfaceWidth The width of the surface on which to draw.
@@ -38,42 +38,14 @@ public class BattlegroundHelper {
      * @param rowCount The number of rows in the grid.
      * @return The size of a Tile.
      */
-    public static float getTileSize(final float surfaceWidth, final float surfaceHeight,
+    public static float minTileSize(final float surfaceWidth, final float surfaceHeight,
                                     final float columnCount, final float rowCount) {
         final float surfaceRatio = surfaceWidth / surfaceHeight;
         final float grid = columnCount / rowCount;
 
         // Adjust the size to the surface
         return (grid > surfaceRatio) ?
-                surfaceWidth / columnCount :
+                surfaceWidth / columnCount:
                 surfaceHeight / rowCount;
-    }
-
-    /**
-     * Update the position of all the grid.
-     * The positions are relative to the grid origin.
-     * @param tiles The grid.
-     * @param tileSize The new Tile size.
-     */
-    public static void updateTileSizes(final Tile[][] tiles, final float tileSize) {
-
-        int currentX = 0;
-        int currentY = 0;
-
-        // For each line
-        for (final Tile[] row : tiles) {
-            // For each element in the line
-            for (final Tile tile : row) {
-                tile.setRect(currentX, currentY, currentX + tileSize, currentY + tileSize);
-                if (!tile.isEmpty()) {
-                    tile.getBoundUnit().setCoef(tileSize);
-                }
-
-                currentX += tileSize;
-            }
-            // End of the line : reset x, update y
-            currentX = 0;
-            currentY += tileSize;
-        }
     }
 }

@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import org.es.engine.graphics.drawable.DrawableElement;
+import org.es.engine.graphics.utils.DrawingParam;
 import org.es.minigames.towerdefense.unit.Offensive;
 
 /**
@@ -24,7 +25,6 @@ public class Tile implements DrawableElement {
     private final Bitmap mBackground;
     private final int mPosX;
     private final int mPosY;
-    private final RectF mBoundingRect;
     private Offensive mBoundUnit = null;
 
     private boolean mBuildable;
@@ -35,7 +35,6 @@ public class Tile implements DrawableElement {
         mPosX = columnId;
         mPosY = rowId;
         mBackground = background;
-        mBoundingRect = new RectF();
 
         mBuildable = true;
         mWalkable = true;
@@ -45,10 +44,12 @@ public class Tile implements DrawableElement {
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) { }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, DrawingParam param) {
+
+        RectF boundingRect = getRectOnScreen(param);
 
         // Draw the background
-        canvas.drawBitmap(mBackground, null, getRect(), null);
+        canvas.drawBitmap(mBackground, null, boundingRect, null);
 
         // Draw the grid
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -56,7 +57,18 @@ public class Tile implements DrawableElement {
         paint.setStrokeWidth(0.3f);
         paint.setColor(Color.BLUE);
         paint.setStyle(Paint.Style.STROKE);
-        canvas.drawRect(getRect(), paint);
+        canvas.drawRect(boundingRect, paint);
+    }
+
+    /** @return The rect on screen. */
+    private RectF getRectOnScreen(DrawingParam param) {
+
+        float left = mPosX * param.coef() + param.offsetX();
+        float top = mPosY * param.coef() + param.offsetY();
+        float right = left + param.coef();
+        float bottom = top + param.coef();
+
+        return new RectF(left, top, right, bottom);
     }
 
     //
@@ -86,18 +98,6 @@ public class Tile implements DrawableElement {
 
     /** @return The centerY position on the grid. */
     public float getCenterY() { return mPosY + getHeight() / 2f; }
-
-    //
-    // position on screen
-    //
-
-    /** @return The rect on screen. */
-    public RectF getRect() { return mBoundingRect; }
-
-    /** Set the rect on screen. */
-    public void setRect(float left, float top, float right, float bottom) {
-        mBoundingRect.set(left, top, right, bottom);
-    }
 
     //
     // Other

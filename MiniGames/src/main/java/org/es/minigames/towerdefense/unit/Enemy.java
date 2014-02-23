@@ -6,6 +6,7 @@ import android.graphics.PointF;
 
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.sprite.Sprite;
+import org.es.engine.graphics.utils.DrawingParam;
 import org.es.minigames.towerdefense.battleground.Battleground;
 import org.es.minigames.utils.PositionUtils;
 
@@ -94,16 +95,16 @@ public class Enemy extends Offensive<Enemy.AnimationId> implements AnimationCall
         final double animationRange = 90.0;
 
         if (PositionUtils.angleInRange(mRotationAngle, 0, animationRange)) {
-            setAnimationId(AnimationId.RIGHT);
+            changeAnimation(AnimationId.RIGHT);
 
         } else if (angleInRange(270, animationRange)) {
-            setAnimationId(AnimationId.DOWN);
+            changeAnimation(AnimationId.DOWN);
 
         } else if (angleInRange(180, animationRange)) {
-            setAnimationId(AnimationId.LEFT);
+            changeAnimation(AnimationId.LEFT);
 
         } else if (angleInRange(90, animationRange)) {
-            setAnimationId(AnimationId.UP);
+            changeAnimation(AnimationId.UP);
         }
     }
 
@@ -115,25 +116,15 @@ public class Enemy extends Offensive<Enemy.AnimationId> implements AnimationCall
     }
 
     @Override
-    public void drawHUD(Canvas canvas) {
-        super.drawHUD(canvas);
+    public void drawHUD(Canvas canvas, DrawingParam param) {
+        super.drawHUD(canvas, param);
     }
 
     @Override
-    public void drawDebugHUD(Canvas canvas, Paint paint) {
-        super.drawDebugHUD(canvas, paint);
+    public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint) {
+        super.drawDebugHUD(canvas, param, paint);
     }
 
     @Override
     public void onAnimationStopped() {  }
-
-    /** Add value to the abscissa of the sprite. */
-    public void moveX(float value) {
-        setPosition(getPosX() + value, getPosY());
-    }
-
-    /** Add value to the ordinate of the sprite. */
-    public void moveY(float value) {
-        setPosition(getPosX() + value, getPosY() + value);
-    }
 }

@@ -9,6 +9,7 @@ import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.animation.BitmapAnimation;
 import org.es.engine.graphics.sprite.GenericSprite;
 import org.es.engine.graphics.sprite.Sprite;
+import org.es.engine.graphics.utils.DrawingParam;
 import org.es.minigames.BuildConfig;
 import org.es.minigames.R;
 import org.es.minigames.scrollingbackgrounds.drawable.Background;
@@ -43,6 +44,7 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     private float mCurrentSpeed = 0;
     public Hero(Resources resources, Background background) {
         mSprite = new GenericSprite(getAnimations(resources, this), AnimId.WALK_LEFT);
+        stopAnimation();
         mBackground = background;
 
         mState = STATE_WALKING;
@@ -76,10 +78,8 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
 
     public boolean update() {
 
-        boolean updated = false;
-
         updateSpeed();
-        updated |= getAnimation().updateFrame();
+        boolean updated = getAnimation().updateFrame();
         updated |= updatePosition();
 
         return updated;
@@ -122,7 +122,7 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     }
 
     @Override
-    public void draw(Canvas canvas) { mSprite.draw(canvas); }
+    public void draw(Canvas canvas, DrawingParam drawingParam) { mSprite.draw(canvas, drawingParam); }
 
     @Override
     public void startAnimation() { mSprite.startAnimation(); }

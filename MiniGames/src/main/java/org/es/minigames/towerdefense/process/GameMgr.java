@@ -9,6 +9,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
+import org.es.engine.graphics.utils.DrawingParam;
 import org.es.minigames.towerdefense.battleground.Battleground;
 import org.es.minigames.towerdefense.unit.Destructible;
 import org.es.minigames.towerdefense.unit.Enemy;
@@ -26,6 +27,8 @@ import java.util.Set;
 public class GameMgr {
 
     private final Context mContext;
+    /** The parameters used to draw the elements on the screen. */
+    private final DrawingParam mDrawingParam;
     private final Paint mDebugPaint;
     private final Battleground mBattleground;
     // TODO mDrawable should evolve to a list of towers or static elements (handle barricades)
@@ -38,6 +41,7 @@ public class GameMgr {
 
     public GameMgr(Context context) {
         mContext = context;
+        mDrawingParam = new DrawingParam();
         mDebugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mDebugPaint.setAntiAlias(true);
         mDebugPaint.setStrokeWidth(1f);
@@ -52,7 +56,7 @@ public class GameMgr {
         mBattleground = new Battleground(15, 7,
                 new Point[]{new Point(0, 3)},
                 new Point[]{new Point(14, 3)},
-                resources);
+                resources, mDrawingParam);
         mEnemies = new HashSet<>();
         mTowers = new HashSet<>();
         mGarbage = new HashSet<>();
@@ -71,9 +75,6 @@ public class GameMgr {
     // TODO move to Wave manager
     public Enemy spawnEnemy() {
         Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, mContext.getResources());
-        enemy.setCoef(mBattleground.getCoef());
-        enemy.onUpdateSurfaceSize(mSurfaceWidth, mSurfaceHeight);
-        enemy.startAnimation();
         mEnemies.add(enemy);
         mBattleground.spawnEnemy(enemy, 0);
         return enemy;
@@ -83,11 +84,6 @@ public class GameMgr {
         mSurfaceWidth = surfaceWidth;
         mSurfaceHeight = surfaceHeight;
         mBattleground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-
-        for (Enemy enemy : mEnemies) {
-            enemy.setCoef(mBattleground.getCoef());
-            enemy.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-        }
     }
 
     public void update() {
@@ -116,22 +112,22 @@ public class GameMgr {
     public void draw(Canvas canvas) {
 
         // Draw background
-        mBattleground.draw(canvas);
+        mBattleground.draw(canvas, mDrawingParam);
 
         // Draw the elements
         // It is important to draw towers first if there are flying enemies.
         for (Tower tower : mTowers) {
-            tower.draw(canvas);
+            tower.draw(canvas, mDrawingParam);
         }
         for (Enemy enemy : mEnemies) {
-            enemy.draw(canvas);
+            enemy.draw(canvas, mDrawingParam);
         }
 
         // Draw animations (such as missiles).
         // TODO Draw the animations
 
         // Draw the main HUD
-        drawHUD(canvas);
+        drawHUD(canvas, mDrawingParam);
     }
 
     /**
@@ -142,17 +138,17 @@ public class GameMgr {
      * <li>Draw main HUD</li>
      * </ul>
      */
-    protected void drawHUD(Canvas canvas) {
+    protected void drawHUD(Canvas canvas, DrawingParam drawingParam) {
 
         // Draw the elements
         // It is important to draw towers first if there are flying enemies.
         for (Tower tower : mTowers) {
-            tower.drawHUD(canvas);
-            tower.drawDebugHUD(canvas, mDebugPaint);
+            tower.drawHUD(canvas, mDrawingParam);
+            tower.drawDebugHUD(canvas, mDrawingParam, mDebugPaint);
         }
         for (Enemy enemy : mEnemies) {
-            enemy.drawHUD(canvas);
-            enemy.drawDebugHUD(canvas, mDebugPaint);
+            enemy.drawHUD(canvas, mDrawingParam);
+            enemy.drawDebugHUD(canvas, mDrawingParam, mDebugPaint);
         }
 
         drawMainHUD(canvas);
@@ -194,6 +190,7 @@ public class GameMgr {
 
         } catch (PackageManager.NameNotFoundException e) { }
 
+        // Draw
         for (Destructible destructible : mGarbage) {
             if (destructible.isDead()) {
                 // TODO Code a ramaining text draw
