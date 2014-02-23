@@ -15,6 +15,7 @@ public interface Sprite<AnimationId extends Enum<AnimationId>> extends DrawableE
 
     public void stopAnimation();
 
+    /** Update the current frame of the animation if necessary. */
     public void updateAnimation();
 
     /** @return The current animation id. */

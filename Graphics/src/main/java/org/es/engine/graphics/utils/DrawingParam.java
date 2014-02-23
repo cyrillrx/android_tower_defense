@@ -1,4 +1,4 @@
-package org.es.minigames.utils;
+package org.es.engine.graphics.utils;
 
 import android.graphics.PointF;
 
@@ -16,11 +16,13 @@ public class DrawingParam {
         mOffset = new PointF();
     }
 
-    public float getCoef() { return mCoefficient; }
+    public float coef() { return mCoefficient; }
 
     public void setCoef(float coefficient) { mCoefficient = coefficient; }
 
-    public PointF getOffset() { return mOffset; }
+    public float offsetX() { return mOffset.x; }
+
+    public float offsetY() { return mOffset.y; }
 
     public void setOffset(float x, float y) { mOffset.set(x, y); }
 }

@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.PointF;
 
 import org.es.engine.graphics.animation.Animation;
+import org.es.engine.graphics.utils.DrawingParam;
 
 import java.util.EnumMap;
 
@@ -16,7 +17,7 @@ import java.util.EnumMap;
  */
 public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Sprite<AnimationId> {
 
-    protected EnumMap<AnimationId, Animation> mAnimations;
+    protected final EnumMap<AnimationId, Animation> mAnimations;
     /** The current animation state. */
     protected AnimationId mAnimationId = null;
     protected PointF mPosition;
@@ -24,6 +25,11 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
     private int mOldSurfaceW = 0;
     private int mOldSurfaceH = 0;
 
+    /**
+     * Sprite constructor.
+     * @param animations
+     * @param startAnimationId
+     */
     public GenericSprite(EnumMap<AnimationId, Animation> animations, AnimationId startAnimationId) {
         mAnimations = animations;
         mAnimationId = startAnimationId;
@@ -47,8 +53,13 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
         mOldSurfaceH = surfaceHeight;
     }
 
+    /**
+     * The sprite is already resized. No need to apply drawingParam.
+     * @param canvas
+     * @param drawingParam
+     */
     @Override
-    public void draw(Canvas canvas) { getAnimation().draw(canvas, mPosition); }
+    public void draw(Canvas canvas, DrawingParam drawingParam) { getAnimation().draw(canvas, mPosition); }
 
     @Override
     public float getPosX() { return mPosition.x; }

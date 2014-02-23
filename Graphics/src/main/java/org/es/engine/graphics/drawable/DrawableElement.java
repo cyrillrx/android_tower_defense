@@ -2,6 +2,8 @@ package org.es.engine.graphics.drawable;
 
 import android.graphics.Canvas;
 
+import org.es.engine.graphics.utils.DrawingParam;
+
 /**
  * Interface for every elements to draw on screen.
  *
@@ -12,7 +14,7 @@ public interface DrawableElement {
 
     void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight);
 
-    void draw(Canvas canvas);
+    void draw(Canvas canvas, DrawingParam param);
 
     /** Get the abscissa of the drawable in the canvas. */
     public float getPosX();
