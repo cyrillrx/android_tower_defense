@@ -1,7 +1,7 @@
 package org.es.engine.graphics.sprite;
 
 import android.graphics.Canvas;
-import android.graphics.PointF;
+import android.graphics.RectF;
 
 import org.es.engine.graphics.animation.Animation;
 import org.es.engine.graphics.utils.DrawingParam;
@@ -20,7 +20,7 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
     protected final EnumMap<AnimationId, Animation> mAnimations;
     /** The current animation state. */
     protected AnimationId mAnimationId = null;
-    protected PointF mPosition;
+    protected RectF mBoundingRect;
 
     private int mOldSurfaceW = 0;
     private int mOldSurfaceH = 0;
@@ -33,24 +33,24 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
     public GenericSprite(EnumMap<AnimationId, Animation> animations, AnimationId startAnimationId) {
         mAnimations = animations;
         mAnimationId = startAnimationId;
-        mPosition = new PointF();
+        mBoundingRect = new RectF();
     }
 
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-
-        if (mOldSurfaceW != 0 && mOldSurfaceH != 0) {
-            // Get old position
-            final float oldCenterX = mPosition.x + getWidth() / 2;
-            final float oldCenterY = mPosition.y + getHeight() / 2;
-
-            // Set new position
-            mPosition.x = oldCenterX / mOldSurfaceW * surfaceWidth  - getWidth()  / 2;
-            mPosition.y = oldCenterY / mOldSurfaceH * surfaceHeight - getHeight() / 2;
-        }
-
-        mOldSurfaceW = surfaceWidth;
-        mOldSurfaceH = surfaceHeight;
+//
+//        if (mOldSurfaceW != 0 && mOldSurfaceH != 0) {
+//            // Get old position
+//            final float oldCenterX = mPosition.x + getWidth() / 2;
+//            final float oldCenterY = mPosition.y + getHeight() / 2;
+//
+//            // Set new position
+//            mPosition.x = oldCenterX / mOldSurfaceW * surfaceWidth  - getWidth()  / 2;
+//            mPosition.y = oldCenterY / mOldSurfaceH * surfaceHeight - getHeight() / 2;
+//        }
+//
+//        mOldSurfaceW = surfaceWidth;
+//        mOldSurfaceH = surfaceHeight;
     }
 
     /**
@@ -59,22 +59,31 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
      * @param drawingParam
      */
     @Override
-    public void draw(Canvas canvas, DrawingParam drawingParam) { getAnimation().draw(canvas, mPosition); }
+    public void draw(Canvas canvas, DrawingParam drawingParam) {
+        getAnimation().draw(canvas, mBoundingRect);
+    }
+
+    /** Set the destination size of the bitmap to draw. */
+    public void setDimensions(float left, float top, float right, float bottom) {
+        mBoundingRect.set(left, top, right, bottom);
+    }
 
     @Override
-    public float getPosX() { return mPosition.x; }
+    public float getPosX() { return mBoundingRect.left; }
 
     @Override
-    public float getPosY() { return mPosition.y; }
+    public float getPosY() { return mBoundingRect.top; }
 
     @Override
-    public void setPosition(float x, float y) { mPosition.set(x, y); }
+    public void setPosition(float x, float y) {
+        mBoundingRect.set(x, y, x + mBoundingRect.width(), y + mBoundingRect.height());
+    }
 
     @Override
-    public float getWidth() { return getAnimation().getWidth(); }
+    public float getWidth() { return mBoundingRect.width(); }
 
     @Override
-    public float getHeight() { return getAnimation().getHeight(); }
+    public float getHeight() { return mBoundingRect.height(); }
 
     @Override
     public void startAnimation() { getAnimation().start(); }
@@ -83,7 +92,7 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
     public void stopAnimation() { getAnimation().stop(); }
 
     @Override
-    public void updateAnimation() { getAnimation().updateFrame(); }
+    public boolean updateAnimationFrame() { return getAnimation().updateFrame(); }
 
     @Override
     public AnimationId getAnimationId() { return mAnimationId; }

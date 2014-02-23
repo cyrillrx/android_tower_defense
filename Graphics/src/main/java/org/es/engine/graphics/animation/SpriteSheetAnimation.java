@@ -2,7 +2,6 @@ package org.es.engine.graphics.animation;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.RectF;
 
@@ -30,19 +29,19 @@ public class SpriteSheetAnimation extends Animation {
         super(frameDuration, isLoop, callback);
         mSpriteSheet = spriteSheet;
         mFrames = frames;
-        setBounds(frames[0].width(), frames[0].height());
     }
 
     @Override
-    public void draw(Canvas canvas, PointF position) {
+    public void draw(Canvas canvas, RectF boundingRect) {
         Rect src = mFrames[mCurrentFrameId];
-        RectF dest = new RectF(
-                position.x,
-                position.y,
-                position.x + getWidth(),
-                position.y + getHeight());
-        canvas.drawBitmap(mSpriteSheet, src, dest, null);
+        canvas.drawBitmap(mSpriteSheet, src, boundingRect, null);
     }
 
     protected int getFrameCount() { return mFrames.length; }
+
+    @Override
+    protected float getWidth() { return mFrames[mCurrentFrameId].width(); }
+
+    @Override
+    protected float getHeight() { return mFrames[mCurrentFrameId].height(); }
 }

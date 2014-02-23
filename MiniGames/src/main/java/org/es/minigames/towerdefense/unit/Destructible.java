@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
-import org.es.engine.graphics.animation.Animation;
 import org.es.engine.graphics.drawable.DrawableElement;
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
@@ -108,14 +107,13 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Draw
     @Override
     public void draw(Canvas canvas, DrawingParam param) {
 
-        // handle zoom and offset
-        mSprite.setPosition(
-                mPosition.x * param.coef() + param.offsetX(),
-                mPosition.y * param.coef() + param.offsetY()
-        );
-        // Update sprite dimensions.
-        mSprite.getAnimation().setBounds(mWidth * param.coef(), mHeight * param.coef());
+        float left = mPosition.x * param.coef() + param.offsetX();
+        float top = mPosition.y * param.coef() + param.offsetY();
+        float right = left + mWidth * param.coef();
+        float bottom = top + mHeight * param.coef();
 
+        // Update sprite dimensions.
+        mSprite.setDimensions(left, top, right, bottom);
         mSprite.draw(canvas, null);
     }
 
@@ -140,7 +138,7 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Draw
     // Sprite functions
     //
 
-    protected void updateAnimation() { mSprite.updateAnimation(); }
+    protected void updateAnimation() { mSprite.updateAnimationFrame(); }
 
     /**
      * Set the current animation id.<br />

@@ -17,17 +17,17 @@ public interface DrawableElement {
     void draw(Canvas canvas, DrawingParam param);
 
     /** Get the abscissa of the drawable in the canvas. */
-    public float getPosX();
+    float getPosX();
 
     /** Get the ordinate of the drawable in the canvas. */
-    public float getPosY();
+    float getPosY();
 
     /** Set the position of the drawable in the canvas. */
-    public void setPosition(float x, float y);
+    void setPosition(float x, float y);
 
     /** Set the width of the drawable in the canvas. */
-    public float getWidth();
+    float getWidth();
 
     /** Set the height of the drawable in the canvas. */
-    public float getHeight();
+    float getHeight();
 }

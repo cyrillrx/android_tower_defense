@@ -7,6 +7,7 @@ import android.util.Log;
 import org.es.engine.graphics.animation.Animation;
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.animation.BitmapAnimation;
+import org.es.engine.graphics.drawable.DrawableElement;
 import org.es.engine.graphics.sprite.GenericSprite;
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
@@ -21,7 +22,7 @@ import java.util.EnumMap;
  * @author Cyril Leroux
  *         Created on 02/10/13.
  */
-public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
+public class Hero implements DrawableElement, AnimationCallback {
 
     private static final String TAG = "Hero";
     private static final int STATE_STATIC = 0;
@@ -36,7 +37,7 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     private static final float WALKING_SPEED = 200;
     /** Max speed of the character in pixels per second. */
     private static final float MAX_SPEED = 800;
-    private final Sprite<AnimId> mSprite;
+    private final Sprite<Hero.AnimId> mSprite;
     private final Background mBackground;
     //    private float mVelocityX = 0;
     //    private float mVelocityY = 0;
@@ -45,6 +46,7 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     public Hero(Resources resources, Background background) {
         mSprite = new GenericSprite(getAnimations(resources, this), AnimId.WALK_LEFT);
         stopAnimation();
+        mSprite.setDimensions(0, 0, 44, 68);
         mBackground = background;
 
         mState = STATE_WALKING;
@@ -79,7 +81,7 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     public boolean update() {
 
         updateSpeed();
-        boolean updated = getAnimation().updateFrame();
+        boolean updated = mSprite.updateAnimationFrame();
         updated |= updatePosition();
 
         return updated;
@@ -87,7 +89,7 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
 
     private void updateSpeed() {
         if (mState == STATE_WALKING) {
-            final float actionElapsedTime = Math.min(System.currentTimeMillis() - getAnimation().getStartTime(), REACH_MAX_SPEED_DELAY);
+            final float actionElapsedTime = Math.min(System.currentTimeMillis() - getStartTime(), REACH_MAX_SPEED_DELAY);
             if (actionElapsedTime > START_ACCELERATION_DELAY) {
                 // speed that will be added to the standard walking speed
                 final float extraSpeed = actionElapsedTime * (MAX_SPEED - WALKING_SPEED) / REACH_MAX_SPEED_DELAY;
@@ -100,7 +102,7 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     }
 
     private boolean updatePosition() {
-        if (getAnimation().isRunning()) {
+        if (isAnimationRunning()) {
             if (AnimId.WALK_LEFT.equals(getAnimationId())) {
                 mBackground.setScrollSpeed(mCurrentSpeed, 1000);
 
@@ -117,33 +119,12 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
         mSprite.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-        mSprite.setPosition(surfaceWidth/2f - getAnimation().getWidth()/2f,
-                surfaceHeight/2f - getAnimation().getHeight()/2f);
+        mSprite.setPosition(surfaceWidth/2f - getWidth()/2f,
+                surfaceHeight/2f - getHeight()/2f);
     }
 
     @Override
     public void draw(Canvas canvas, DrawingParam drawingParam) { mSprite.draw(canvas, drawingParam); }
-
-    @Override
-    public void startAnimation() { mSprite.startAnimation(); }
-
-    @Override
-    public void stopAnimation() { mSprite.stopAnimation(); }
-
-    @Override
-    public AnimId getAnimationId() { return mSprite.getAnimationId(); }
-
-    @Override
-    public void setAnimationId(AnimId animationId) { mSprite.setAnimationId(animationId); }
-
-    @Override
-    public Animation getAnimation() { return mSprite.getAnimation(); }
-
-    @Override
-    public void updateAnimation() { mSprite.updateAnimation(); }
-
-    @Override
-    public Animation getAnimation(AnimId animationId) { return mSprite.getAnimation(animationId); }
 
     @Override
     public float getPosX() { return mSprite.getPosX(); }
@@ -166,6 +147,18 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
         mState = STATE_STATIC;
     }
 
+    private void startAnimation() { mSprite.startAnimation(); }
+
+    public void stopAnimation() { mSprite.stopAnimation(); }
+
+    private AnimId getAnimationId() { return mSprite.getAnimationId(); }
+
+    private void setAnimationId(AnimId animationId) { mSprite.setAnimationId(animationId); }
+
+    private boolean isAnimationRunning() { return mSprite.getAnimation().isRunning(); }
+
+    private long getStartTime() { return mSprite.getAnimation().getStartTime(); }
+
     /** Change the animation if necessary. */
     protected void switchState(AnimId state) {
         if (state.equals(mSprite.getAnimationId())) {
@@ -177,7 +170,7 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     public void walkLeft() {
         mState = STATE_WALKING;
         switchState(AnimId.WALK_LEFT);
-        if (!getAnimation().isRunning()) {
+        if (!isAnimationRunning()) {
             mCurrentSpeed = WALKING_SPEED;
             startAnimation();
         }
@@ -186,7 +179,7 @@ public class Hero implements Sprite<Hero.AnimId>, AnimationCallback {
     public void walkRight() {
         mState = STATE_WALKING;
         switchState(AnimId.WALK_RIGHT);
-        if (!getAnimation().isRunning()) {
+        if (!isAnimationRunning()) {
             mCurrentSpeed = WALKING_SPEED;
             startAnimation();
         }

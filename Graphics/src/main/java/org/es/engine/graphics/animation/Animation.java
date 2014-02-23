@@ -1,7 +1,7 @@
 package org.es.engine.graphics.animation;
 
 import android.graphics.Canvas;
-import android.graphics.PointF;
+import android.graphics.RectF;
 
 /**
  * Animation class.<br />
@@ -25,8 +25,6 @@ public abstract class Animation {
     private final float mFrameDuration;
 
     protected int mCurrentFrameId;
-    private float mWidth;
-    private float mHeight;
     /** The current state of the animation. It can be either one of RUNNING, STOPPING or STOPPED. */
     private State mState;
     /** Time of the last bitmap update. */
@@ -48,17 +46,11 @@ public abstract class Animation {
         mStartTime = -1;
     }
 
-    public abstract void draw(Canvas canvas, PointF position);
+    public abstract void draw(Canvas canvas, RectF boundingRect);
 
-    /** Set the destination size of the bitmap to draw. */
-    public void setBounds(float width, float height) {
-        mWidth = width;
-        mHeight = height;
-    }
+    protected abstract float getWidth();
 
-    public float getWidth() { return mWidth; }
-
-    public float getHeight() { return mHeight; }
+    protected abstract float getHeight();
 
     /** @return The number of frames in the animation. */
     protected abstract int getFrameCount();

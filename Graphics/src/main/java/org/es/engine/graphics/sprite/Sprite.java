@@ -11,26 +11,38 @@ import org.es.engine.graphics.drawable.DrawableElement;
  */
 public interface Sprite<AnimationId extends Enum<AnimationId>> extends DrawableElement {
 
-    public void startAnimation();
+    // TODO change by the definition of a bounding rectangle and a set position.
+    // TODO Setting the dimension can cause ratio issues.
+    /**
+     * Define the animation bounding rectangle.
+     * This function must be called just before the draw.
+     * @param left
+     * @param top
+     * @param right
+     * @param bottom
+     */
+    void setDimensions(float left, float top, float right, float bottom);
 
-    public void stopAnimation();
+    void startAnimation();
+
+    void stopAnimation();
 
     /** Update the current frame of the animation if necessary. */
-    public void updateAnimation();
+    boolean updateAnimationFrame();
 
     /** @return The current animation id. */
-    public AnimationId getAnimationId();
+    AnimationId getAnimationId();
 
     /**
      * Set the current animation id.
      *
      * @param animationId The new animation Id.
      */
-    public void setAnimationId(AnimationId animationId);
+    void setAnimationId(AnimationId animationId);
 
     /** @return The current animation. */
-    public Animation getAnimation();
+    Animation getAnimation();
 
     /** @return The animation matching the animation id. */
-    public Animation getAnimation(AnimationId animationId);
+    Animation getAnimation(AnimationId animationId);
 }

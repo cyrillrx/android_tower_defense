@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.PointF;
 import android.graphics.RectF;
 
 /**
@@ -28,7 +27,6 @@ public class BitmapAnimation extends Animation {
     public BitmapAnimation(Bitmap[] bitmaps, float frameDuration, boolean isLoop, AnimationCallback callback) {
         super(frameDuration, isLoop, callback);
         mFrames = bitmaps;
-        setBounds(mFrames[0].getWidth(), mFrames[0].getHeight());
     }
 
     /**
@@ -62,18 +60,16 @@ public class BitmapAnimation extends Animation {
     }
 
     @Override
-    public void draw(Canvas canvas, PointF position) {
-        final RectF dest = new RectF(
-                position.x,
-                position.y,
-                position.x + getWidth(),
-                position.y + getHeight()
-        );
-        canvas.drawBitmap(mFrames[mCurrentFrameId], null, dest, null);
+    public void draw(Canvas canvas, RectF boundingRect) {
+        canvas.drawBitmap(mFrames[mCurrentFrameId], null, boundingRect, null);
     }
 
     @Override
-    protected int getFrameCount() {
-        return mFrames.length;
-    }
+    protected int getFrameCount() { return mFrames.length; }
+
+    @Override
+    protected float getWidth() { return mFrames[mCurrentFrameId].getWidth(); }
+
+    @Override
+    protected float getHeight() { return mFrames[mCurrentFrameId].getHeight(); }
 }
