@@ -44,7 +44,7 @@ public abstract class Animation {
         mIsLoop = isLoop;
         mFrameDuration = frameDuration;
 
-        mState = State.STATE_STOPPED;
+        mState = State.STATE_RUNNING;
         mStartTime = -1;
     }
 
