@@ -16,7 +16,6 @@ import org.es.minigames.towerdefense.unit.Enemy;
 import org.es.minigames.towerdefense.unit.EnemyFactory;
 import org.es.minigames.towerdefense.unit.Tower;
 import org.es.minigames.towerdefense.unit.TowerFactory;
-import org.es.minigames.utils.TimeAware;
 
 import java.util.HashSet;
 import java.util.Set;
