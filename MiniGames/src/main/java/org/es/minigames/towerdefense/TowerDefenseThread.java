@@ -28,6 +28,9 @@ public class TowerDefenseThread extends DrawingThread {
 
     @Override
     protected boolean update() {
+        while (!mEventQueue.isEmpty()) {
+            processEvent(mEventQueue.poll());
+        }
         mGameMgr.update();
         return false;
     }
@@ -35,6 +38,18 @@ public class TowerDefenseThread extends DrawingThread {
     @Override
     protected void processEvent(UserEvent event) {
 
+        final int keyCode = event.getKeyCode();
+        final int action = event.getAction();
+
+        if (keyCode == UserEvent.KEYCODE_TOUCH && action == UserEvent.ACTION_DOWN) {
+            // Toggle pause
+            if (mGameMgr.isPaused()) {
+                mGameMgr.resume();
+            } else {
+                mGameMgr.pause();
+            }
+
+        }
     }
 
     @Override

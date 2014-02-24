@@ -31,6 +31,7 @@ public class GameMgr {
     private final DrawingParam mDrawingParam;
     private final Paint mDebugPaint;
     private final Battleground mBattleground;
+
     // TODO mDrawable should evolve to a list of towers or static elements (handle barricades)
     //private final Set<DrawableElement> mDrawables;
     private final Set<Enemy> mEnemies;
@@ -39,9 +40,13 @@ public class GameMgr {
     private int mSurfaceWidth;
     private int mSurfaceHeight;
 
+    private boolean mPaused;
+
     public GameMgr(Context context) {
         mContext = context;
         mDrawingParam = new DrawingParam();
+        mPaused = false;
+
         mDebugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mDebugPaint.setAntiAlias(true);
         mDebugPaint.setStrokeWidth(1f);
@@ -72,21 +77,10 @@ public class GameMgr {
         spawnEnemy();
     }
 
-    // TODO move to Wave manager
-    public Enemy spawnEnemy() {
-        Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, mContext.getResources());
-        mEnemies.add(enemy);
-        mBattleground.spawnEnemy(enemy, 0);
-        return enemy;
-    }
-
-    public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-        mSurfaceWidth = surfaceWidth;
-        mSurfaceHeight = surfaceHeight;
-        mBattleground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-    }
-
     public void update() {
+        if (mPaused) {
+            return;
+        }
 //        mBattleground.update();
 
         for (Tower tower : mTowers) {
@@ -129,6 +123,16 @@ public class GameMgr {
         // Draw the main HUD
         drawHUD(canvas, mDrawingParam);
     }
+
+    public void pause() {
+        mPaused = true;
+    }
+
+    public void resume() {
+        mPaused = false;
+    }
+
+    public boolean isPaused() { return mPaused; }
 
     /**
      * Draw all Head-up display.
@@ -202,6 +206,20 @@ public class GameMgr {
             }
         }
 
+    }
+
+    // TODO move to Wave manager
+    public Enemy spawnEnemy() {
+        Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, mContext.getResources());
+        mEnemies.add(enemy);
+        mBattleground.spawnEnemy(enemy, 0);
+        return enemy;
+    }
+
+    public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
+        mSurfaceWidth = surfaceWidth;
+        mSurfaceHeight = surfaceHeight;
+        mBattleground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
     }
 
     // TODO move into utils
