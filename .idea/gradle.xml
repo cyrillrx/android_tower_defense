@@ -11,6 +11,7 @@
             <option value="$PROJECT_DIR$/GameMechanic" />
             <option value="$PROJECT_DIR$/Graphics" />
             <option value="$PROJECT_DIR$/MiniGames" />
+            <option value="$PROJECT_DIR$/ToolBox" />
           </set>
         </option>
       </GradleProjectSettings>

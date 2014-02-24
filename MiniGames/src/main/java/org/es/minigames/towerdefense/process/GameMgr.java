@@ -16,6 +16,7 @@ import org.es.minigames.towerdefense.unit.Enemy;
 import org.es.minigames.towerdefense.unit.EnemyFactory;
 import org.es.minigames.towerdefense.unit.Tower;
 import org.es.minigames.towerdefense.unit.TowerFactory;
+import org.es.minigames.utils.TimeAware;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,11 +42,13 @@ public class GameMgr {
     private int mSurfaceHeight;
 
     private boolean mPaused;
+    private long mPauseStartTime;
 
     public GameMgr(Context context) {
         mContext = context;
         mDrawingParam = new DrawingParam();
         mPaused = false;
+        mPauseStartTime = 0;
 
         mDebugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mDebugPaint.setAntiAlias(true);
@@ -81,7 +84,7 @@ public class GameMgr {
         if (mPaused) {
             return;
         }
-//        mBattleground.update();
+        //        mBattleground.update();
 
         for (Tower tower : mTowers) {
             if (tower.isOutOfPlay()) {
@@ -124,7 +127,12 @@ public class GameMgr {
         drawHUD(canvas, mDrawingParam);
     }
 
+    /**
+     * Stop
+     */
     public void pause() {
+        if (mPaused) { return ; }
+        mPauseStartTime = System.nanoTime();
         mPaused = true;
     }
 
@@ -142,23 +150,22 @@ public class GameMgr {
      * <li>Draw main HUD</li>
      * </ul>
      */
-    protected void drawHUD(Canvas canvas, DrawingParam drawingParam) {
+    protected void drawHUD(Canvas canvas, DrawingParam param) {
 
         // Draw the elements
         // It is important to draw towers first if there are flying enemies.
         for (Tower tower : mTowers) {
-            tower.drawHUD(canvas, mDrawingParam);
-            tower.drawDebugHUD(canvas, mDrawingParam, mDebugPaint);
+            tower.drawHUD(canvas, param);
+            tower.drawDebugHUD(canvas, param, mDebugPaint);
         }
         for (Enemy enemy : mEnemies) {
-            enemy.drawHUD(canvas, mDrawingParam);
-            enemy.drawDebugHUD(canvas, mDrawingParam, mDebugPaint);
+            enemy.drawHUD(canvas, param);
+            enemy.drawDebugHUD(canvas, param, mDebugPaint);
         }
 
         drawMainHUD(canvas);
         drawMainHUDDebug(canvas);
     }
-
 
     /**
      * Draw the main Head-up display.<br />
