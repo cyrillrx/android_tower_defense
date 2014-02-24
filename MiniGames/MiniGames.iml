@@ -74,6 +74,7 @@
     <orderEntry type="library" exported="" name="support-v4-19.0.1" level="project" />
     <orderEntry type="module" module-name="Graphics" exported="" />
     <orderEntry type="module" module-name="GameMechanic" exported="" />
+    <orderEntry type="module" module-name="ToolBox" exported="" />
   </component>
 </module>
 
