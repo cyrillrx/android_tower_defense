@@ -25,7 +25,7 @@ public class EnemyFactory {
     private static final float CRAWLING_WIDTH = 0.5f;
     private static final float CRAWLING_HEIGHT = 0.5f;
     private static final int CRAWLING_WEIGHT = 2;
-    private static final int CRAWLING_HEALTH = 200;
+    private static final int CRAWLING_HEALTH = 6000;
     private static final int CRAWLING_DAMAGE = 20;
     private static final int CRAWLING_ATTACK_RANGE = 3;
     private static final int CRAWLING_ATTACK_DELAY = 1000;

@@ -61,20 +61,25 @@ public class GameMgr {
         final Resources resources = context.getResources();
 
         mBattleground = new Battleground(15, 7,
-                new Point[]{new Point(0, 3)},
-                new Point[]{new Point(14, 3)},
+                new Point[]{new Point(0, 0)},
+                new Point[]{new Point(12, 6)},
                 resources, mDrawingParam);
         mEnemies = new HashSet<>();
         mTowers = new HashSet<>();
         mGarbage = new HashSet<>();
 
-        Tower tower = TowerFactory.createTower(Tower.Type.BASIC, resources);
-        mTowers.add(tower);
-        mBattleground.addTower(tower, 5, 2);
-
-        Tower tower2 = TowerFactory.createTower(Tower.Type.BASIC, resources);
-        mTowers.add(tower2);
-        mBattleground.addTower(tower2, 9, 4);
+        for(int i = 0; i < mBattleground.getHeight(); i++)
+        {
+            for(int j = 0; j < mBattleground.getWidth(); j++)
+            {
+                if(mBattleground.getMap()[i][j] == 1)
+                {
+                    Tower tower = TowerFactory.createTower(Tower.Type.BASIC, resources);
+                    mTowers.add(tower);
+                    mBattleground.addTower(tower, j, i);
+                }
+            }
+        }
 
         spawnEnemy();
     }

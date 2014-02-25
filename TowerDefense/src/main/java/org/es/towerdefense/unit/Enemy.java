@@ -1,16 +1,19 @@
 package org.es.towerdefense.unit;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.PointF;
-
+import android.graphics.Rect;
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
+import org.es.engine.toolbox.pathfinding.ShortestPath;
 import org.es.towerdefense.battleground.Battleground;
 import org.es.utils.PositionUtils;
-
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Queue;
 
 /**
@@ -31,6 +34,8 @@ public class Enemy extends Offensive<Enemy.AnimationId> implements AnimationCall
 
     private final Queue<PointF> mDestinations;
 
+    private long cpuTime = 0;
+
     protected Enemy(Sprite<AnimationId> sprite, float width, float height, int weight, int health,
                     int damage, int attackRange, int attackDelay) {
         super(sprite, width, height, weight, health, damage, attackRange, attackDelay);
@@ -50,6 +55,35 @@ public class Enemy extends Offensive<Enemy.AnimationId> implements AnimationCall
 
     private void findAPath(Battleground battleground) {
         // TODO call path finding algorithms here
+
+        long cpuTimeTemp;
+
+        if (mDestinations.isEmpty()) {
+
+            ShortestPath findPath = new ShortestPath();
+
+            Point enemyPoint = new Point(battleground.getSpawnPoint(0).x, battleground.getSpawnPoint(0).y);
+            Point goalPoint = new Point(battleground.getGoalPoint(0).x, battleground.getGoalPoint(0).y);
+
+            // TODO New Structure for tiles
+
+            // Calculate the computed time for path finding algo
+            cpuTimeTemp = System.currentTimeMillis();
+
+            for(Point point : findPath.findShortestPath(enemyPoint, goalPoint, battleground.getMap()))
+            {
+                PointF pointF = new PointF(point.x + 0.5f, point.y + 0.5f);
+                mDestinations.add(pointF);
+            }
+
+            cpuTime = System.currentTimeMillis() - cpuTimeTemp;
+
+            PointF destination = mDestinations.peek();
+            turnTowards(destination.x, destination.y);
+        }
+
+
+        /*
         if (mDestinations.isEmpty()) {
 //        mDestinations.clear();
             mDestinations.add(new PointF(0.5f, 1.5f));
@@ -60,6 +94,7 @@ public class Enemy extends Offensive<Enemy.AnimationId> implements AnimationCall
             PointF destination = mDestinations.peek();
             turnTowards(destination.x, destination.y);
         }
+        */
     }
 
     /** Use the available distance to move towards the next destination point. */
@@ -123,6 +158,20 @@ public class Enemy extends Offensive<Enemy.AnimationId> implements AnimationCall
     @Override
     public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint) {
         super.drawDebugHUD(canvas, param, paint);
+
+        // Save and change paint color.
+        int initialColor = paint.getColor();
+        paint.setColor(Color.RED);
+        paint.setTextSize(20f);
+
+        // cpu time consumed to compute the shortest path
+        final String cpuText = cpuTime + " ms";
+
+        // Draw the info
+        canvas.drawText(cpuText, 10f, 10f, paint);
+
+        // restore paint color.
+        paint.setColor(initialColor);
     }
 
     @Override

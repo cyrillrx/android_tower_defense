@@ -29,6 +29,15 @@ public class Battleground implements DrawableElement {
     private final Point[] mSpawnPoints;
     private final Point[] mGoals;
 
+    // Map init
+    private int[][] mMap = {{0,0,0,0,0,0,1,0,0,0,0,1,0,0,0},
+                            {0,1,1,1,1,1,1,0,0,1,0,1,0,0,0},
+                            {0,0,0,0,1,0,1,0,0,1,0,0,0,1,0},
+                            {0,0,0,0,1,0,1,0,1,1,1,1,1,1,0},
+                            {1,0,0,1,1,0,1,0,0,0,0,1,0,0,0},
+                            {0,0,1,1,0,0,1,0,1,1,1,1,0,1,0},
+                            {0,0,0,0,0,0,0,0,0,0,0,1,0,1,0}};
+
     public Battleground(int columnCount, int rowCount, Point[] spawnPoints, Point[] goals, Resources resources, DrawingParam drawingParam) {
         mColumnCount = columnCount;
         mRowCount = rowCount;
@@ -120,4 +129,34 @@ public class Battleground implements DrawableElement {
 
     @Override
     public float getHeight() { return mRowCount; }
+
+    public Tile[][] getTiles()
+    {
+        return mTiles;
+    }
+
+    public Point[] getSpawnPoints()
+    {
+        return mSpawnPoints;
+    }
+
+    public Point getSpawnPoint(int id)
+    {
+        return mSpawnPoints[id];
+    }
+
+    public Point[] getGoalPoints()
+    {
+        return mGoals;
+    }
+
+    public Point getGoalPoint(int id)
+    {
+        return mGoals[id];
+    }
+
+    public int[][] getMap()
+    {
+        return mMap;
+    }
 }
