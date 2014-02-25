@@ -10,8 +10,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/GameMechanic" />
             <option value="$PROJECT_DIR$/Graphics" />
-            <option value="$PROJECT_DIR$/MiniGames" />
             <option value="$PROJECT_DIR$/ToolBox" />
+            <option value="$PROJECT_DIR$/TowerDefense" />
           </set>
         </option>
       </GradleProjectSettings>

@@ -4,9 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GameMechanic/GameMechanic.iml" filepath="$PROJECT_DIR$/GameMechanic/GameMechanic.iml" />
       <module fileurl="file://$PROJECT_DIR$/Graphics/Graphics.iml" filepath="$PROJECT_DIR$/Graphics/Graphics.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MiniGames/MiniGames.iml" filepath="$PROJECT_DIR$/MiniGames/MiniGames.iml" />
-      <module fileurl="file://$PROJECT_DIR$/MiniGamesProject.iml" filepath="$PROJECT_DIR$/MiniGamesProject.iml" />
       <module fileurl="file://$PROJECT_DIR$/ToolBox/ToolBox.iml" filepath="$PROJECT_DIR$/ToolBox/ToolBox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TowerDefense/TowerDefense.iml" filepath="$PROJECT_DIR$/TowerDefense/TowerDefense.iml" />
+      <module fileurl="file://$PROJECT_DIR$/TowerDefenseProject.iml" filepath="$PROJECT_DIR$/TowerDefenseProject.iml" />
     </modules>
   </component>
 </project>
