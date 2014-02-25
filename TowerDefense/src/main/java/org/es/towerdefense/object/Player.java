@@ -4,7 +4,7 @@ package org.es.towerdefense.object;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public abstract class Player implements com.google.android.gms.games.Player {
+public class Player {
 
     private int mHealth;
     private int mMoney;

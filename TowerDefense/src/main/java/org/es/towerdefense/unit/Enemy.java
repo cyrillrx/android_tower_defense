@@ -5,15 +5,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.graphics.Rect;
-import org.es.engine.graphics.animation.AnimationCallback;
+
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.engine.toolbox.pathfinding.ShortestPath;
 import org.es.towerdefense.battleground.Battleground;
 import org.es.utils.PositionUtils;
+
 import java.util.ArrayDeque;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Queue;
 
 /**
@@ -62,15 +62,14 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
 
             ShortestPath findPath = new ShortestPath();
 
-            Point enemyPoint = new Point(battleground.getSpawnPoint(0).x, battleground.getSpawnPoint(0).y);
-            Point goalPoint = new Point(battleground.getGoalPoint(0).x, battleground.getGoalPoint(0).y);
-
             // TODO New Structure for tiles
 
             // Calculate the computed time for path finding algo
             cpuTimeTemp = System.currentTimeMillis();
 
-            for(Point point : findPath.findShortestPath(enemyPoint, goalPoint, battleground.getMap()))
+            final Point enemyPoint = battleground.getSpawnPoint(0);
+            final Point goal = battleground.getGoal(0);
+            for(Point point : findPath.findShortestPath(enemyPoint.x, enemyPoint.y, goal.x, goal.y, battleground.getWalkingMap()))
             {
                 PointF pointF = new PointF(point.x + 0.5f, point.y + 0.5f);
                 mDestinations.add(pointF);
@@ -81,26 +80,12 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
             PointF destination = mDestinations.peek();
             turnTowards(destination.x, destination.y);
         }
-
-
-        /*
-        if (mDestinations.isEmpty()) {
-//        mDestinations.clear();
-            mDestinations.add(new PointF(0.5f, 1.5f));
-            mDestinations.add(new PointF(10.5f, 1.5f));
-            mDestinations.add(new PointF(10.5f, 3.5f));
-            mDestinations.add(battleground.getGoal(this));
-
-            PointF destination = mDestinations.peek();
-            turnTowards(destination.x, destination.y);
-        }
-        */
     }
 
     /** Use the available distance to move towards the next destination point. */
     private void moveToNextPoint(float distanceAvailable) {
         PointF destination = mDestinations.peek();
-        double distanceToDestination = PositionUtils.distance(getCenterX(), getCenterY(), destination.x, destination.y);
+        double distanceToDestination = PositionUtils.distance(getCenterX(), getCenterY(), destination.x + 0.5f, destination.y + 0.5f);
 
         // Not enough to reach the next point.
         if (distanceAvailable < distanceToDestination) {

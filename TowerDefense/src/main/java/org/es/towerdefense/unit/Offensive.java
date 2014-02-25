@@ -10,7 +10,8 @@ import org.es.utils.TimeAware;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public abstract class Offensive<AnimationId extends Enum<AnimationId>> extends Destructible<AnimationId>
+public abstract class Offensive<AnimationId extends Enum<AnimationId>>
+        extends Destructible<AnimationId>
         implements TimeAware {
 
     /** Damage caused by each attack of the unit. */

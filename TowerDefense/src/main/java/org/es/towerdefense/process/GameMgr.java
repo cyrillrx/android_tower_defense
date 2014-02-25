@@ -6,18 +6,22 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.towerdefense.battleground.Battleground;
+import org.es.towerdefense.battleground.BattlegroundDAO;
+import org.es.towerdefense.object.Player;
+import org.es.towerdefense.object.Wave;
 import org.es.towerdefense.unit.Destructible;
 import org.es.towerdefense.unit.Enemy;
-import org.es.towerdefense.unit.EnemyFactory;
 import org.es.towerdefense.unit.Tower;
-import org.es.towerdefense.unit.TowerFactory;
 
+import java.util.ArrayDeque;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.Queue;
 import java.util.Set;
 
 /**
@@ -30,7 +34,10 @@ public class GameMgr {
     /** The parameters used to draw the elements on the screen. */
     private final DrawingParam mDrawingParam;
     private final Paint mDebugPaint;
+
+    private final Player mPlayer;
     private final Battleground mBattleground;
+    private final WaveManager mWaveManager;
 
     // TODO mDrawable should evolve to a list of towers or static elements (handle barricades)
     //private final Set<DrawableElement> mDrawables;
@@ -49,46 +56,45 @@ public class GameMgr {
         mPaused = false;
         mPauseStartTime = 0;
 
+        mSurfaceWidth = 0;
+        mSurfaceHeight = 0;
+
+        mEnemies = new HashSet<>();
+        mTowers = new HashSet<>();
+        mGarbage = new HashSet<>();
+
         mDebugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mDebugPaint.setAntiAlias(true);
         mDebugPaint.setStrokeWidth(1f);
         mDebugPaint.setStyle(Paint.Style.FILL);
         mDebugPaint.setTextSize(20f);
 
-        mSurfaceWidth = 0;
-        mSurfaceHeight = 0;
-
         final Resources resources = context.getResources();
 
-        mBattleground = new Battleground(15, 7,
-                new Point[]{new Point(0, 0)},
-                new Point[]{new Point(12, 6)},
-                resources, mDrawingParam);
-        mEnemies = new HashSet<>();
-        mTowers = new HashSet<>();
-        mGarbage = new HashSet<>();
+        mPlayer = new Player(20, 1000);
+        // Initialize the battleground
+        // TODO Load from file
+        mBattleground = BattlegroundDAO.loadDebugBattleGround(resources, mDrawingParam, mTowers);
 
-        for(int i = 0; i < mBattleground.getHeight(); i++)
-        {
-            for(int j = 0; j < mBattleground.getWidth(); j++)
-            {
-                if(mBattleground.getMap()[i][j] == 1)
-                {
-                    Tower tower = TowerFactory.createTower(Tower.Type.BASIC, resources);
-                    mTowers.add(tower);
-                    mBattleground.addTower(tower, j, i);
-                }
-            }
-        }
+        // Initialize the wave manager
+        Map<Enemy.Type, Integer> attakers = new HashMap<>();
+        attakers.put(Enemy.Type.CRAWLING, 20);
 
-        spawnEnemy();
+        Queue<Wave> waves = new ArrayDeque<>();
+        waves.add(new Wave(attakers, 40000));
+
+        mWaveManager = new WaveManager(waves, mBattleground, mEnemies, mContext.getResources());
+
+        mWaveManager.spawnEnemy();
     }
 
     public void update() {
         if (mPaused) {
             return;
         }
-        //        mBattleground.update();
+        // mBattleground.update();
+        mWaveManager.update();
+
 
         for (Tower tower : mTowers) {
             if (tower.isOutOfPlay()) {
@@ -102,7 +108,7 @@ public class GameMgr {
                 mGarbage.add(enemy);
                 mEnemies.remove(enemy);
                 // spawn a new enemy
-                spawnEnemy();
+                mWaveManager.spawnEnemy();
                 continue;
             }
             // TODO not always true
@@ -131,16 +137,30 @@ public class GameMgr {
         drawHUD(canvas, mDrawingParam);
     }
 
-    /**
-     * Stop
-     */
+    /** Pause prevents the update function to run. */
     public void pause() {
-        if (mPaused) { return ; }
-        mPauseStartTime = System.nanoTime();
+        if (mPaused) { return; }
+        mPauseStartTime = System.currentTimeMillis();
         mPaused = true;
     }
 
+    /**
+     * Resumes all the time aware elements
+     * and pass them the elapsed time so they can synchronize.
+     */
     public void resume() {
+        if (!mPaused) { return; }
+        final long elapsedTime = System.currentTimeMillis() - mPauseStartTime;
+
+        mWaveManager.onResume(elapsedTime);
+
+        // Resume time aware elements.
+        for (Tower tower : mTowers) {
+            tower.onResume(elapsedTime);
+        }
+        for (Enemy enemy : mEnemies) {
+            enemy.onResume(elapsedTime);
+        }
         mPaused = false;
     }
 
@@ -180,6 +200,7 @@ public class GameMgr {
     }
 
     // TODO update comment
+
     /**
      * Draw the main Head-up display.<br />
      * Scores, GUI, ...
@@ -211,20 +232,12 @@ public class GameMgr {
                 // TODO Code a ramaining text draw
                 //drawCenteredText("Dead !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
 
-            } else if (destructible instanceof Enemy && ((Enemy) destructible).isFinisher()){
+            } else if (destructible instanceof Enemy && ((Enemy) destructible).isFinisher()) {
                 // TODO Code a ramaining text draw
                 //drawCenteredText("Finnisher !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
             }
         }
 
-    }
-
-    // TODO move to Wave manager
-    public Enemy spawnEnemy() {
-        Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, mContext.getResources());
-        mEnemies.add(enemy);
-        mBattleground.spawnEnemy(enemy, 0);
-        return enemy;
     }
 
     public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {

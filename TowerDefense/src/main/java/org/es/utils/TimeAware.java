@@ -8,6 +8,6 @@ package org.es.utils;
  */
 public interface TimeAware {
 
-    /** @param elapsedTime The elapsed time since the game was paused. */
-    void onResume(long elapsedTime);
+    /** @param elapsedTimeMs The elapsed time in milliseconds since the game was paused. */
+    void onResume(long elapsedTimeMs);
 }

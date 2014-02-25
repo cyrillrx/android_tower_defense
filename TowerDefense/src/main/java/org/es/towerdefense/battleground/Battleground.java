@@ -39,20 +39,9 @@ public class Battleground implements DrawableElement {
         mDrawingParam = drawingParam;
     }
 
-    /**
-     * The nearest goal point for the enemy.
-     * The position is expressed in tiles. No coefficient applied.
-     * @param enemy
-     * @return The nearest goal point for the enemy.
-     */
-    public PointF getGoal(Enemy enemy) {
-        // TODO return the closest goal
-        Point pt = mGoals[0];
-        Tile tile = mTiles[pt.y][pt.x];
-        return new PointF(tile.getCenterX(), tile.getCenterY());
-    }
-
     public Point getGoal(int goalId) { return mGoals[goalId]; }
+
+    public Point getSpawnPoint(int spawnId) { return mSpawnPoints[spawnId]; }
 
     /** Spawn the enemy in the center of the selected spawn point. */
     // TODO Somehow allow to define out of range position but not too far from the border

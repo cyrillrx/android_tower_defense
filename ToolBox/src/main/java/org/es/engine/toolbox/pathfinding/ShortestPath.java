@@ -108,23 +108,23 @@ public class ShortestPath {
      * Calculate the shortest path from a start node and a goal node
      * @return the list of the shortest path the wave will take
      */
-    public ArrayList<Point> findShortestPath(Point start, Point goal, int[][] tiles)
+    public ArrayList<Point> findShortestPath(int startX, int startY, int goalX, int goalY, int[][] tiles)
     {
         // f(n) = g(n) + h(n)
 
-        Stack<Node> open = new Stack<Node>();
-        Map<String,Boolean> closed = new HashMap<String, Boolean>();
-        Node nodeGoal = new Node(goal.x, goal.y);
-        Node nodeStart = new Node(start.x, start.y);
-        ArrayList<Node> bestPath = new ArrayList<Node>();
-        ArrayList<Point> listPoints = new ArrayList<Point>();
+        Stack<Node> open = new Stack<>();
+        Map<String,Boolean> closed = new HashMap<>();
+        Node nodeStart = new Node(startX, startY);
+        Node nodeGoal = new Node(goalX, goalY);
+        ArrayList<Node> bestPath = new ArrayList<>();
+        ArrayList<Point> listPoints = new ArrayList<>();
 
         // Node score path
         Map<String,Double> g = new HashMap<>();
         Map<String,Double> f = new HashMap<>();
 
         // debug Scoot
-        ArrayList<Point> debugNode = new ArrayList<Point>();
+        ArrayList<Point> debugNode = new ArrayList<>();
 
         // Push the start Node
         open.push(nodeStart);
