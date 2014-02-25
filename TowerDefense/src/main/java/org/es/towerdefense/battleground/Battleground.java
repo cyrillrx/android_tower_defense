@@ -20,23 +20,14 @@ import org.es.towerdefense.unit.Tower;
  */
 public class Battleground implements DrawableElement {
 
-    private final float mColumnCount;
-    private final float mRowCount;
+    private final int mColumnCount;
+    private final int mRowCount;
     private final PointF mPosition;
     private final DrawingParam mDrawingParam;
 
     private final Tile[][] mTiles;
     private final Point[] mSpawnPoints;
     private final Point[] mGoals;
-
-    // Map init
-    private int[][] mMap = {{0,0,0,0,0,0,1,0,0,0,0,1,0,0,0},
-                            {0,1,1,1,1,1,1,0,0,1,0,1,0,0,0},
-                            {0,0,0,0,1,0,1,0,0,1,0,0,0,1,0},
-                            {0,0,0,0,1,0,1,0,1,1,1,1,1,1,0},
-                            {1,0,0,1,1,0,1,0,0,0,0,1,0,0,0},
-                            {0,0,1,1,0,0,1,0,1,1,1,1,0,1,0},
-                            {0,0,0,0,0,0,0,0,0,0,0,1,0,1,0}};
 
     public Battleground(int columnCount, int rowCount, Point[] spawnPoints, Point[] goals, Resources resources, DrawingParam drawingParam) {
         mColumnCount = columnCount;
@@ -61,6 +52,8 @@ public class Battleground implements DrawableElement {
         return new PointF(tile.getCenterX(), tile.getCenterY());
     }
 
+    public Point getGoal(int goalId) { return mGoals[goalId]; }
+
     /** Spawn the enemy in the center of the selected spawn point. */
     // TODO Somehow allow to define out of range position but not too far from the border
     public void spawnEnemy(Enemy enemy, int spawnId) {
@@ -83,10 +76,6 @@ public class Battleground implements DrawableElement {
         final float posY = tile.getCenterY() - tower.getHeight() / 2f;
         tower.setPosition(posX, posY);
         return true;
-    }
-
-    public Tile getTile(int x, int y) {
-        return mTiles[y][x];
     }
 
     @Override
@@ -130,33 +119,25 @@ public class Battleground implements DrawableElement {
     @Override
     public float getHeight() { return mRowCount; }
 
-    public Tile[][] getTiles()
-    {
-        return mTiles;
-    }
+    /**
+     * Returns a two dimensional array of int representing the walking map off the battleground.
+     * <ul>
+     *     <li>0 means that the tile is walkable.</li>
+     *     <li>1 means that the tile is not walkable.</li>
+     * </ul>
+     */
+    public int[][] getWalkingMap() {
 
-    public Point[] getSpawnPoints()
-    {
-        return mSpawnPoints;
-    }
+        int[][] walkingMap = new int[mRowCount][mColumnCount];
 
-    public Point getSpawnPoint(int id)
-    {
-        return mSpawnPoints[id];
-    }
+        // For each line
+        for (int y = 0; y < mRowCount; y++) {
+            // For each element in the line
+            for (int x = 0; x < mColumnCount; x++) {
+                walkingMap[y][x] = mTiles[y][x].isWalkable() ? 0 : 1;
+            }
+        };
 
-    public Point[] getGoalPoints()
-    {
-        return mGoals;
-    }
-
-    public Point getGoalPoint(int id)
-    {
-        return mGoals[id];
-    }
-
-    public int[][] getMap()
-    {
-        return mMap;
+        return walkingMap;
     }
 }

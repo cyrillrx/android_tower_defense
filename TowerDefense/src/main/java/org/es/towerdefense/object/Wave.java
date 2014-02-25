@@ -13,6 +13,31 @@ import java.util.Map;
 public class Wave {
 
     /** Number of attackers of each type to be spawn during the wave. */
-    private Map<Enemy.Type, Integer> mAttackers;
-    private int mDuration;
+    private final Map<Enemy.Type, Integer> mAttackers;
+    /** The wave duration in milliseconds. */
+    private final long mDuration;
+    /** Weight of the wave. Helps calculate score, money and spawn delay. */
+    private final int mWeight;
+
+    public Wave(Map<Enemy.Type, Integer> attackers, int duration) {
+        mAttackers = attackers;
+        mDuration = duration;
+
+        // Calculate spawn time.
+        mWeight = calculateWaveWeight(attackers);
+    }
+
+    private int calculateWaveWeight(Map<Enemy.Type, Integer> attackers) {
+
+        int weight = 0;
+        for (Map.Entry<Enemy.Type, Integer> entry : attackers.entrySet()) {
+            weight += getWeight(entry.getKey()) * entry.getValue();
+        }
+        return weight;
+    }
+
+    // TODO update
+    private int getWeight(Enemy.Type type) {
+        return 30;
+    }
 }
