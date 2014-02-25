@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.Rect;
 
+import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.drawable.DrawableElement;
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
@@ -16,7 +17,8 @@ import org.es.engine.graphics.utils.DrawingParam;
  * @author Cyril Leroux
  *         Created on 17/02/14.
  */
-public class Destructible<AnimationId extends Enum<AnimationId>> implements DrawableElement {
+public class Destructible<AnimationId extends Enum<AnimationId>>
+        implements DrawableElement, AnimationCallback {
 
     /**
      * The sprite is the element drawn on the screen.<br />
@@ -151,4 +153,7 @@ public class Destructible<AnimationId extends Enum<AnimationId>> implements Draw
         }
         mSprite.setAnimationId(animationId);
     }
+
+    @Override
+    public void onAnimationStopped() { }
 }

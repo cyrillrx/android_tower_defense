@@ -20,7 +20,7 @@ import java.util.Queue;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public class Enemy extends Offensive<Enemy.AnimationId> implements AnimationCallback {
+public class Enemy extends Offensive<Enemy.AnimationId> {
 
     public static enum AnimationId {
         LEFT, RIGHT, UP, DOWN
@@ -173,7 +173,4 @@ public class Enemy extends Offensive<Enemy.AnimationId> implements AnimationCall
         // restore paint color.
         paint.setColor(initialColor);
     }
-
-    @Override
-    public void onAnimationStopped() {  }
 }

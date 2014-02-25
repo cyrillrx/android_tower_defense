@@ -2,6 +2,7 @@ package org.es.towerdefense.unit;
 
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.utils.PositionUtils;
+import org.es.utils.TimeAware;
 
 /**
  * This class represents an element with offensive capabilities.
@@ -9,7 +10,8 @@ import org.es.utils.PositionUtils;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public abstract class Offensive<AnimationId extends Enum<AnimationId>> extends Destructible<AnimationId> {
+public abstract class Offensive<AnimationId extends Enum<AnimationId>> extends Destructible<AnimationId>
+        implements TimeAware {
 
     /** Damage caused by each attack of the unit. */
     protected int mDamage;
@@ -35,6 +37,16 @@ public abstract class Offensive<AnimationId extends Enum<AnimationId>> extends D
         mDamage = damage;
         mAttackRange = attackRange;
         mAttackDelay = attackDelay;
+    }
+
+    protected void attack(Destructible element) {
+        long delay = System.currentTimeMillis() - mLastAttack;
+
+        if (delay < mAttackDelay) { return; }
+
+        // Do attack !
+        element.receiveDamages(this);
+        mLastAttack = System.currentTimeMillis();
     }
 
     /**
@@ -76,5 +88,10 @@ public abstract class Offensive<AnimationId extends Enum<AnimationId>> extends D
      */
     protected boolean angleInRange(double bisectorAngle, double range) {
         return PositionUtils.angleInRange(mRotationAngle, bisectorAngle, range);
+    }
+
+    @Override
+    public void onResume(long elapsedTimeMs) {
+        mLastAttack += elapsedTimeMs;
     }
 }

@@ -4,7 +4,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.utils.PositionUtils;
@@ -15,7 +14,7 @@ import java.util.Collection;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public class Tower extends Offensive<Tower.AnimationId> implements AnimationCallback {
+public class Tower extends Offensive<Tower.AnimationId> {
 
     public static enum Type {
         BASIC
@@ -131,17 +130,7 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
     private void actOnFocused() {
         if (mFocused == null) { return; }
         turnTowards(mFocused.getCenterX(), mFocused.getCenterY());
-        shoot(mFocused);
-    }
-
-    private void shoot(Destructible element) {
-        long delay = System.currentTimeMillis() - mLastAttack;
-
-        if (delay < mAttackDelay) { return ; }
-
-        // Do attack !
-        element.receiveDamages(this);
-        mLastAttack = System.currentTimeMillis();
+        attack(mFocused);
     }
 
     @Override
@@ -216,7 +205,4 @@ public class Tower extends Offensive<Tower.AnimationId> implements AnimationCall
         paint.setColor(initialColor);
         paint.setStyle(initialStyle);
     }
-
-    @Override
-    public void onAnimationStopped() { }
 }
