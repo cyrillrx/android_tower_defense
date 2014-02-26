@@ -13,7 +13,7 @@ import org.es.towerdefense.battleground.Battleground;
 import org.es.utils.PositionUtils;
 
 import java.util.ArrayDeque;
-import java.util.Collection;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -34,7 +34,7 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
 
     private final Queue<PointF> mDestinations;
 
-    private long cpuTime = 0;
+    private long mDebugCpuTime = 0;
 
     protected Enemy(Sprite<AnimationId> sprite, float width, float height, int weight, int health,
                     int damage, int attackRange, int attackDelay) {
@@ -67,15 +67,13 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
             // Calculate the computed time for path finding algo
             cpuTimeTemp = System.currentTimeMillis();
 
-            final Point enemyPoint = battleground.getSpawnPoint(0);
             final Point goal = battleground.getGoal(0);
-            for(Point point : findPath.findShortestPath(enemyPoint.x, enemyPoint.y, goal.x, goal.y, battleground.getWalkingMap()))
-            {
-                PointF pointF = new PointF(point.x + 0.5f, point.y + 0.5f);
-                mDestinations.add(pointF);
+            final List<Point> destinations = findPath.findShortestPath((int) getCenterX(), (int) getCenterY(), goal.x, goal.y, battleground.getWalkingMap());
+            // TODO try a different implementation to use addAll instead of a for each loop
+            for (Point destinationTile : destinations){
+                mDestinations.add(new PointF(destinationTile.x + 0.5f, destinationTile.y + 0.5f));
             }
-
-            cpuTime = System.currentTimeMillis() - cpuTimeTemp;
+            mDebugCpuTime = System.currentTimeMillis() - cpuTimeTemp;
 
             PointF destination = mDestinations.peek();
             turnTowards(destination.x, destination.y);
@@ -85,7 +83,7 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
     /** Use the available distance to move towards the next destination point. */
     private void moveToNextPoint(float distanceAvailable) {
         PointF destination = mDestinations.peek();
-        double distanceToDestination = PositionUtils.distance(getCenterX(), getCenterY(), destination.x + 0.5f, destination.y + 0.5f);
+        double distanceToDestination = PositionUtils.distance(getCenterX(), getCenterY(), destination.x, destination.y);
 
         // Not enough to reach the next point.
         if (distanceAvailable < distanceToDestination) {
@@ -150,7 +148,7 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
         paint.setTextSize(20f);
 
         // cpu time consumed to compute the shortest path
-        final String cpuText = cpuTime + " ms";
+        final String cpuText = mDebugCpuTime + " ms";
 
         // Draw the info
         canvas.drawText(cpuText, 10f, 10f, paint);
