@@ -1,1 +1,1 @@
-include ':Graphics', ':GameMechanic', ':ToolBox', 'TowerDefense', 'Audio'
+include ':Graphics', ':Audio', ':GameMechanic', ':ToolBox',':TowerDefense'

@@ -42,7 +42,7 @@ dependencies {
     compile project(':Graphics')
     compile project(':GameMechanic')
     compile project(':ToolBox')
-    compile project(':Sounds')
+    compile project(':Audio')
     compile 'com.google.android.gms:play-services:+'
     //compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }
