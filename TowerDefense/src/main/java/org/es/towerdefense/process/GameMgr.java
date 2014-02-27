@@ -16,6 +16,7 @@ import org.es.towerdefense.object.Wave;
 import org.es.towerdefense.unit.Destructible;
 import org.es.towerdefense.unit.Enemy;
 import org.es.towerdefense.unit.Tower;
+import org.es.utils.DrawTextUtils;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
@@ -44,8 +45,6 @@ public class GameMgr {
     private final Set<Enemy> mEnemies;
     private final Set<Tower> mTowers;
     private final Set<Destructible> mGarbage;
-    private int mSurfaceWidth;
-    private int mSurfaceHeight;
 
     private boolean mPaused;
     private long mPauseStartTime;
@@ -55,9 +54,6 @@ public class GameMgr {
         mDrawingParam = new DrawingParam();
         mPaused = false;
         mPauseStartTime = 0;
-
-        mSurfaceWidth = 0;
-        mSurfaceHeight = 0;
 
         mEnemies = new HashSet<>();
         mTowers = new HashSet<>();
@@ -209,15 +205,17 @@ public class GameMgr {
         mainHUDPaint.setStyle(Paint.Style.FILL);
         mainHUDPaint.setTextSize(30f);
 
+        final int canvasWidth = canvas.getWidth();
+
         final String scoreText = "Score " + mPlayer.getScore();
-        Rect scoreRect = new Rect();
-        mainHUDPaint.getTextBounds(scoreText, 0, scoreText.length(), scoreRect);
-        canvas.drawText(scoreText, 300, scoreRect.height(), mainHUDPaint);
+        DrawTextUtils.drawText(scoreText, canvas,
+                (int) (canvasWidth / 4f), 10,
+                DrawTextUtils.HorizontalAlign.CENTER, DrawTextUtils.VerticalAlign.BOTTOM, mainHUDPaint);
 
         final String healthText = "Health " + mPlayer.getHealth();
-        Rect healthRect = new Rect();
-        mainHUDPaint.getTextBounds(healthText, 0, healthText.length(), healthRect);
-        canvas.drawText(healthText, 600, healthRect.height(), mainHUDPaint);
+        DrawTextUtils.drawText(healthText, canvas,
+                (int) (canvasWidth / 4f * 3f), 10,
+                DrawTextUtils.HorizontalAlign.CENTER, DrawTextUtils.VerticalAlign.BOTTOM, mainHUDPaint);
     }
 
     // TODO update comment
@@ -233,17 +231,14 @@ public class GameMgr {
             PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
 
             final String versionCode = "Version Code: " + String.valueOf(info.versionCode);
+            Rect textBoundsCode = DrawTextUtils.drawText(versionCode, canvas,
+                    10, canvas.getHeight(),
+                    DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.TOP, mDebugPaint);
+
             final String versionName = "Version Name: " + info.versionName;
-            Rect textBoundsCode = new Rect();
-            mDebugPaint.getTextBounds(versionCode, 0, versionCode.length(), textBoundsCode);
-            Rect textBoundsName = new Rect();
-            mDebugPaint.getTextBounds(versionName, 0, versionName.length(), textBoundsName);
-
-            float yCode = mSurfaceHeight - textBoundsCode.height();
-            float yName = yCode - textBoundsName.height();
-
-            canvas.drawText(versionName, 0, yName, mDebugPaint);
-            canvas.drawText(versionCode, 0, yCode, mDebugPaint);
+            DrawTextUtils.drawText(versionName, canvas,
+                    10, canvas.getHeight() - textBoundsCode.height(),
+                    DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.TOP, mDebugPaint);
 
         } catch (PackageManager.NameNotFoundException e) { }
 
@@ -258,21 +253,9 @@ public class GameMgr {
                 //drawCenteredText("Finnisher !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
             }
         }
-
     }
 
     public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-        mSurfaceWidth = surfaceWidth;
-        mSurfaceHeight = surfaceHeight;
         mBattleground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
-    }
-
-    // TODO move into utils
-    private static void drawCenteredText(String text, Canvas canvas, float centerX, float centerY, Paint paint) {
-        Rect textBounds = new Rect();
-        paint.getTextBounds(text, 0, text.length(), textBounds);
-        float posX = centerX - textBounds.width() / 2f;
-        float posY = centerY - textBounds.height() / 2f;
-        canvas.drawText(text, posX, posY, paint);
     }
 }
