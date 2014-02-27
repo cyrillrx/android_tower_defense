@@ -41,8 +41,6 @@ public class Battleground implements DrawableElement {
 
     public Point getGoal(int goalId) { return mGoals[goalId]; }
 
-    public Point getSpawnPoint(int spawnId) { return mSpawnPoints[spawnId]; }
-
     /** Spawn the enemy in the center of the selected spawn point. */
     // TODO Somehow allow to define out of range position but not too far from the border
     public void spawnEnemy(Enemy enemy, int spawnId) {

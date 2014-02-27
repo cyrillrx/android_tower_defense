@@ -77,11 +77,11 @@ public class GameMgr {
         mBattleground = BattlegroundDAO.loadDebugBattleGround(resources, mDrawingParam, mTowers);
 
         // Initialize the wave manager
-        Map<Enemy.Type, Integer> attakers = new HashMap<>();
-        attakers.put(Enemy.Type.CRAWLING, 20);
+        Map<Enemy.Type, Integer> attackers = new HashMap<>();
+        attackers.put(Enemy.Type.CRAWLING, 20);
 
         Queue<Wave> waves = new ArrayDeque<>();
-        waves.add(new Wave(attakers, 40000));
+        waves.add(new Wave(attackers, 40000));
 
         mWaveManager = new WaveManager(waves, mBattleground, mEnemies, mContext.getResources());
 
@@ -105,6 +105,11 @@ public class GameMgr {
 
         for (Enemy enemy : mEnemies) {
             if (enemy.isOutOfPlay()) {
+                if (enemy.isDead()) {
+                    mPlayer.incrementScore(100);
+                } else if (enemy.isFinisher()) {
+                    mPlayer.decrementHealth(1);
+                }
                 mGarbage.add(enemy);
                 mEnemies.remove(enemy);
                 // spawn a new enemy
@@ -197,6 +202,22 @@ public class GameMgr {
      */
     protected void drawMainHUD(Canvas canvas) {
         // TODO Draw the main HUD
+
+        Paint mainHUDPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mainHUDPaint.setAntiAlias(true);
+        mainHUDPaint.setStrokeWidth(1f);
+        mainHUDPaint.setStyle(Paint.Style.FILL);
+        mainHUDPaint.setTextSize(30f);
+
+        final String scoreText = "Score " + mPlayer.getScore();
+        Rect scoreRect = new Rect();
+        mainHUDPaint.getTextBounds(scoreText, 0, scoreText.length(), scoreRect);
+        canvas.drawText(scoreText, 300, scoreRect.height(), mainHUDPaint);
+
+        final String healthText = "Health " + mPlayer.getHealth();
+        Rect healthRect = new Rect();
+        mainHUDPaint.getTextBounds(healthText, 0, healthText.length(), healthRect);
+        canvas.drawText(healthText, 600, healthRect.height(), mainHUDPaint);
     }
 
     // TODO update comment
