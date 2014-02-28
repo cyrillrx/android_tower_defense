@@ -17,14 +17,17 @@ import java.util.Set;
  */
 public class WaveManager implements TimeAware {
 
+    /** The delay between two spawns in milliseconds. */
+    private static final long SPAWN_DELAY = 2000;
+    /** The elapsed time since last spawn in milliseconds. */
+    private long mLastSpawn;
+
+    /** The current wave */
+    private Wave mCurrentWave;
+
     private final Queue<Wave> mWaves;
     private final Battleground mBattleground;
     private final Set<Enemy> mEnemies;
-
-    /** The spawn frequency in milliseconds. */
-    private long mSpawnFrequency;
-    /** The elapsed time since last spawn in milliseconds. */
-    private long mLastSpawn;
 
     private Resources mResources;
 
@@ -33,30 +36,33 @@ public class WaveManager implements TimeAware {
         mBattleground = battleground;
         mEnemies = enemies;
         mResources = resources;
+        mLastSpawn = 0;
+
+        mCurrentWave = mWaves.remove();
     }
 
-    public void start() {
-        // TODO
-    }
-
-    private void processWave(Wave wave) {
-
-        // TODO
-    }
-
-    // TODO set to private
-    public Enemy spawnEnemy() {
-        Enemy enemy = EnemyFactory.createEnemy(Enemy.Type.CRAWLING, mResources);
+    private Enemy spawnEnemy(Enemy.Type type) {
+        Enemy enemy = EnemyFactory.createEnemy(type, mResources);
         mEnemies.add(enemy);
         mBattleground.spawnEnemy(enemy, 0);
+        mLastSpawn = System.currentTimeMillis();
         return enemy;
     }
 
     public void update() {
-        // TODO
-//        if (mWaves.get(mWaveId).isOver() && ++mWaveId < mWaves.size()) {
-//            mWaves.get(mWaveId).start();
-//        }
+
+        if (mCurrentWave.isOver()) {
+            if (mWaves.isEmpty()) {
+                // TODO end
+                return;
+            }
+            mCurrentWave = mWaves.remove();
+        }
+
+        final long elapsedTime = System.currentTimeMillis() - mLastSpawn;
+        if (!mCurrentWave.isOver() && elapsedTime > SPAWN_DELAY) {
+            spawnEnemy(mCurrentWave.nextAttackerType());
+        }
     }
 
     @Override
