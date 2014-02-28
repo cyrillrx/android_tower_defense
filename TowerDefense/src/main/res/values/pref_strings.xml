@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pref_cat_debug">Debug Settings</string>
+
+    <string name="pref_cat_destructible_debug">Destructible elements</string>
+    <string name="pref_title_display_destructible_debug">Display debug HUD</string>
+
+    <string name="pref_cat_tower_debug">Tower</string>
+
+    <string name="pref_title_display_tower_debug">Display debug HUD</string>
+    <string name="pref_key_display_tower_debug">display_tower_debug</string>
+
+    <string name="pref_title_display_tower_range">Display range</string>
+    <string name="pref_key_display_tower_range">display_tower_range</string>
+
+    <string name="pref_title_display_tower_focus">Display focus</string>
+    <string name="pref_key_display_tower_focus">display_tower_focus</string>
+
+
+    <string name="pref_cat_enemy_debug">Enemy</string>
+
+
+</resources>

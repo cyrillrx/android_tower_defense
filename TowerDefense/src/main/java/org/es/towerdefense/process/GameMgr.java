@@ -1,12 +1,14 @@
 package org.es.towerdefense.process;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.preference.PreferenceManager;
 
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.towerdefense.battleground.Battleground;
@@ -19,11 +21,13 @@ import org.es.towerdefense.unit.Tower;
 import org.es.utils.DrawTextUtils;
 
 import java.util.ArrayDeque;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author Cyril Leroux
@@ -55,9 +59,10 @@ public class GameMgr {
         mPaused = false;
         mPauseStartTime = 0;
 
-        mEnemies = new HashSet<>();
-        mTowers = new HashSet<>();
-        mGarbage = new HashSet<>();
+        // Creating concurrent sets :
+        mEnemies = Collections.newSetFromMap(new ConcurrentHashMap<Enemy, Boolean>());
+        mTowers = Collections.newSetFromMap(new ConcurrentHashMap<Tower, Boolean>());
+        mGarbage = Collections.newSetFromMap(new ConcurrentHashMap<Destructible, Boolean>());
 
         mDebugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mDebugPaint.setAntiAlias(true);
@@ -80,8 +85,6 @@ public class GameMgr {
         waves.add(new Wave(attackers, 40000));
 
         mWaveManager = new WaveManager(waves, mBattleground, mEnemies, mContext.getResources());
-
-        mWaveManager.spawnEnemy();
     }
 
     public void update() {
@@ -108,8 +111,6 @@ public class GameMgr {
                 }
                 mGarbage.add(enemy);
                 mEnemies.remove(enemy);
-                // spawn a new enemy
-                mWaveManager.spawnEnemy();
                 continue;
             }
             // TODO not always true
@@ -177,15 +178,17 @@ public class GameMgr {
      */
     protected void drawHUD(Canvas canvas, DrawingParam param) {
 
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+
         // Draw the elements
         // It is important to draw towers first if there are flying enemies.
         for (Tower tower : mTowers) {
             tower.drawHUD(canvas, param);
-            tower.drawDebugHUD(canvas, param, mDebugPaint);
+            tower.drawDebugHUD(canvas, param, mDebugPaint, preferences);
         }
         for (Enemy enemy : mEnemies) {
             enemy.drawHUD(canvas, param);
-            enemy.drawDebugHUD(canvas, param, mDebugPaint);
+            enemy.drawDebugHUD(canvas, param, mDebugPaint, preferences);
         }
 
         drawMainHUD(canvas);

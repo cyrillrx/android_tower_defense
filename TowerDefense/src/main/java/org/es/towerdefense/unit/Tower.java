@@ -1,11 +1,13 @@
 package org.es.towerdefense.unit;
 
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
+import org.es.towerdefense.R;
 import org.es.utils.PositionUtils;
 
 import java.util.Collection;
@@ -171,8 +173,11 @@ public class Tower extends Offensive<Tower.AnimationId> {
     }
 
     @Override
-    public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint) {
-        super.drawDebugHUD(canvas, param, paint);
+    public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint, SharedPreferences pref) {
+        boolean displayDebugHUD = pref.getBoolean("display_tower_debug", false);
+        if (!displayDebugHUD) { return; }
+
+        super.drawDebugHUD(canvas, param, paint, pref);
 
         // Save paint color and style.
         int initialColor = paint.getColor();

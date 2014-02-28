@@ -1,5 +1,6 @@
 package org.es.towerdefense.unit;
 
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -69,7 +70,7 @@ public class Destructible<AnimationId extends Enum<AnimationId>>
     public void drawHUD(Canvas canvas, DrawingParam param) { }
 
     /** Draw the debug Head-up display. */
-    public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint) {
+    public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint, SharedPreferences sharedPref) {
 
         // Save and change paint color.
         int initialColor = paint.getColor();

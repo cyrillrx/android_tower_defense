@@ -1,5 +1,6 @@
 package org.es.towerdefense.unit;
 
+import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -70,7 +71,7 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
             final Point goal = battleground.getGoal(0);
             final List<Point> destinations = findPath.findShortestPath((int) getCenterX(), (int) getCenterY(), goal.x, goal.y, battleground.getWalkingMap());
             // TODO try a different implementation to use addAll instead of a for each loop
-            for (Point destinationTile : destinations){
+            for (Point destinationTile : destinations) {
                 mDestinations.add(new PointF(destinationTile.x + 0.5f, destinationTile.y + 0.5f));
             }
             mDebugCpuTime = System.currentTimeMillis() - cpuTimeTemp;
@@ -139,8 +140,8 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
     }
 
     @Override
-    public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint) {
-        super.drawDebugHUD(canvas, param, paint);
+    public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint, SharedPreferences pref) {
+        super.drawDebugHUD(canvas, param, paint, pref);
 
         // Save and change paint color.
         int initialColor = paint.getColor();
