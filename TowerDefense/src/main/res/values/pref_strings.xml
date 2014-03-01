@@ -21,4 +21,6 @@
     <string name="pref_cat_enemy_debug">Enemy</string>
 
 
+    <string name="pref_visual_debug">Display debug settings</string>
+
 </resources>

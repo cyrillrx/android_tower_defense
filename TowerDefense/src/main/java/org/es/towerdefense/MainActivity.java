@@ -2,6 +2,8 @@ package org.es.towerdefense;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -34,6 +36,26 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
         findViewById(R.id.button_sign_in).setOnClickListener(this);
         findViewById(R.id.button_sign_out).setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.settings, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.action_game_settings:
+                Intent i = new Intent(this, GameSettingsPreferencesActivity.class);
+                startActivityForResult(i, 1);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     // Shows the "sign in" bar (explanation and button).

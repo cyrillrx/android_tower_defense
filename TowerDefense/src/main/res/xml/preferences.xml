@@ -4,68 +4,8 @@
 
     <PreferenceScreen
             android:title="@string/pref_cat_debug"
+            android:fragment="org.es.towerdefense.settings.HUDSettings"
             android:persistent="false">
-
-        <PreferenceCategory
-                android:title="@string/pref_cat_destructible_debug">
-
-            <CheckBoxPreference
-                    android:key="@string/pref_key_display_tower_debug"
-                    android:title="@string/pref_title_display_tower_debug"
-                    android:defaultValue="true" />
-
-            <CheckBoxPreference
-                    android:key="@string/pref_key_display_tower_range"
-                    android:title="@string/pref_title_display_tower_range"
-                    android:defaultValue="false" />
-
-            <CheckBoxPreference
-                    android:key="@string/pref_key_display_tower_focus"
-                    android:title="@string/pref_title_display_tower_focus"
-                    android:defaultValue="true" />
-
-        </PreferenceCategory>
-
-        <PreferenceCategory
-                android:title="@string/pref_cat_tower_debug">
-
-            <CheckBoxPreference
-                    android:key="@string/pref_key_display_tower_debug"
-                    android:title="@string/pref_title_display_tower_debug"
-                    android:defaultValue="false" />
-
-            <CheckBoxPreference
-                    android:key="@string/pref_key_display_tower_range"
-                    android:title="@string/pref_title_display_tower_range"
-                    android:defaultValue="true" />
-
-            <CheckBoxPreference
-                    android:key="@string/pref_key_display_tower_focus"
-                    android:title="@string/pref_title_display_tower_focus"
-                    android:defaultValue="true" />
-
-        </PreferenceCategory>
-
-        <PreferenceCategory
-                android:title="@string/pref_cat_tower_debug">
-
-            <CheckBoxPreference
-                    android:key="@string/pref_key_display_tower_debug"
-                    android:title="@string/pref_title_display_tower_debug"
-                    android:defaultValue="false" />
-
-            <CheckBoxPreference
-                    android:key="@string/pref_key_display_tower_range"
-                    android:title="@string/pref_title_display_tower_range"
-                    android:defaultValue="true" />
-
-            <CheckBoxPreference
-                    android:key="@string/pref_key_display_tower_focus"
-                    android:title="@string/pref_title_display_tower_focus"
-                    android:defaultValue="true" />
-
-        </PreferenceCategory>
-
     </PreferenceScreen>
 
 </PreferenceScreen>

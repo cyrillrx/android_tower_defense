@@ -2,17 +2,25 @@
 <resources>
 
     <string name="app_name">TowerDefence</string>
+    <string name="app_id">TowerDefence</string>
 
+    <!-- Game Menu -->
     <string name="title_demo">Demo</string>
     <string name="title_singe_player">Single Player</string>
     <string name="title_multiplayer">Multiplayer</string>
     <string name="title_achievements">Achievements</string>
     <string name="title_high_scores">High Scores</string>
 
+    <!-- Googleplay Sign in -->
     <string name="signing_in">Signing in with Google</string>
     <string name="signing_out">Signing out</string>
     <string name="sign_in_explanation">Sign with Google to upload your achievements and share with friends.</string>
     <string name="you_are_signed_in">You are signed in with Google.</string>
     <string name="sign_out">Sign Out</string>
+
+    <!-- Game Settings Menu -->
+    <string name="title_settings">Game Settings</string>
+    <string name="menu_settings">Game Settings</string>
+    <string name="back_button_settings">Back</string>
 
 </resources>

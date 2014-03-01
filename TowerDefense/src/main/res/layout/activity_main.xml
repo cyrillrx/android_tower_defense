@@ -4,6 +4,7 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
+              android:background="@drawable/td_bg"
               tools:context=".MainActivity">
 
     <LinearLayout
@@ -20,31 +21,31 @@
         <Button
                 android:id="@+id/btn_demo"
                 android:text="@string/title_demo"
-                android:layout_width="match_parent"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content" />
 
         <Button
                 android:id="@+id/btn_single_player"
                 android:text="@string/title_singe_player"
-                android:layout_width="match_parent"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content" />
 
         <Button
                 android:id="@+id/btn_multiplayer"
                 android:text="@string/title_multiplayer"
-                android:layout_width="match_parent"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content" />
 
         <Button
                 android:id="@+id/btn_achievements"
                 android:text="@string/title_achievements"
-                android:layout_width="match_parent"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content" />
 
         <Button
                 android:id="@+id/btn_high_score"
                 android:text="@string/title_high_scores"
-                android:layout_width="match_parent"
+                android:layout_width="240dp"
                 android:layout_height="wrap_content" />
 
     </LinearLayout>
