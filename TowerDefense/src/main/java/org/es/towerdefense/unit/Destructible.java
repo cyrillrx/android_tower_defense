@@ -11,6 +11,7 @@ import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.drawable.DrawableElement;
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
+import org.es.towerdefense.settings.PreferenceKey;
 import org.es.utils.DrawTextUtils;
 
 import static org.es.utils.DrawTextUtils.HorizontalAlign.CENTER;
@@ -74,7 +75,10 @@ public class Destructible<AnimationId extends Enum<AnimationId>>
     public void drawHUD(Canvas canvas, DrawingParam param) { }
 
     /** Draw the debug Head-up display. */
-    public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint, SharedPreferences sharedPref) {
+    public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint, SharedPreferences pref) {
+
+        boolean displayDebugHUD = pref.getBoolean(PreferenceKey.KEY_DESTRUCTIBLE, true);
+        if (!displayDebugHUD) { return; }
 
         // Save and change paint color.
         int initialColor = paint.getColor();

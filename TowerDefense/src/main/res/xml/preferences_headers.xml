@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <preference-headers
-    xmlns:android="http://schemas.android.com/apk/res/android">
+        xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <header android:icon="@drawable/settings"
-        android:title="@string/pref_cat_debug"
-        android:fragment="org.es.towerdefense.settings.HUDSettings"
-        android:summary="Debug Header.">
+    <header
+            android:title="@string/pref_cat_debug"
+            android:fragment="org.es.towerdefense.settings.HUDSettings" />
+
+    <header
+            android:summary="@string/author_summary"
+            android:title="@string/author" />
+    <header
+            android:summary="@string/website_address"
+            android:title="@string/website">
+        <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/website_address" />
     </header>
 
 </preference-headers>

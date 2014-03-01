@@ -11,6 +11,7 @@ import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.engine.toolbox.pathfinding.ShortestPath;
 import org.es.towerdefense.battleground.Battleground;
+import org.es.towerdefense.settings.PreferenceKey;
 import org.es.utils.DrawTextUtils;
 import org.es.utils.PositionUtils;
 
@@ -144,6 +145,9 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
 
     @Override
     public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint, SharedPreferences pref) {
+        boolean displayDebugHUD = pref.getBoolean(PreferenceKey.KEY_ENEMY_DEBUG, true);
+        if (!displayDebugHUD) { return; }
+
         super.drawDebugHUD(canvas, param, paint, pref);
 
         // Save and change paint color.

@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.towerdefense.R;
+import org.es.towerdefense.settings.PreferenceKey;
 import org.es.utils.PositionUtils;
 
 import java.util.Collection;
@@ -174,7 +175,7 @@ public class Tower extends Offensive<Tower.AnimationId> {
 
     @Override
     public void drawDebugHUD(Canvas canvas, DrawingParam param, Paint paint, SharedPreferences pref) {
-        boolean displayDebugHUD = pref.getBoolean("display_tower_debug", false);
+        boolean displayDebugHUD = pref.getBoolean(PreferenceKey.KEY_TOWER_DEBUG, true);
         if (!displayDebugHUD) { return; }
 
         super.drawDebugHUD(canvas, param, paint, pref);
@@ -183,28 +184,35 @@ public class Tower extends Offensive<Tower.AnimationId> {
         int initialColor = paint.getColor();
         Paint.Style initialStyle = paint.getStyle();
 
-        paint.setStyle(Paint.Style.STROKE);
 
         // Change paint color depending on the focus state.
         if (isFocused()) {
             paint.setColor(Color.RED);
 
             // Draw a line from the tower to the focused element.
+            boolean displayFocus = pref.getBoolean(PreferenceKey.KEY_TOWER_FOCUS, true);
+            if (displayFocus) {
             canvas.drawLine(
                     getCenterX() * param.coef() + param.offsetX(),
                     getCenterY() * param.coef() + param.offsetY(),
                     mFocused.getCenterX() * param.coef() + param.offsetX(),
                     mFocused.getCenterY() * param.coef() + param.offsetY(),
                     paint);
+            }
         } else {
             paint.setColor(Color.BLUE);
         }
 
         // Draw the range of sight.
+        boolean displayRange = pref.getBoolean(PreferenceKey.KEY_TOWER_RANGE, true);
+        if (displayRange) {
+        paint.setStyle(Paint.Style.STROKE);
         canvas.drawCircle(
                 getCenterX() * param.coef() + param.offsetX(),
                 getCenterY() * param.coef() + param.offsetY(),
                 mAttackRange * param.coef(), paint);
+
+        }
 
         // restore paint color and style.
         paint.setColor(initialColor);

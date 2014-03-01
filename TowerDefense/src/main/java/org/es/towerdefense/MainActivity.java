@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import org.es.towerdefense.settings.GameSettingsActivity;
 import org.es.utils.BaseGameActivity;
 
 
@@ -16,6 +17,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        findViewById(R.id.btn_settings).setOnClickListener(this);
 
         findViewById(R.id.btn_demo).setOnClickListener(this);
         findViewById(R.id.btn_single_player).setOnClickListener(this);
@@ -36,26 +39,6 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
         findViewById(R.id.button_sign_in).setOnClickListener(this);
         findViewById(R.id.button_sign_out).setOnClickListener(this);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.settings, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.action_game_settings:
-                Intent i = new Intent(this, GameSettingsPreferencesActivity.class);
-                startActivityForResult(i, 1);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     // Shows the "sign in" bar (explanation and button).
@@ -106,6 +89,10 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     public void onClick(View v) {
 
         switch (v.getId()) {
+
+            case R.id.btn_settings:
+                startActivity(new Intent(getApplicationContext(), GameSettingsActivity.class));
+                break;
 
             case R.id.btn_demo:
                 startActivity(new Intent(getApplicationContext(), InGameActivity.class));

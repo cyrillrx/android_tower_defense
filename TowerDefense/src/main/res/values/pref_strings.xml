@@ -1,26 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+
+    <string name="author">Application Developer</string>
+    <string name="author_summary">Cyril Leroux\nKévin Lebronnec</string>
+
+    <string name="website">Developer website</string>
+    <string name="website_address">http://www.essaion-soft.com</string>
+
     <string name="pref_cat_debug">Debug Settings</string>
 
     <string name="pref_cat_destructible_debug">Destructible elements</string>
-    <string name="pref_title_display_destructible_debug">Display debug HUD</string>
+    <string name="pref_title_destructible_debug">Display debug HUD</string>
+    <string name="pref_key_destructible_debug">destructible_debug</string>
 
     <string name="pref_cat_tower_debug">Tower</string>
 
-    <string name="pref_title_display_tower_debug">Display debug HUD</string>
-    <string name="pref_key_display_tower_debug">display_tower_debug</string>
+    <string name="pref_title_tower_debug">Display debug HUD</string>
+    <string name="pref_key_tower_debug">tower_debug</string>
 
-    <string name="pref_title_display_tower_range">Display range</string>
-    <string name="pref_key_display_tower_range">display_tower_range</string>
+    <string name="pref_title_tower_range">Display range</string>
+    <string name="pref_key_tower_range">tower_range</string>
 
-    <string name="pref_title_display_tower_focus">Display focus</string>
-    <string name="pref_key_display_tower_focus">display_tower_focus</string>
+    <string name="pref_title_tower_focus">Display focus</string>
+    <string name="pref_key_tower_focus">tower_focus</string>
 
 
     <string name="pref_cat_enemy_debug">Enemy</string>
-
-
-    <string name="pref_visual_debug">Display debug settings</string>
+    <string name="pref_title_enemy_debug">Display debug HUD</string>
+    <string name="pref_key_enemy_debug">enemy_debug</string>
 
 </resources>

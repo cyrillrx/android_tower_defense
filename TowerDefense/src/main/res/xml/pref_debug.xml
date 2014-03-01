@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:title="@string/pref_cat_debug">
+
+    <PreferenceCategory
+            android:title="@string/pref_cat_destructible_debug">
+
+        <CheckBoxPreference
+                android:key="@string/pref_key_destructible_debug"
+                android:title="@string/pref_title_destructible_debug"
+                android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/pref_cat_enemy_debug">
+
+        <CheckBoxPreference
+                android:key="@string/pref_key_enemy_debug"
+                android:title="@string/pref_title_enemy_debug"
+                android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+            android:title="@string/pref_cat_tower_debug">
+
+        <CheckBoxPreference
+                android:key="@string/pref_key_tower_debug"
+                android:title="@string/pref_title_tower_debug"
+                android:defaultValue="false" />
+
+        <CheckBoxPreference
+                android:key="@string/pref_key_tower_range"
+                android:title="@string/pref_title_tower_range"
+                android:defaultValue="true" />
+
+        <CheckBoxPreference
+                android:key="@string/pref_key_tower_focus"
+                android:title="@string/pref_title_tower_focus"
+                android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

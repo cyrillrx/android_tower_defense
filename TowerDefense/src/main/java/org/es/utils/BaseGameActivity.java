@@ -16,9 +16,12 @@
 
 package org.es.utils;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 
 import com.google.android.gms.appstate.AppStateClient;
 import com.google.android.gms.games.GamesClient;
@@ -42,7 +45,7 @@ import com.google.android.gms.plus.PlusClient;
  * @author Bruno Oliveira (Google)
  */
 public abstract class BaseGameActivity extends FragmentActivity implements
-        GameHelper.GameHelperListener {
+        GameHelper.GameHelperListener, View.OnSystemUiVisibilityChangeListener {
 
     // The game helper object. This class is mainly a wrapper around this object.
     protected GameHelper mHelper;
@@ -62,6 +65,8 @@ public abstract class BaseGameActivity extends FragmentActivity implements
 
     protected String mDebugTag = "BaseGameActivity";
     protected boolean mDebugLog = false;
+
+    private View mDecorView;
 
     /** Constructs a BaseGameActivity with default client (GamesClient). */
     protected BaseGameActivity() {
@@ -87,7 +92,7 @@ public abstract class BaseGameActivity extends FragmentActivity implements
      *
      * @param requestedClients A combination of the flags CLIENT_GAMES, CLIENT_PLUS
      *         and CLIENT_APPSTATE, or CLIENT_ALL to request all available clients.
-     * @param additionalScopes.  Scopes that should also be requested when the auth
+     * @param additionalScopes  Scopes that should also be requested when the auth
      *         request is made.
      */
     protected void setRequestedClients(int requestedClients, String ... additionalScopes) {
@@ -103,6 +108,44 @@ public abstract class BaseGameActivity extends FragmentActivity implements
             mHelper.enableDebugLog(mDebugLog, mDebugTag);
         }
         mHelper.setup(this, mRequestedClients, mAdditionalScopes);
+
+        mDecorView = getWindow().getDecorView();
+        // Navigation bar hiding:  Backwards compatible to ICS.
+        mDecorView.setOnSystemUiVisibilityChangeListener(this);
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    @Override
+    public void onSystemUiVisibilityChange(int flags) {
+        boolean visible = (flags & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == View.VISIBLE;
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            hideSystemUI();
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+    private void hideSystemUI() {
+
+        int visible = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+
+        // Status bar hiding: Backwards compatible to Jellybean
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            visible |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
+        }
+
+        // Status bar hiding: Backwards compatible to Kitkat
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            visible |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
+        }
+        mDecorView.setSystemUiVisibility(visible);
     }
 
     @Override
