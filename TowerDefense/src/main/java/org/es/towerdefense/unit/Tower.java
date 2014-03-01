@@ -7,7 +7,6 @@ import android.graphics.Paint;
 
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
-import org.es.towerdefense.R;
 import org.es.towerdefense.settings.PreferenceKey;
 import org.es.utils.PositionUtils;
 

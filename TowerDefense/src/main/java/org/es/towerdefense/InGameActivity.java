@@ -1,7 +1,5 @@
 package org.es.towerdefense;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 

@@ -20,9 +20,7 @@ import java.util.List;
 import java.util.Queue;
 
 import static org.es.utils.DrawTextUtils.HorizontalAlign.CENTER;
-import static org.es.utils.DrawTextUtils.HorizontalAlign.RIGHT;
 import static org.es.utils.DrawTextUtils.VerticalAlign.BOTTOM;
-import static org.es.utils.DrawTextUtils.VerticalAlign.TOP;
 
 /**
  * @author Cyril Leroux

@@ -3,10 +3,8 @@ package org.es.towerdefense.settings;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.widget.Button;
 
 import org.es.towerdefense.R;
-import org.es.towerdefense.settings.HUDSettings;
 
 import java.util.List;
 
