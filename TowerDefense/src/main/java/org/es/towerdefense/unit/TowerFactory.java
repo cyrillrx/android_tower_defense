@@ -23,7 +23,7 @@ public class TowerFactory {
     private static final int RES_BASIC_TOWER_SS = R.drawable.sprite_sheet_tower_1;
     private static final int BASIC_TOWER_WEIGHT = 2;
     private static final int BASIC_TOWER_HEALTH = 200;
-    private static final int BASIC_TOWER_DAMAGE = 20;
+    private static final int BASIC_TOWER_DAMAGE = 10;
     private static final float BASIC_TOWER_ATTACK_RANGE = 3;
     private static final long BASIC_TOWER_ATTACK_DELAY = 1000;
 

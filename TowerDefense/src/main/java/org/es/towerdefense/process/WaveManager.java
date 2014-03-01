@@ -18,7 +18,10 @@ import java.util.Set;
 public class WaveManager implements TimeAware {
 
     /** The delay between two spawns in milliseconds. */
-    private static final long SPAWN_DELAY = 2000;
+    private static final long SPAWN_DELAY = 1000;
+    /** The delay between two waves in milliseconds. */
+    private static final long WAVE_DELAY = 5000;
+
     /** The elapsed time since last spawn in milliseconds. */
     private long mLastSpawn;
 
@@ -53,7 +56,7 @@ public class WaveManager implements TimeAware {
 
         if (mCurrentWave.isOver()) {
             if (mWaves.isEmpty()) {
-                // TODO end
+                // TODO end the game
                 return;
             }
             mCurrentWave = mWaves.remove();

@@ -11,11 +11,15 @@ import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.engine.toolbox.pathfinding.ShortestPath;
 import org.es.towerdefense.battleground.Battleground;
+import org.es.utils.DrawTextUtils;
 import org.es.utils.PositionUtils;
 
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
+
+import static org.es.utils.DrawTextUtils.HorizontalAlign.RIGHT;
+import static org.es.utils.DrawTextUtils.VerticalAlign.BOTTOM;
 
 /**
  * @author Cyril Leroux
@@ -49,7 +53,7 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
             findAPath(battleground);
         }
         // TODO replace distance by speed * elapsed time
-        float distanceAvailable = 0.05f;
+        float distanceAvailable = 0.06f;
         moveToNextPoint(distanceAvailable);
         updateAnimation();
     }
@@ -75,15 +79,14 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
                 mDestinations.add(new PointF(destinationTile.x + 0.5f, destinationTile.y + 0.5f));
             }
             mDebugCpuTime = System.currentTimeMillis() - cpuTimeTemp;
-
-            PointF destination = mDestinations.peek();
-            turnTowards(destination.x, destination.y);
         }
     }
 
     /** Use the available distance to move towards the next destination point. */
     private void moveToNextPoint(float distanceAvailable) {
+
         PointF destination = mDestinations.peek();
+        turnTowards(destination.x, destination.y);
         double distanceToDestination = PositionUtils.distance(getCenterX(), getCenterY(), destination.x, destination.y);
 
         // Not enough to reach the next point.
@@ -100,8 +103,6 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
 
             } else {
                 distanceAvailable -= distanceToDestination;
-                destination = mDestinations.peek();
-                turnTowards(destination.x, destination.y);
                 moveToNextPoint(distanceAvailable);
             }
         }
@@ -149,10 +150,10 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
         paint.setTextSize(20f);
 
         // cpu time consumed to compute the shortest path
-        final String cpuText = mDebugCpuTime + " ms";
+        final String cpuText = "CPU time : " + mDebugCpuTime + " ms";
 
         // Draw the info
-        canvas.drawText(cpuText, 10f, 10f, paint);
+        DrawTextUtils.drawText(cpuText, canvas, 10, 10, RIGHT, BOTTOM, paint);
 
         // restore paint color.
         paint.setColor(initialColor);
