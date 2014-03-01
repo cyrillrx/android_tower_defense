@@ -118,6 +118,7 @@ public abstract class BaseGameActivity extends FragmentActivity implements
     @Override
     public void onSystemUiVisibilityChange(int flags) {
         boolean visible = (flags & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == View.VISIBLE;
+
     }
 
     @Override
