@@ -11,6 +11,10 @@ import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.drawable.DrawableElement;
 import org.es.engine.graphics.sprite.Sprite;
 import org.es.engine.graphics.utils.DrawingParam;
+import org.es.utils.DrawTextUtils;
+
+import static org.es.utils.DrawTextUtils.HorizontalAlign.CENTER;
+import static org.es.utils.DrawTextUtils.VerticalAlign.TOP;
 
 /**
  * Parent class for all destructible elements.
@@ -78,19 +82,19 @@ public class Destructible<AnimationId extends Enum<AnimationId>>
 
         // Text to display the remaining life of the element.
         final String hpText = String.valueOf(mHealth) + " HP";
-        // Get text bounds
-        final Rect textBounds = new Rect();
-        paint.getTextBounds(hpText, 0, hpText.length(), textBounds);
 
         // Draw the text centered above the element.
-        canvas.drawText(hpText,
-                getCenterX() * param.coef() - textBounds.width() / 2f + param.offsetX(),
-                getPosY() * param.coef() - textBounds.height() + param.offsetY(),
-                paint);
+        DrawTextUtils.drawText(hpText, canvas,
+                getCenterX() * param.coef() + param.offsetX(),
+                getPosY() * param.coef() + param.offsetY(),
+                CENTER, TOP, paint);
 
         // restore paint color.
         paint.setColor(initialColor);
     }
+
+    /** @return The weight of the destructible. Used to calculate the unit cost or reward. */
+    public int getWeight() { return mWeight; }
 
     /** @return The centerX position on the grid. */
     public float getCenterX() { return getPosX() + getWidth() / 2f; }

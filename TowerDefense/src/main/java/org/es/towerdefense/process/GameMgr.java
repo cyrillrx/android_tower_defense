@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
+import android.graphics.RectF;
 import android.preference.PreferenceManager;
 
 import org.es.engine.graphics.utils.DrawingParam;
@@ -23,11 +23,15 @@ import org.es.utils.DrawTextUtils;
 import java.util.ArrayDeque;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+
+import static org.es.utils.DrawTextUtils.HorizontalAlign.CENTER;
+import static org.es.utils.DrawTextUtils.HorizontalAlign.RIGHT;
+import static org.es.utils.DrawTextUtils.VerticalAlign.BOTTOM;
+import static org.es.utils.DrawTextUtils.VerticalAlign.TOP;
 
 /**
  * @author Cyril Leroux
@@ -59,7 +63,7 @@ public class GameMgr {
         mPaused = false;
         mPauseStartTime = 0;
 
-        // Creating concurrent sets :
+        // Creating concurrent sets
         mEnemies = Collections.newSetFromMap(new ConcurrentHashMap<Enemy, Boolean>());
         mTowers = Collections.newSetFromMap(new ConcurrentHashMap<Tower, Boolean>());
         mGarbage = Collections.newSetFromMap(new ConcurrentHashMap<Destructible, Boolean>());
@@ -105,7 +109,7 @@ public class GameMgr {
         for (Enemy enemy : mEnemies) {
             if (enemy.isOutOfPlay()) {
                 if (enemy.isDead()) {
-                    mPlayer.incrementScore(100);
+                    mPlayer.incrementScore(enemy.getWeight() * 10);
                 } else if (enemy.isFinisher()) {
                     mPlayer.decrementHealth(1);
                 }
@@ -212,13 +216,11 @@ public class GameMgr {
 
         final String scoreText = "Score " + mPlayer.getScore();
         DrawTextUtils.drawText(scoreText, canvas,
-                (int) (canvasWidth / 4f), 10,
-                DrawTextUtils.HorizontalAlign.CENTER, DrawTextUtils.VerticalAlign.BOTTOM, mainHUDPaint);
+                canvasWidth / 4f, 10, CENTER, BOTTOM, mainHUDPaint);
 
         final String healthText = "Health " + mPlayer.getHealth();
         DrawTextUtils.drawText(healthText, canvas,
-                (int) (canvasWidth / 4f * 3f), 10,
-                DrawTextUtils.HorizontalAlign.CENTER, DrawTextUtils.VerticalAlign.BOTTOM, mainHUDPaint);
+                canvasWidth / 4f * 3f, 10, CENTER, BOTTOM, mainHUDPaint);
     }
 
     // TODO update comment
@@ -234,14 +236,12 @@ public class GameMgr {
             PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
 
             final String versionCode = "Version Code: " + String.valueOf(info.versionCode);
-            Rect textBoundsCode = DrawTextUtils.drawText(versionCode, canvas,
-                    10, canvas.getHeight(),
-                    DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.TOP, mDebugPaint);
+            RectF textBoundsCode = DrawTextUtils.drawText(versionCode, canvas,
+                    10, canvas.getHeight() - 10, RIGHT, TOP, mDebugPaint);
 
             final String versionName = "Version Name: " + info.versionName;
             DrawTextUtils.drawText(versionName, canvas,
-                    10, canvas.getHeight() - textBoundsCode.height(),
-                    DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.TOP, mDebugPaint);
+                    textBoundsCode.left, textBoundsCode.top, RIGHT, TOP, mDebugPaint);
 
         } catch (PackageManager.NameNotFoundException e) { }
 

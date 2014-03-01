@@ -3,6 +3,7 @@ package org.es.utils;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.text.Layout;
 
 /**
@@ -22,7 +23,7 @@ public class DrawTextUtils {
         CENTER
     }
 
-    public static Rect drawText(String text, Canvas canvas, int x, int y, HorizontalAlign hAlign, VerticalAlign vAlign, Paint paint) {
+    public static RectF drawText(String text, Canvas canvas, float x, float y, HorizontalAlign hAlign, VerticalAlign vAlign, Paint paint) {
 
         // Save paint align.
         Paint.Align initialAlign = paint.getTextAlign();
@@ -30,31 +31,39 @@ public class DrawTextUtils {
         Rect textBounds = new Rect();
         paint.getTextBounds(text, 0, text.length(), textBounds);
 
+        RectF onScreenBounds = new RectF(textBounds);
+
         if (hAlign == HorizontalAlign.CENTER) {
             paint.setTextAlign(Paint.Align.CENTER);
+            onScreenBounds.left = x - Math.abs(textBounds.width() / 2f);
 
         } else if (hAlign == HorizontalAlign.LEFT) {
             paint.setTextAlign(Paint.Align.RIGHT);
+            onScreenBounds.left = x - Math.abs(textBounds.width());
 
         } else if (hAlign == HorizontalAlign.RIGHT) {
             paint.setTextAlign(Paint.Align.LEFT);
+            onScreenBounds.left = x;
         }
 
         if (vAlign == VerticalAlign.CENTER) {
-           y -= textBounds.height() / 2f;
+            onScreenBounds.top = y - Math.abs(textBounds.height() / 2f);
 
         } else if (vAlign == VerticalAlign.TOP) {
-            y -= textBounds.height();
+            onScreenBounds.top = y - Math.abs(textBounds.height());
 
         } else if (vAlign == VerticalAlign.BOTTOM) {
-            y += textBounds.height();
+            onScreenBounds.top = y;
         }
 
-        canvas.drawText(text, x, y, paint);
+        onScreenBounds.right = onScreenBounds.left + Math.abs(textBounds.width());
+        onScreenBounds.bottom = onScreenBounds.top + Math.abs(textBounds.height());
+
+        canvas.drawText(text, x, onScreenBounds.bottom, paint);
 
         // Restore paint align.
         paint.setTextAlign(initialAlign);
 
-        return textBounds;
+        return onScreenBounds;
     }
 }

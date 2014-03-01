@@ -18,8 +18,10 @@ import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
 
+import static org.es.utils.DrawTextUtils.HorizontalAlign.CENTER;
 import static org.es.utils.DrawTextUtils.HorizontalAlign.RIGHT;
 import static org.es.utils.DrawTextUtils.VerticalAlign.BOTTOM;
+import static org.es.utils.DrawTextUtils.VerticalAlign.TOP;
 
 /**
  * @author Cyril Leroux
@@ -150,10 +152,13 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
         paint.setTextSize(20f);
 
         // cpu time consumed to compute the shortest path
-        final String cpuText = "CPU time : " + mDebugCpuTime + " ms";
+        final String cpuText = "CPU : " + mDebugCpuTime + " ms";
 
-        // Draw the info
-        DrawTextUtils.drawText(cpuText, canvas, 10, 10, RIGHT, BOTTOM, paint);
+        // Draw cpu time
+        DrawTextUtils.drawText(cpuText, canvas,
+                getCenterX() * param.coef() + param.offsetX(),
+                (getPosY() + getHeight()) * param.coef() + param.offsetY(),
+                CENTER, BOTTOM, paint);
 
         // restore paint color.
         paint.setColor(initialColor);
