@@ -1,9 +1,11 @@
 package org.es.towerdefense;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import org.es.towerdefense.settings.GameSettingsActivity;
 import org.es.utils.BaseGameActivity;
@@ -16,24 +18,36 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final Typeface typeface = Typeface.createFromAsset(getAssets(), "Comix Loud.ttf");
+
+        ((TextView)findViewById(R.id.home_screen_title)).setTypeface(typeface);
+
         findViewById(R.id.btn_settings).setOnClickListener(this);
 
-        findViewById(R.id.btn_demo).setOnClickListener(this);
-        findViewById(R.id.btn_single_player).setOnClickListener(this);
+        Button demo = (Button) findViewById(R.id.btn_demo);
+        demo.setTypeface(typeface);
+        demo.setOnClickListener(this);
+
+        Button singlePlayer = (Button) findViewById(R.id.btn_single_player);
+        singlePlayer.setTypeface(typeface);
+        singlePlayer.setOnClickListener(this);
 
         boolean enable = isSignedIn();
 
         Button multiplayer = (Button) findViewById(R.id.btn_multiplayer);
+        multiplayer.setTypeface(typeface);
         multiplayer.setOnClickListener(this);
         multiplayer.setEnabled(enable);
 
         Button achievements = (Button) findViewById(R.id.btn_achievements);
+        achievements.setTypeface(typeface);
         achievements.setOnClickListener(this);
-        multiplayer.setEnabled(enable);
+        achievements.setEnabled(enable);
 
         Button highScore = (Button)  findViewById(R.id.btn_high_score);
+        highScore.setTypeface(typeface);
         highScore.setOnClickListener(this);
-        multiplayer.setEnabled(enable);
+        highScore.setEnabled(enable);
 
         findViewById(R.id.button_sign_in).setOnClickListener(this);
         findViewById(R.id.button_sign_out).setOnClickListener(this);

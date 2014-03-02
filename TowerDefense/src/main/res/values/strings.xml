@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">TowerDefence</string>
+    <string name="app_name">Tower Defence</string>
 
     <!-- Home Screen Menu -->
     <string name="title_demo">Demo</string>
@@ -17,5 +17,11 @@
     <string name="sign_in_explanation">Sign with Google to upload your achievements and share with friends.</string>
     <string name="you_are_signed_in">You are signed in with Google.</string>
     <string name="sign_out">Sign Out</string>
+
+    <!-- HUD -->
+    <string name="hud_score">Score : </string>
+    <string name="hud_money">Money : </string>
+    <string name="hud_health">Health : </string>
+
 
 </resources>

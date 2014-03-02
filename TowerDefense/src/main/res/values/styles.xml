@@ -17,19 +17,29 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="Title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/activity_vertical_margin</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">50dp</item>
+    </style>
 
     <style name="HomeScreenButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/control_margin</item>
+        <item name="android:background">@drawable/home_screen_btn</item>        
+        <item name="android:textColorHighlight">@android:color/white</item>
     </style>
 
     <style name="SignInOutBar">
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:background">#88f0f0f0</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:gravity">center</item>
-        <item name="android:padding">20dp</item>
+        <item name="android:padding">@dimen/control_margin</item>
     </style>
 
     <style name="SignInButton">

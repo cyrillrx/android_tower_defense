@@ -4,8 +4,13 @@
               android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@drawable/td_bg"
+              android:background="@drawable/home_screen_bg"
               tools:context=".MainActivity">
+
+    <TextView
+            android:id="@+id/home_screen_title"
+            android:text="@string/app_name"
+            style="@style/Title" />
 
     <LinearLayout
             android:orientation="horizontal"
@@ -20,8 +25,9 @@
 
         <LinearLayout
                 android:orientation="horizontal"
-                android:layout_width="wrap_content"
-                android:layout_gravity="bottom"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="bottom|left"
                 android:layout_height="wrap_content">
 
             <ImageButton
@@ -34,7 +40,8 @@
 
         <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:gravity="center">
 
