@@ -13,6 +13,7 @@ import android.preference.PreferenceManager;
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.towerdefense.battleground.Battleground;
 import org.es.towerdefense.battleground.BattlegroundDAO;
+import org.es.towerdefense.component.HUD;
 import org.es.towerdefense.object.Player;
 import org.es.towerdefense.object.Wave;
 import org.es.towerdefense.unit.Destructible;
@@ -28,9 +29,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.es.utils.DrawTextUtils.HorizontalAlign.CENTER;
 import static org.es.utils.DrawTextUtils.HorizontalAlign.RIGHT;
-import static org.es.utils.DrawTextUtils.VerticalAlign.BOTTOM;
 import static org.es.utils.DrawTextUtils.VerticalAlign.TOP;
 
 /**
@@ -57,11 +56,13 @@ public class GameMgr {
     private boolean mPaused;
     private long mPauseStartTime;
 
-    public GameMgr(Context context) {
+    public GameMgr(Player player, Context context) {
+        mPlayer = player;
         mContext = context;
         mDrawingParam = new DrawingParam();
         mPaused = false;
         mPauseStartTime = 0;
+
 
         // Creating concurrent sets
         mEnemies = Collections.newSetFromMap(new ConcurrentHashMap<Enemy, Boolean>());
@@ -76,7 +77,6 @@ public class GameMgr {
 
         final Resources resources = context.getResources();
 
-        mPlayer = new Player(20, 1000);
         // Initialize the battleground
         // TODO Load from file
         mBattleground = BattlegroundDAO.loadDebugBattleGround(resources, mDrawingParam, mTowers);
@@ -109,6 +109,7 @@ public class GameMgr {
         for (Enemy enemy : mEnemies) {
             if (enemy.isOutOfPlay()) {
                 if (enemy.isDead()) {
+                    mPlayer.incrementMoney(enemy.getWeight() * 10);
                     mPlayer.incrementScore(enemy.getWeight() * 10);
                 } else if (enemy.isFinisher()) {
                     mPlayer.decrementHealth(1);
@@ -140,6 +141,7 @@ public class GameMgr {
         // TODO Draw the animations
 
         // Draw the main HUD
+        // TODO Move to parent
         drawHUD(canvas, mDrawingParam);
     }
 
@@ -195,32 +197,7 @@ public class GameMgr {
             enemy.drawDebugHUD(canvas, param, mDebugPaint, preferences);
         }
 
-        drawMainHUD(canvas);
         drawMainHUDDebug(canvas);
-    }
-
-    /**
-     * Draw the main Head-up display.<br />
-     * Scores, GUI, ...
-     */
-    protected void drawMainHUD(Canvas canvas) {
-        // TODO Draw the main HUD
-
-        Paint mainHUDPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mainHUDPaint.setAntiAlias(true);
-        mainHUDPaint.setStrokeWidth(1f);
-        mainHUDPaint.setStyle(Paint.Style.FILL);
-        mainHUDPaint.setTextSize(30f);
-
-        final int canvasWidth = canvas.getWidth();
-
-        final String scoreText = "Score " + mPlayer.getScore();
-        DrawTextUtils.drawText(scoreText, canvas,
-                canvasWidth / 4f, 10, CENTER, BOTTOM, mainHUDPaint);
-
-        final String healthText = "Health " + mPlayer.getHealth();
-        DrawTextUtils.drawText(healthText, canvas,
-                canvasWidth / 4f * 3f, 10, CENTER, BOTTOM, mainHUDPaint);
     }
 
     // TODO update comment
@@ -248,12 +225,12 @@ public class GameMgr {
         // Draw
         for (Destructible destructible : mGarbage) {
             if (destructible.isDead()) {
-                // TODO Code a ramaining text draw
+                // TODO Code a remaining text draw
                 //drawCenteredText("Dead !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
 
             } else if (destructible instanceof Enemy && ((Enemy) destructible).isFinisher()) {
-                // TODO Code a ramaining text draw
-                //drawCenteredText("Finnisher !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
+                // TODO Code a remaining text draw
+                //drawCenteredText("Finisher !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
             }
         }
     }

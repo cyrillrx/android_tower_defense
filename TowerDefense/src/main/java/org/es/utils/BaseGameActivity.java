@@ -101,25 +101,29 @@ public abstract class BaseGameActivity extends FragmentActivity implements
     }
 
     @Override
-    protected void onCreate(Bundle b) {
-        super.onCreate(b);
+    protected void onCreate(Bundle savedInstanceState) {
+        mDecorView = getWindow().getDecorView();
+        // Navigation bar hiding:  Backwards compatible to ICS.
+        mDecorView.setOnSystemUiVisibilityChangeListener(this);
+
+        super.onCreate(savedInstanceState);
         mHelper = new GameHelper(this);
         if (mDebugLog) {
             mHelper.enableDebugLog(mDebugLog, mDebugTag);
         }
         mHelper.setup(this, mRequestedClients, mAdditionalScopes);
-
-        mDecorView = getWindow().getDecorView();
-        // Navigation bar hiding:  Backwards compatible to ICS.
-        mDecorView.setOnSystemUiVisibilityChangeListener(this);
     }
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
     public void onSystemUiVisibilityChange(int flags) {
         boolean visible = (flags & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == View.VISIBLE;
-
+        if (visible) {
+            hideControls();
+        }
     }
+
+    public void hideControls() { }
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {

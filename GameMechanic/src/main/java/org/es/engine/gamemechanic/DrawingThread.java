@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.util.Log;
+import android.view.InputEvent;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -20,7 +23,7 @@ public abstract class DrawingThread extends Thread {
 
     protected SurfaceHolder mSurfaceHolder = null;
     protected Resources mResources = null;
-    protected ConcurrentLinkedQueue<UserEvent> mEventQueue = new ConcurrentLinkedQueue<UserEvent>();
+    protected ConcurrentLinkedQueue<InputEvent> mEventQueue = new ConcurrentLinkedQueue<>();
 
     /** Number of frame we wish to draw per second. */
     private int mFrameRate = 20;
@@ -90,10 +93,25 @@ public abstract class DrawingThread extends Thread {
     protected abstract boolean update();
 
     /** Processes the event to update the view. */
-    protected abstract void processEvent(UserEvent event);
+    protected final void processEvent(InputEvent event) {
+
+        if (event instanceof MotionEvent) {
+            processEvent((MotionEvent) event);
+
+        } else if (event instanceof MotionEvent) {
+            processEvent((KeyEvent) event);
+
+        }
+    }
+
+    /** Processes the event to update the view. */
+    protected abstract void processEvent(MotionEvent event);
+
+    /** Processes the event to update the view. */
+    protected abstract void processEvent(KeyEvent event);
 
     /** Add a motionEvent that will be processed in {@link #update()}. */
-    public boolean addUserEvent(UserEvent event) {
+    public boolean addInputEvent(InputEvent event) {
         return mEventQueue.add(event);
     }
 

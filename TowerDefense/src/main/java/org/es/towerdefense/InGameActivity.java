@@ -1,7 +1,6 @@
 package org.es.towerdefense;
 
 import android.os.Bundle;
-import android.view.View;
 
 import org.es.utils.BaseGameActivity;
 
@@ -9,7 +8,7 @@ import org.es.utils.BaseGameActivity;
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public class InGameActivity extends BaseGameActivity implements View.OnSystemUiVisibilityChangeListener {
+public class InGameActivity extends BaseGameActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

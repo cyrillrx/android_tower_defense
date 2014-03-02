@@ -1,13 +1,14 @@
-package org.es.towerdefense;
+package org.es.towerdefense.component;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
 import org.es.engine.gamemechanic.DrawingThread;
 import org.es.engine.gamemechanic.DrawingView;
-import org.es.engine.gamemechanic.UserEvent;
+import org.es.towerdefense.TowerDefenseThread;
 
 /**
  * @author Cyril Leroux
@@ -26,16 +27,13 @@ public class TowerDefenseView extends DrawingView {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
+        mThread.addInputEvent(event);
+        return true;
+    }
 
-        final int action = event.getActionMasked();
-        switch (action) {
-
-            case MotionEvent.ACTION_DOWN:
-                mThread.addUserEvent(new UserEvent(UserEvent.ACTION_DOWN, event.getY(), event.getY()));
-
-            case MotionEvent.ACTION_MOVE:
-                break;
-        }
-        return super.dispatchTouchEvent(event);
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        mThread.addInputEvent(event);
+        return true;
     }
 }
