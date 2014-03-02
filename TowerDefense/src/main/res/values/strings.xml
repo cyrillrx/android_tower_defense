@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Tower Defence</string>
+    <string name="app_name">Tower Defense</string>
 
     <!-- Home Screen Menu -->
     <string name="title_demo">Demo</string>
