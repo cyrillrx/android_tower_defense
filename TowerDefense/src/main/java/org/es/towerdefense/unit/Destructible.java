@@ -139,6 +139,11 @@ public class Destructible<AnimationId extends Enum<AnimationId>>
     }
 
     @Override
+    public void offsetPosition(float dx, float dy) {
+        mPosition.offset(dx, dy);
+    }
+
+    @Override
     public float getWidth() { return mWidth; }
 
     @Override

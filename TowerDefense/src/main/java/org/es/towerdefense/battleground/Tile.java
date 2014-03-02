@@ -83,9 +83,13 @@ public class Tile implements DrawableElement {
     @Override
     public float getPosY() { return mPosY; }
 
-    /** Do nothing. The position of the tile is immutable. */
+    /** Does nothing. The position of the tile is immutable. */
     @Override
     public void setPosition(float x, float y) { }
+
+    /** Does nothing. The position of the tile is immutable. */
+    @Override
+    public void offsetPosition(float dx, float dy) { }
 
     @Override
     public float getWidth() { return 1f; }

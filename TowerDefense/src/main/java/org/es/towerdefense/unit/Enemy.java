@@ -94,7 +94,7 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
         if (distanceAvailable < distanceToDestination) {
             PointF diff = PositionUtils.polarToCartesian(mRotationAngle, distanceAvailable, true);
             // just move forward
-            setPosition(getPosX() + diff.x, getPosY() + diff.y);
+            offsetPosition(diff.x, diff.y);
 
         } else { // Enough to reach the next point.
             // Remove the reached point from destination list.

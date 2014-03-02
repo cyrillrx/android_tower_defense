@@ -101,6 +101,9 @@ public class Battleground implements DrawableElement {
     public void setPosition(float x, float y) { mPosition.set(x, y); }
 
     @Override
+    public void offsetPosition(float dx, float dy) { mPosition.offset(dx, dy); }
+
+    @Override
     public float getWidth() { return mColumnCount; }
 
     @Override

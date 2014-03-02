@@ -80,6 +80,11 @@ public class GenericSprite<AnimationId extends Enum<AnimationId>> implements Spr
     }
 
     @Override
+    public void offsetPosition(float dx, float dy) {
+        mBoundingRect.offset(dx, dy);
+    }
+
+    @Override
     public float getWidth() { return mBoundingRect.width(); }
 
     @Override

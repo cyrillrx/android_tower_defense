@@ -25,6 +25,9 @@ public interface DrawableElement {
     /** Set the position of the drawable in the canvas. */
     void setPosition(float x, float y);
 
+    /** Offset the position by adding dx and dy to its coordinates. */
+    void offsetPosition(float dx, float dy);
+
     /** Set the width of the drawable in the canvas. */
     float getWidth();
 
