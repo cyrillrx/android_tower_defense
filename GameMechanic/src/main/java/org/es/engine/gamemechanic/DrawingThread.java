@@ -98,9 +98,8 @@ public abstract class DrawingThread extends Thread {
         if (event instanceof MotionEvent) {
             processEvent((MotionEvent) event);
 
-        } else if (event instanceof MotionEvent) {
+        } else if (event instanceof KeyEvent) {
             processEvent((KeyEvent) event);
-
         }
     }
 
