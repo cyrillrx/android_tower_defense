@@ -8,19 +8,21 @@ package org.es.engine.toolbox.pathfinding;
  */
 public class Node {
 
-    protected int _x;
-    protected int _y;
-    protected Node _parentNode;
+    private int mX;
+    private int mY;
+    private Node _parentNode;
+    private Double g = 0d;
+    private Double f = 0d;
 
     public Node(int x, int y)
     {
-        this._x = x;
-        this._y = y;
+        this.mX = x;
+        this.mY = y;
     }
 
     public String nodeName()
     {
-        return _x + "x" + _y;
+        return mX + "x" + mY;
     }
 
     public void setParentNode(Node parentNode)
@@ -35,11 +37,47 @@ public class Node {
         {
             Node node = (Node) o;
 
-            if(this._x == node._x && this._y == node._y)
+            if(this.mX == node.mX && this.mY == node.mY)
             {
                 return true;
             }
         }
         return false;
+    }
+
+    public int getX() {
+        return mX;
+    }
+
+    public void setX(int x) {
+        this.mX = x;
+    }
+
+    public int getY() {
+        return mY;
+    }
+
+    public void setY(int y) {
+        this.mY = y;
+    }
+
+    public Node getParentNode() {
+        return _parentNode;
+    }
+
+    public Double getG() {
+        return g;
+    }
+
+    public void setG(Double g) {
+        this.g = g;
+    }
+
+    public Double getF() {
+        return f;
+    }
+
+    public void setF(Double f) {
+        this.f = f;
     }
 }

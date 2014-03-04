@@ -31,41 +31,41 @@ public class ShortestPath {
 
         // TODO Replace "1" not buidable by enum
         // look EST
-        if(node._x - 1 >= 0)
+        if(node.getX() - 1 >= 0)
         {
-            if(tiles[node._y][node._x - 1] != 1)
+            if(tiles[node.getY()][node.getX() - 1] != 1)
             {
-                Node n = new Node(node._x - 1, node._y);
+                Node n = new Node(node.getX() - 1, node.getY());
                 nodes.add(n);
             }
         }
 
         // look WEST
-        if(node._x + 1 < tiles[0].length)
+        if(node.getX() + 1 < tiles[0].length)
         {
-            if(tiles[node._y][node._x + 1] != 1)
+            if(tiles[node.getY()][node.getX() + 1] != 1)
             {
-                Node n = new Node(node._x + 1, node._y);
+                Node n = new Node(node.getX() + 1, node.getY());
                 nodes.add(n);
             }
         }
 
         // look NORTH
-        if(node._y -1 >= 0)
+        if(node.getY() -1 >= 0)
         {
-            if(tiles[node._y - 1][node._x] != 1)
+            if(tiles[node.getY() - 1][node.getX()] != 1)
             {
-                Node n = new Node(node._x, node._y - 1);
+                Node n = new Node(node.getX(), node.getY() - 1);
                 nodes.add(n);
             }
         }
 
         // look SOUTH
-        if(node._y + 1 < tiles.length)
+        if(node.getY() + 1 < tiles.length)
         {
-            if(tiles[node._y  + 1][node._x] != 1)
+            if(tiles[node.getY() + 1][node.getX()] != 1)
             {
-                Node n = new Node(node._x, node._y  + 1);
+                Node n = new Node(node.getX(), node.getY() + 1);
                 nodes.add(n);
             }
         }
@@ -80,13 +80,13 @@ public class ShortestPath {
      */
     public double heuristic(Node start, Node goal)
     {
-        int dx1 = start._x - goal._x;
-        int dy1 = start._y - goal._y;
-        int dx2 = start._x - goal._x;
-        int dy2 = start._y - goal._y;
+        int dx1 = start.getX() - goal.getX();
+        int dy1 = start.getY() - goal.getY();
+        int dx2 = start.getX() - goal.getX();
+        int dy2 = start.getY() - goal.getY();
         int cross = Math.abs(dx1 * dy2 - dx2 * dy1); // Added Tie-Breaker
 
-        return Math.abs(start._x - goal._x) + Math.abs(start._y - goal._y) + cross * 0.001;
+        return Math.abs(start.getX() - goal.getX()) + Math.abs(start.getY() - goal.getY()) + cross * 0.001;
     }
 
     /**
@@ -120,19 +120,20 @@ public class ShortestPath {
         ArrayList<Point> listPoints = new ArrayList<>();
 
         // Node score path
-        Map<String,Double> g = new HashMap<>();
-        Map<String,Double> f = new HashMap<>();
+        //Map<String,Double> g = new HashMap<>();
+        //Map<String,Double> f = new HashMap<>();
 
         // debug Scoot
-        ArrayList<Point> debugNode = new ArrayList<>();
+        //ArrayList<Point> debugNode = new ArrayList<>();
 
         // Push the start Node
         open.push(nodeStart);
 
         // First cost at 0
-        g.put(nodeStart.nodeName(),0d);
+        //g.put(nodeStart.nodeName(),0d);
         // Compute the estimated cost to the goal
-        f.put(nodeStart.nodeName(),heuristic(nodeStart, nodeGoal));
+        //f.put(nodeStart.nodeName(),heuristic(nodeStart, nodeGoal));
+        nodeStart.setF(heuristic(nodeStart, nodeGoal));
 
         while(open.size() > 0)
         {
@@ -142,14 +143,14 @@ public class ShortestPath {
             {
                 bestPath.add(nodeGoal);
 
-                while(node._parentNode != null) {
-                    bestPath.add(node._parentNode);
-                    node = node._parentNode;
+                while(node.getParentNode() != null) {
+                    bestPath.add(node.getParentNode());
+                    node = node.getParentNode();
                 }
 
                 for(int i = bestPath.size() - 1; i >= 0; i--)
                 {
-                    listPoints.add(new Point(bestPath.get(i)._x,bestPath.get(i)._y));
+                    listPoints.add(new Point(bestPath.get(i).getX(),bestPath.get(i).getY()));
                 }
 
                 return listPoints;
@@ -168,14 +169,15 @@ public class ShortestPath {
                     if(closed.containsKey(nextNode.nodeName())) continue;
 
                     // + 1 (weight) to next
-                    double temp_f = g.get(node.nodeName()) + 1;
+                    //double temp_f = g.get(node.nodeName()) + 1;
+                    double temp_f = node.getG() + 1;
 
                     int index = open.indexOf(nextNode);
 
                     if(index < 0) {
                         lesserScore = true;
                     }
-                    else if(temp_f < g.get(nextNode.nodeName())) {
+                    else if(temp_f < nextNode.getG()) {
                         open.removeElementAt(index);
                         lesserScore = true;
                     }
@@ -183,13 +185,15 @@ public class ShortestPath {
                     if(lesserScore)
                     {
                         nextNode.setParentNode(node);
-                        g.put(nextNode.nodeName(),temp_f);
-                        f.put(nextNode.nodeName(),g.get(nextNode.nodeName()) + heuristic(nextNode,nodeGoal));
+                        //g.put(nextNode.nodeName(),temp_f);
+                        nextNode.setG(temp_f);
+                        //f.put(nextNode.nodeName(),g.get(nextNode.nodeName()) + heuristic(nextNode,nodeGoal));
+                        nextNode.setF(nextNode.getG() + heuristic(nextNode,nodeGoal));
 
                         if(open.size() < 1 )
                         {
                             open.push(nextNode);
-                            //debugNode.add(new Point(nextNode._x,nextNode._y));
+                            //debugNode.add(new Point(nextNode.getX(),nextNode.getY()));
                             continue;
                         }
 
@@ -198,12 +202,12 @@ public class ShortestPath {
                         for(int i = open.size() - 1; i >= 0; i--)
                         {
                             // Sort the priority of the nextNode in the open list
-                            if(compareScore(f.get(nextNode.nodeName()),f.get(open.get(i).nodeName())))
+                            if(compareScore(nextNode.getF(),open.get(i).getF()))
                             {
                                 open.add(i + 1,nextNode);
                                 inserted = true;
                                 break;
-                                //debugNode.add(new Point(nextNode._x,nextNode._y));
+                                //debugNode.add(new Point(nextNode.getX(),nextNode.getY()));
                             }
                         }
                         // No Way ! Your nextNode got the baddest score in the open list :P
