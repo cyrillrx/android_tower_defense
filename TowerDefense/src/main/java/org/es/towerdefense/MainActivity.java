@@ -24,10 +24,6 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
         findViewById(R.id.btn_settings).setOnClickListener(this);
 
-        Button demo = (Button) findViewById(R.id.btn_demo);
-        demo.setTypeface(typeface);
-        demo.setOnClickListener(this);
-
         Button singlePlayer = (Button) findViewById(R.id.btn_single_player);
         singlePlayer.setTypeface(typeface);
         singlePlayer.setOnClickListener(this);
@@ -106,11 +102,8 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
                 startActivity(new Intent(getApplicationContext(), GameSettingsActivity.class));
                 break;
 
-            case R.id.btn_demo:
-                startActivity(new Intent(getApplicationContext(), InGameActivity.class));
-                break;
-
             case R.id.btn_single_player:
+                startActivity(new Intent(getApplicationContext(), InGameActivity.class));
                 break;
 
             case R.id.btn_multiplayer:

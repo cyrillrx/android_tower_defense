@@ -4,7 +4,6 @@
     <string name="app_name">Tower Defense</string>
 
     <!-- Home Screen Menu -->
-    <string name="title_demo">Demo</string>
     <string name="title_singe_player">Single Player</string>
     <string name="title_multiplayer">Multiplayer</string>
     <string name="title_achievements">Achievements</string>

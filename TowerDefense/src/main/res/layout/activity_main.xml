@@ -46,11 +46,6 @@
                 android:gravity="center">
 
             <Button
-                    android:id="@+id/btn_demo"
-                    android:text="@string/title_demo"
-                    style="@style/HomeScreenButton" />
-
-            <Button
                     android:id="@+id/btn_single_player"
                     android:text="@string/title_singe_player"
                     style="@style/HomeScreenButton" />

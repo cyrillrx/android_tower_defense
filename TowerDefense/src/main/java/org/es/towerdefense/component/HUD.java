@@ -83,11 +83,11 @@ public class HUD implements DrawableElement {
 
     /**
      * Intercepts event sent by the drawing thread.
-     * Returns true if the event is consumed.
-     * @param event
+     * Returns true if the event is consumed. and false otherwise.
+     * @param event the event to intercepts.
      * @return true if the event is consumed. False otherwise.
      */
-    public boolean catchEvent(MotionEvent event) {
+    public boolean consumeEvent(MotionEvent event) {
 
         if (mPause.getBounds().contains(event.getX(), event.getY())) {
             // Toggle pause

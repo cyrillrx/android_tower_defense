@@ -28,7 +28,6 @@
 
         <activity
                 android:name=".InGameActivity"
-                android:label="@string/title_demo"
                 android:screenOrientation="userLandscape" />
 
         <activity

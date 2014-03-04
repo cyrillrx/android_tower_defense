@@ -61,7 +61,7 @@ public class TowerDefenseThread extends DrawingThread {
         switch (action) {
 
             case MotionEvent.ACTION_DOWN:
-                if (mMainHud.catchEvent(event)) {
+                if (mMainHud.consumeEvent(event)) {
                     return;
                 }
 
