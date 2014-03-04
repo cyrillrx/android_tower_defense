@@ -10,9 +10,9 @@ public class Node {
 
     private int mX;
     private int mY;
-    private Node _parentNode;
-    private Double g = 0d;
-    private Double f = 0d;
+    private Node mParentNode;
+    private double mG = 0d;
+    private double mF = 0d;
 
     public Node(int x, int y)
     {
@@ -27,7 +27,7 @@ public class Node {
 
     public void setParentNode(Node parentNode)
     {
-        _parentNode = parentNode;
+        mParentNode = parentNode;
     }
 
     @Override
@@ -62,22 +62,22 @@ public class Node {
     }
 
     public Node getParentNode() {
-        return _parentNode;
+        return mParentNode;
     }
 
-    public Double getG() {
-        return g;
+    public double getG() {
+        return mG;
     }
 
-    public void setG(Double g) {
-        this.g = g;
+    public void setG(double g) {
+        this.mG = g;
     }
 
-    public Double getF() {
-        return f;
+    public double getF() {
+        return mF;
     }
 
-    public void setF(Double f) {
-        this.f = f;
+    public void setF(double f) {
+        this.mF = f;
     }
 }
