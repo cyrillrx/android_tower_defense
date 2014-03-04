@@ -44,7 +44,7 @@ public class BattlegroundHelper {
         final float grid = columnCount / rowCount;
 
         // Adjust the size to the surface
-        return (grid > surfaceRatio) ?
+        return (grid < surfaceRatio) ?
                 surfaceWidth / columnCount:
                 surfaceHeight / rowCount;
     }
