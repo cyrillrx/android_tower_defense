@@ -30,11 +30,11 @@ public class BattlegroundDAO {
      */
     public static Battleground loadDebugBattleGround(Resources resources, DrawingParam param, Set<Tower> towers) {
 
-        final int columnCount = 15;
+        final int columnCount = 12;
         final int rowCount = 7;
         Battleground battleground = new Battleground(columnCount, rowCount,
                 new Point[]{new Point(0, 3)},
-                new Point[]{new Point(14, 3)},
+                new Point[]{new Point(11, 3)},
                 resources, param);
 
         // init visual map
@@ -49,13 +49,13 @@ public class BattlegroundDAO {
 //        };
 
         int[][] walkingMap = {
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-                {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
+                {0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, },
+                {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, },
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, },
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, }
         };
         // fill the battleground with towers
         for (int y = 0; y < rowCount; y++) {

@@ -13,7 +13,6 @@ import android.preference.PreferenceManager;
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.towerdefense.battleground.Battleground;
 import org.es.towerdefense.battleground.BattlegroundDAO;
-import org.es.towerdefense.component.HUD;
 import org.es.towerdefense.object.Player;
 import org.es.towerdefense.object.Wave;
 import org.es.towerdefense.unit.Destructible;
@@ -237,5 +236,13 @@ public class GameMgr {
 
     public void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
         mBattleground.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
+    }
+
+    public void updateScaleFactor(float mScaleFactor) {
+        mDrawingParam.setCoef(mScaleFactor * mBattleground.getTileSize());
+    }
+
+    public void updateOffset(float dx, float dy) {
+        mDrawingParam.offset(dx, dy);
     }
 }

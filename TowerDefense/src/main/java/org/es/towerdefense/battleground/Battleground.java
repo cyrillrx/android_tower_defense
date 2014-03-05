@@ -29,6 +29,8 @@ public class Battleground implements DrawableElement {
     private final Point[] mSpawnPoints;
     private final Point[] mGoals;
 
+    private float mMinTileSize;
+
     public Battleground(int columnCount, int rowCount, Point[] spawnPoints, Point[] goals, Resources resources, DrawingParam drawingParam) {
         mColumnCount = columnCount;
         mRowCount = rowCount;
@@ -38,6 +40,8 @@ public class Battleground implements DrawableElement {
         mPosition = new PointF(0, 0);
         mDrawingParam = drawingParam;
     }
+
+    public float getTileSize() { return mMinTileSize; }
 
     public Point getGoal(int goalId) { return mGoals[goalId]; }
 
@@ -67,10 +71,17 @@ public class Battleground implements DrawableElement {
 
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-        float minSize = BattlegroundHelper.minTileSize(surfaceWidth, surfaceHeight, mColumnCount, mRowCount);
-        mDrawingParam.setCoef(minSize);
+        mMinTileSize = BattlegroundHelper.minTileSize(surfaceWidth, surfaceHeight, mColumnCount, mRowCount);
+
+        // Adapt the drawing parameters.
+        mDrawingParam.setCoef(mMinTileSize);
+        mDrawingParam.setDrawSize(mColumnCount, mRowCount);
+        mDrawingParam.setViewport(surfaceWidth, surfaceHeight);
+
+        // Center the viewport
+        float offsetX = (surfaceWidth - getWidth() *  mDrawingParam.coef()) / 2f;
         float offsetY = (surfaceHeight - getHeight() *  mDrawingParam.coef()) / 2f;
-        mDrawingParam.setOffset(0, offsetY);
+        mDrawingParam.setOffset(offsetX, offsetY);
     }
 
     @Override

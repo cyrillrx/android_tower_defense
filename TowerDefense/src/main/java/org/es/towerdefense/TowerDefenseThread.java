@@ -2,8 +2,11 @@ package org.es.towerdefense;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
+import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
 
 import org.es.engine.gamemechanic.DrawingThread;
@@ -18,12 +21,17 @@ import org.es.towerdefense.process.GameMgr;
 public class TowerDefenseThread extends DrawingThread {
 
     private enum TouchMode {
-        NONE, DRAG, ZOOM
+        NONE, SCROLL, ZOOM
     }
 
     private final Player mPlayer;
     private final HUD mMainHud;
     private final GameMgr mGameMgr;
+
+    private GestureDetector mScrollDetector;
+    private ScaleGestureDetector mScaleDetector;
+
+    private float mScaleFactor = 1.f;
 
     private TouchMode mTouchMode;
 
@@ -34,6 +42,9 @@ public class TowerDefenseThread extends DrawingThread {
         mGameMgr = new GameMgr(mPlayer, context);
         mMainHud = new HUD(mPlayer, mGameMgr, context.getResources());
         mTouchMode = TouchMode.NONE;
+
+        mScrollDetector = new GestureDetector(context, new ScrollListener());
+        mScaleDetector = new ScaleGestureDetector(context, new ScaleListener());
     }
 
     @Override
@@ -56,22 +67,24 @@ public class TowerDefenseThread extends DrawingThread {
 
         // TODO implementation
 
-        final int action = event.getActionMasked();
+        final int action = event.getAction();
 
         switch (action) {
 
+            // First pointer down
             case MotionEvent.ACTION_DOWN:
+                // Intercepts touch events
                 if (mMainHud.consumeEvent(event)) {
                     return;
                 }
-
-                // Switch Mode to Drag
-                mTouchMode = TouchMode.DRAG;
+                // Switch Mode to SCROLL
+                mTouchMode = TouchMode.SCROLL;
                 break;
 
-            case MotionEvent.ACTION_MOVE:
-                // if drag_mode => Do drag
-                // if zoom => do zoom
+            // Last pointer up
+            case MotionEvent.ACTION_UP:
+                // Switch Mode to None
+                mTouchMode = TouchMode.NONE;
                 break;
 
             case MotionEvent.ACTION_POINTER_DOWN:
@@ -81,13 +94,33 @@ public class TowerDefenseThread extends DrawingThread {
 
             case MotionEvent.ACTION_POINTER_UP:
                 // TODO if (zoom) => switch to drag
+                if (mTouchMode.equals(TouchMode.ZOOM) && event.getPointerCount() == 1) {
+                    mTouchMode = TouchMode.SCROLL;
+                }
                 break;
 
-            case MotionEvent.ACTION_UP:
-                // Switch Mode to None
-                mTouchMode = TouchMode.NONE;
+            case MotionEvent.ACTION_MOVE:
+                // TODO Do the job here !
+                // if drag_mode => Do drag
+                // if zoom => do zoom
                 break;
+
+            default:
         }
+
+        // mScaleDetector.onTouchEvent may throw an exception (historyPos out of range)
+        try {
+            mScaleDetector.onTouchEvent(event);
+        } catch (IllegalArgumentException e) {
+            if (BuildConfig.DEBUG) {
+                Log.e("TowerDefenseThread", "Crash while calling mScaleDetector.onTouchEvent(event)", e);
+            }
+        }
+
+        if (mTouchMode.equals(TouchMode.SCROLL)) {
+            mScrollDetector.onTouchEvent(event);
+        }
+
     }
 
     @Override
@@ -103,6 +136,38 @@ public class TowerDefenseThread extends DrawingThread {
 
         // Draw the main Head-up display:Scores, GUI, ...
         mMainHud.draw(canvas, null);
-
     }
+
+    private class ScrollListener extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onScroll(MotionEvent initialEvent, MotionEvent currentEvent, float distanceX, float distanceY) {
+
+            mGameMgr.updateOffset(distanceX * -1f, distanceY * -1f);
+            return true;
+        }
+    }
+
+    private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+
+        private float lastSpanX;
+        private float lastSpanY;
+
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            lastSpanX = detector.getCurrentSpanX();
+            lastSpanY = detector.getCurrentSpanY();
+            return true;
+        }
+
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            mScaleFactor *= detector.getScaleFactor();
+            // Don't let the object get too small or too large.
+            mScaleFactor = Math.max(1f, Math.min(mScaleFactor, 5.0f));
+            mGameMgr.updateScaleFactor(mScaleFactor);
+            return true;
+        }
+    }
+
 }
