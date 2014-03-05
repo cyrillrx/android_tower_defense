@@ -18,6 +18,9 @@ android {
 
         release {
             storeFile file('../../keystore/release.keystore')
+            storePassword ""
+            keyAlias ""
+            keyPassword ""
         }
     }
 
@@ -25,10 +28,12 @@ android {
         debug {
             jniDebugBuild true
             debuggable true
+            signingConfig signingConfigs.debug
         }
         release {
             jniDebugBuild false
             debuggable false
+            signingConfig signingConfigs.release
         }
     }
 
