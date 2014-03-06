@@ -49,5 +49,6 @@ dependencies {
     compile project(':ToolBox')
     compile project(':Audio')
     compile 'com.google.android.gms:play-services:+'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:4.3.1'
     //compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }
