@@ -27,7 +27,10 @@ public class DrawingParam {
 
     public float coef() { return mCoefficient; }
 
-    public void setCoef(float coefficient) { mCoefficient = coefficient; }
+    public void setCoef(float coefficient) {
+        mCoefficient = coefficient;
+        fixOffsetIntegrity();
+    }
 
     public void setViewport(float viewportWidth, float viewportHeight) {
         mViewportWidth = viewportWidth;
@@ -50,8 +53,11 @@ public class DrawingParam {
      * the upper bound MAX_OFFSET (same value for x and y).
      */
     public void setOffset(float x, float y) {
-        mOffset.set(Math.max(getMinX(), Math.min(x, MAX_OFFSET)),
-                Math.max(getMinY(), Math.min(y, MAX_OFFSET)));
+        // Check offset overstep X
+        mOffset.x = Math.max(getMinX(), Math.min(x, MAX_OFFSET));
+
+        // Check offset overstep Y
+        mOffset.y = Math.max(getMinY(), Math.min(y, MAX_OFFSET));
     }
 
     /**
@@ -64,17 +70,26 @@ public class DrawingParam {
      * @param dy
      */
     public void offset(float dx, float dy) {
-        mOffset.offset(dx, dy);
+        setOffset(mOffset.x + dx, mOffset.y + dy);
+    }
+
+    private boolean fixOffsetIntegrity() {
+
+        boolean updateNeeded = false;
 
         // Check offset overstep X
         if (mOffset.x < getMinX() || mOffset.x > MAX_OFFSET) {
             mOffset.x = Math.max(getMinX(), Math.min(mOffset.x, MAX_OFFSET));
+            updateNeeded = true;
         }
 
         // Check offset overstep Y
         if (mOffset.y < getMinY() || mOffset.y > MAX_OFFSET) {
             mOffset.y = Math.max(getMinY(), Math.min(mOffset.y, MAX_OFFSET));
+            updateNeeded = true;
         }
+
+        return updateNeeded;
     }
 
     /** @return The min possible value for offset.x. */

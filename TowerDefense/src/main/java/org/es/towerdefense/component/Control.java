@@ -1,8 +1,10 @@
 package org.es.towerdefense.component;
 
+import android.graphics.Canvas;
 import android.graphics.RectF;
 
 import org.es.engine.graphics.drawable.DrawableElement;
+import org.es.engine.graphics.utils.DrawingParam;
 
 /**
  * @author Cyril Leroux
@@ -17,6 +19,10 @@ public abstract class Control implements DrawableElement {
     }
 
     public RectF getBounds() { return mBounds; }
+
+    public void draw(Canvas canvas) {
+        draw(canvas, null);
+    }
 
     @Override
     public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) { }

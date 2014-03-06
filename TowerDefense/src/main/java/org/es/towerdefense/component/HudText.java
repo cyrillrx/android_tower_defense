@@ -11,20 +11,19 @@ import org.es.utils.DrawTextUtils;
  * @author Cyril Leroux
  *         Created 02/03/14.
  */
-public class HudText extends Control {
+public abstract class HudText extends Control {
 
     private final DrawTextUtils.HorizontalAlign mHorizontalAlign;
     private final DrawTextUtils.VerticalAlign mVerticalAlign;
     private final Paint mPaint;
 
     private final String mStaticText;
-    private String mText;
 
     private float mX;
     private float mY;
 
     public HudText(String staticText, float x, float y, DrawTextUtils.HorizontalAlign hAlign, DrawTextUtils.VerticalAlign vAlign, Paint paint) {
-        super(new RectF(x, y, x, y));
+        super(new RectF());
 
         mX = x;
         mY = y;
@@ -33,7 +32,6 @@ public class HudText extends Control {
         mPaint = paint;
 
         mStaticText = staticText;
-        mText = "";
     }
 
     /**
@@ -43,10 +41,13 @@ public class HudText extends Control {
      */
     @Override
     public void draw(Canvas canvas, DrawingParam param) {
-        mBounds.set(DrawTextUtils.drawText(mStaticText + mText, canvas, mX, mY, mHorizontalAlign, mVerticalAlign, mPaint));
+        mBounds.set(DrawTextUtils.drawText(mStaticText + getText(), canvas,
+                mX * canvas.getWidth(),
+                mY * canvas.getHeight(),
+                mHorizontalAlign, mVerticalAlign, mPaint));
     }
 
-    public void setText(String text) { mText = text; }
+    public abstract String getText();
 
     @Override
     public void setPosition(float x, float y) {
@@ -55,8 +56,5 @@ public class HudText extends Control {
     }
 
     @Override
-    public void offsetPosition(float dx, float dy) {
-        mX += dx;
-        mY += dy;
-    }
+    public void offsetPosition(float dx, float dy) { }
 }

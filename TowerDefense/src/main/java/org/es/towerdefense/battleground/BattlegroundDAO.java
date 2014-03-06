@@ -30,32 +30,24 @@ public class BattlegroundDAO {
      */
     public static Battleground loadDebugBattleGround(Resources resources, DrawingParam param, Set<Tower> towers) {
 
-        final int columnCount = 12;
-        final int rowCount = 7;
+        final int columnCount = 16;
+        final int rowCount = 10;
         Battleground battleground = new Battleground(columnCount, rowCount,
                 new Point[]{new Point(0, 3)},
-                new Point[]{new Point(11, 3)},
+                new Point[]{new Point(15, 3)},
                 resources, param);
 
-        // init visual map
-//        int[][] walkingMap = {
-//                {0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-//                {0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 1, 0, 0, 0},
-//                {0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0},
-//                {0, 0, 0, 0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 0},
-//                {1, 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-//                {0, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 1, 0},
-//                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0}
-//        };
-
         int[][] walkingMap = {
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, },
-                {0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 1, 0, },
-                {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, },
-                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, },
-                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, }
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 1, 0},
+                {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
         };
         // fill the battleground with towers
         for (int y = 0; y < rowCount; y++) {

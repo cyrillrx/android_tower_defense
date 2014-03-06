@@ -13,40 +13,35 @@ import org.es.towerdefense.object.Player;
 import org.es.towerdefense.process.GameMgr;
 import org.es.utils.DrawTextUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Cyril Leroux
  *         Created 02/03/14.
  */
 public class HUD implements DrawableElement {
 
-    private final Player mPlayer;
     private final GameMgr mGameMgr;
 
     private final HudButton mPause;
     private final HudButton mPlay;
-    private final HudText mScore;
-    private final HudText mMoney;
-    private final HudText mHealth;
+
+    private final List<Control> mControls;
 
     // TODO init with a resource manager
-    public HUD(Player player, GameMgr gameMgr, Resources resources) {
+    public HUD(GameMgr gameMgr, Resources resources) {
 
-        mPlayer = player;
+        mControls = new ArrayList<>();
         mGameMgr = gameMgr;
 
         mPlay = new HudButton(resources, R.drawable.ic_play, R.drawable.ic_play, new RectF());
         mPause = new HudButton(resources, R.drawable.ic_pause, R.drawable.ic_pause, new RectF());
 
+    }
 
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setAntiAlias(true);
-        paint.setStrokeWidth(1f);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setTextSize(30f);
-
-        mScore = new HudText(resources.getString(R.string.hud_score), 0, 0, DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint);
-        mMoney = new HudText(resources.getString(R.string.hud_money), 0, 0, DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint);
-        mHealth = new HudText(resources.getString(R.string.hud_health), 0, 0, DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint);
+    public void addControl(Control control) {
+        mControls.add(control);
     }
 
     @Override
@@ -58,27 +53,20 @@ public class HUD implements DrawableElement {
         playPauseBounds.offset(surfaceWidth - playPauseBounds.width() - margin, margin);
         mPlay.setBounds(playPauseBounds);
         mPause.setBounds(playPauseBounds);
-
-        mMoney.setPosition(margin, playPauseBounds.centerY());
-        mScore.setPosition(surfaceWidth / 2f, playPauseBounds.centerY());
-        mHealth.setPosition(surfaceWidth * 2f / 3f, playPauseBounds.centerY());
     }
 
     @Override
     public void draw(Canvas canvas, DrawingParam param) {
 
         if (mGameMgr.isPaused()) {
-            mPlay.draw(canvas, null);
+            mPlay.draw(canvas);
         } else {
-            mPause.draw(canvas, null);
+            mPause.draw(canvas);
         }
 
-        mScore.setText(String.valueOf(mPlayer.getScore()));
-        mScore.draw(canvas, null);
-        mMoney.setText(String.valueOf(mPlayer.getMoney()));
-        mMoney.draw(canvas, null);
-        mHealth.setText(String.valueOf(mPlayer.getHealth()));
-        mHealth.draw(canvas, null);
+        for (Control control : mControls) {
+            control.draw(canvas);
+        }
     }
 
     /**

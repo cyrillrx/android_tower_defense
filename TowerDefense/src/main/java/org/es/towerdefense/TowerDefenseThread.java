@@ -2,6 +2,7 @@ package org.es.towerdefense;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -11,8 +12,11 @@ import android.view.SurfaceHolder;
 
 import org.es.engine.gamemechanic.DrawingThread;
 import org.es.towerdefense.component.HUD;
+import org.es.towerdefense.component.HudHelper;
+import org.es.towerdefense.component.HudText;
 import org.es.towerdefense.object.Player;
 import org.es.towerdefense.process.GameMgr;
+import org.es.utils.DrawTextUtils;
 
 /**
  * @author Cyril Leroux
@@ -31,16 +35,49 @@ public class TowerDefenseThread extends DrawingThread {
     private GestureDetector mScrollDetector;
     private ScaleGestureDetector mScaleDetector;
 
+    private float mLastTouchX = Float.MIN_VALUE;
+    private float mLastTouchY = Float.MIN_VALUE;
+
     private float mScaleFactor = 1.f;
 
     private TouchMode mTouchMode;
+    private String mTouchAction = "Touch the screen";
 
     public TowerDefenseThread(SurfaceHolder surfaceHolder, Context context) {
         super(surfaceHolder, context);
 
         mPlayer = new Player(20, 1000);
         mGameMgr = new GameMgr(mPlayer, context);
-        mMainHud = new HUD(mPlayer, mGameMgr, context.getResources());
+        mMainHud = new HUD(mGameMgr, context.getResources());
+        HudHelper.initMainHud(mMainHud, mPlayer, mGameMgr, context.getResources());
+
+        ////////////////////////////////////////////////////////
+        // TODO get this bloc of code out of here
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setAntiAlias(true);
+        paint.setStrokeWidth(1f);
+        paint.setStyle(Paint.Style.FILL);
+        paint.setTextSize(30f);
+
+        HudText touchState = new HudText("", 0.98f, 0.98f,
+                DrawTextUtils.HorizontalAlign.LEFT, DrawTextUtils.VerticalAlign.TOP, paint) {
+            @Override
+            public String getText() {
+                return mTouchMode.name();
+            }
+        };
+        mMainHud.addControl(touchState);
+
+        HudText touchAction = new HudText("", 0.5f, 0.98f,
+                DrawTextUtils.HorizontalAlign.CENTER, DrawTextUtils.VerticalAlign.TOP, paint) {
+            @Override
+            public String getText() {
+                return mTouchAction;
+            }
+        };
+        mMainHud.addControl(touchAction);
+        ////////////////////////////////////////////////////////
+
         mTouchMode = TouchMode.NONE;
 
         mScrollDetector = new GestureDetector(context, new ScrollListener());
@@ -67,7 +104,13 @@ public class TowerDefenseThread extends DrawingThread {
 
         // TODO implementation
 
-        final int action = event.getAction();
+        final int action = event.getActionMasked();
+        final int id = event.getActionIndex();
+        mTouchAction = "processEvent => id:" + id + " act:" + action;
+
+        if (BuildConfig.DEBUG) {
+            Log.d("TowerDefenseThread", "processEvent => id:" + id + " act:" + action);
+        }
 
         switch (action) {
 
@@ -78,13 +121,13 @@ public class TowerDefenseThread extends DrawingThread {
                     return;
                 }
                 // Switch Mode to SCROLL
-                mTouchMode = TouchMode.SCROLL;
+                onScrollBegin(event.getX(), event.getY());
                 break;
 
             // Last pointer up
             case MotionEvent.ACTION_UP:
                 // Switch Mode to None
-                mTouchMode = TouchMode.NONE;
+                onScrollEnd();
                 break;
 
             case MotionEvent.ACTION_POINTER_DOWN:
@@ -94,13 +137,16 @@ public class TowerDefenseThread extends DrawingThread {
 
             case MotionEvent.ACTION_POINTER_UP:
                 // TODO if (zoom) => switch to drag
-                if (mTouchMode.equals(TouchMode.ZOOM) && event.getPointerCount() == 1) {
-                    mTouchMode = TouchMode.SCROLL;
+                if (mTouchMode.equals(TouchMode.ZOOM) && event.getPointerCount() == 2) {
+                    onScrollBegin(event.getX(), event.getY());
                 }
                 break;
 
             case MotionEvent.ACTION_MOVE:
                 // TODO Do the job here !
+                if (mTouchMode.equals(TouchMode.SCROLL)){
+                    onScroll(event);
+                }
                 // if drag_mode => Do drag
                 // if zoom => do zoom
                 break;
@@ -126,6 +172,11 @@ public class TowerDefenseThread extends DrawingThread {
     @Override
     protected void processEvent(KeyEvent event) {
         // TODO handle keyboard
+
+        final int action = event.getAction();
+        if (BuildConfig.DEBUG) {
+            Log.d("TowerDefenseThread", "processEvent(KeyEvent) : " + action);
+        }
     }
 
     @Override
@@ -143,7 +194,7 @@ public class TowerDefenseThread extends DrawingThread {
         @Override
         public boolean onScroll(MotionEvent initialEvent, MotionEvent currentEvent, float distanceX, float distanceY) {
 
-            mGameMgr.updateOffset(distanceX * -1f, distanceY * -1f);
+            //            mGameMgr.updateOffset(distanceX * -1f, distanceY * -1f);
             return true;
         }
     }
@@ -170,4 +221,27 @@ public class TowerDefenseThread extends DrawingThread {
         }
     }
 
+    private void onScrollBegin(float x, float y) {
+        mTouchMode = TouchMode.SCROLL;
+        mLastTouchX = x;
+        mLastTouchY = y;
+    }
+
+    private void onScroll(MotionEvent  event) {
+
+        if (mLastTouchX != Float.MIN_VALUE && mLastTouchY != Float.MIN_VALUE) {
+            float dx = event.getX() - mLastTouchX;
+            float dy = event.getY() - mLastTouchY;
+            mGameMgr.updateOffset(dx, dy);
+        }
+        mLastTouchX = event.getX();
+        mLastTouchY = event.getY();
+
+    }
+
+    private void onScrollEnd() {
+        mTouchMode = TouchMode.NONE;
+        mLastTouchX = Float.MIN_VALUE;
+        mLastTouchY = Float.MIN_VALUE;
+    }
 }
