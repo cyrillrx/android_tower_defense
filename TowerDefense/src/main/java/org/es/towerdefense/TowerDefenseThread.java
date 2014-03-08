@@ -12,12 +12,12 @@ import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
 
 import org.es.engine.gamemechanic.DrawingThread;
-import org.es.towerdefense.component.HUD;
+import org.es.engine.graphics.utils.DrawTextUtils;
+import org.es.engine.hud.HUD;
+import org.es.engine.hud.Text;
 import org.es.towerdefense.component.HudHelper;
-import org.es.towerdefense.component.HudText;
 import org.es.towerdefense.object.Player;
 import org.es.towerdefense.process.GameMgr;
-import org.es.utils.DrawTextUtils;
 
 /**
  * @author Cyril Leroux
@@ -60,7 +60,7 @@ public class TowerDefenseThread extends DrawingThread {
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(30f);
 
-        HudText touchState = new HudText(0.98f, 0.98f, "",
+        Text touchState = new Text(0.98f, 0.98f, "",
                 DrawTextUtils.HorizontalAlign.LEFT, DrawTextUtils.VerticalAlign.TOP, paint) {
             @Override
             public String getText() {
@@ -69,7 +69,7 @@ public class TowerDefenseThread extends DrawingThread {
         };
         mMainHud.addControl(touchState);
 
-        HudText touchAction = new HudText(0.5f, 0.98f, "",
+        Text touchAction = new Text(0.5f, 0.98f, "",
                 DrawTextUtils.HorizontalAlign.CENTER, DrawTextUtils.VerticalAlign.TOP, paint) {
             @Override
             public String getText() {

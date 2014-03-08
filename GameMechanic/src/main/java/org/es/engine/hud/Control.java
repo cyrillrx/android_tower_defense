@@ -1,4 +1,4 @@
-package org.es.towerdefense.component;
+package org.es.engine.hud;
 
 import android.graphics.Canvas;
 import android.graphics.RectF;

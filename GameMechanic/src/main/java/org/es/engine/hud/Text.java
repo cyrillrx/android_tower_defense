@@ -1,16 +1,16 @@
-package org.es.towerdefense.component;
+package org.es.engine.hud;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
 
+import org.es.engine.graphics.utils.DrawTextUtils;
 import org.es.engine.graphics.utils.DrawingParam;
-import org.es.utils.DrawTextUtils;
 
 /**
  * @author Cyril Leroux
  *         Created 02/03/14.
  */
-public abstract class HudText extends Control {
+public abstract class Text extends Control {
 
     private final DrawTextUtils.HorizontalAlign mHorizontalAlign;
     private final DrawTextUtils.VerticalAlign mVerticalAlign;
@@ -18,7 +18,7 @@ public abstract class HudText extends Control {
 
     private final String mStaticText;
 
-    public HudText(float xCoef, float yCoef, String staticText, DrawTextUtils.HorizontalAlign hAlign, DrawTextUtils.VerticalAlign vAlign, Paint paint) {
+    public Text(float xCoef, float yCoef, String staticText, DrawTextUtils.HorizontalAlign hAlign, DrawTextUtils.VerticalAlign vAlign, Paint paint) {
         super(xCoef, yCoef);
 
         mHorizontalAlign = hAlign;

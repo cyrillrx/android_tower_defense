@@ -1,4 +1,4 @@
-package org.es.towerdefense.component;
+package org.es.engine.hud;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -11,17 +11,17 @@ import org.es.engine.graphics.utils.DrawingParam;
  * @author Cyril Leroux
  *         Created 02/03/14.
  */
-public abstract class HudToggleButton extends HudButton {
+public abstract class ToggleButton extends Button {
 
     protected final Bitmap mNormalBitmap2;
     protected final Bitmap mPressedBitmap2;
 
     private boolean mSwitch;
 
-    public HudToggleButton(float xCoef, float yCoef, float coefWidth, float coefHeight,
-                           Resources resources,
-                           int resIdNormal, int resIdPressed,
-                           int resIdNormal2, int resIdPressed2) {
+    public ToggleButton(float xCoef, float yCoef, float coefWidth, float coefHeight,
+                        Resources resources,
+                        int resIdNormal, int resIdPressed,
+                        int resIdNormal2, int resIdPressed2) {
         super(xCoef, yCoef, coefWidth, coefHeight, resources, resIdNormal, resIdPressed);
 
         mNormalBitmap2 = BitmapFactory.decodeResource(resources, resIdNormal2);

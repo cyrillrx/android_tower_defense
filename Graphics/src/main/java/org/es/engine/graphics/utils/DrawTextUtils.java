@@ -1,4 +1,4 @@
-package org.es.utils;
+package org.es.engine.graphics.utils;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

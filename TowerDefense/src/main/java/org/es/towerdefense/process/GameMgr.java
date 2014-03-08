@@ -10,6 +10,7 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.preference.PreferenceManager;
 
+import org.es.engine.graphics.utils.DrawTextUtils;
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.towerdefense.battleground.Battleground;
 import org.es.towerdefense.battleground.BattlegroundDAO;
@@ -18,7 +19,6 @@ import org.es.towerdefense.object.Wave;
 import org.es.towerdefense.unit.Destructible;
 import org.es.towerdefense.unit.Enemy;
 import org.es.towerdefense.unit.Tower;
-import org.es.utils.DrawTextUtils;
 
 import java.util.ArrayDeque;
 import java.util.Collections;
@@ -28,8 +28,8 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static org.es.utils.DrawTextUtils.HorizontalAlign.RIGHT;
-import static org.es.utils.DrawTextUtils.VerticalAlign.TOP;
+import static org.es.engine.graphics.utils.DrawTextUtils.HorizontalAlign.RIGHT;
+import static org.es.engine.graphics.utils.DrawTextUtils.VerticalAlign.TOP;
 
 /**
  * @author Cyril Leroux

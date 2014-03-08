@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.es.utils;
+package org.es.engine.gameservices;
 
 import android.annotation.TargetApi;
 import android.content.Intent;

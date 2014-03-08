@@ -1,4 +1,4 @@
-package org.es.towerdefense.component;
+package org.es.engine.hud;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -12,7 +12,7 @@ import org.es.engine.graphics.utils.DrawingParam;
  * @author Cyril Leroux
  *         Created 02/03/14.
  */
-public abstract class HudButton extends Control {
+public abstract class Button extends Control {
 
     protected boolean mPressed;
 
@@ -22,8 +22,8 @@ public abstract class HudButton extends Control {
     private final Bitmap mNormalBitmap;
     protected final Bitmap mPressedBitmap;
 
-    public HudButton(float xCoef, float yCoef, float coefWidth, float coefHeight,
-                     Resources resources, int resIdNormal, int resIdPressed) {
+    public Button(float xCoef, float yCoef, float coefWidth, float coefHeight,
+                  Resources resources, int resIdNormal, int resIdPressed) {
         super(xCoef, yCoef);
 
         mWidthCoef = coefWidth;

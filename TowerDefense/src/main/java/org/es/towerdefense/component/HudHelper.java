@@ -3,10 +3,13 @@ package org.es.towerdefense.component;
 import android.content.res.Resources;
 import android.graphics.Paint;
 
+import org.es.engine.graphics.utils.DrawTextUtils;
+import org.es.engine.hud.HUD;
+import org.es.engine.hud.Text;
+import org.es.engine.hud.ToggleButton;
 import org.es.towerdefense.R;
 import org.es.towerdefense.object.Player;
 import org.es.towerdefense.process.GameMgr;
-import org.es.utils.DrawTextUtils;
 
 /**
  * @author Cyril Leroux
@@ -33,7 +36,7 @@ public class HudHelper {
         // Play pause button
         //
 
-        final HudToggleButton playPause = new HudToggleButton(
+        final ToggleButton playPause = new ToggleButton(
                 1f - marginX - buttonSideX, marginY, 0f, buttonSideY,
                 resources,
                 R.drawable.ic_pause, R.drawable.ic_pause,
@@ -53,7 +56,7 @@ public class HudHelper {
         // Score
         //
 
-        final HudText score = new HudText(marginX, textTop, resources.getString(R.string.hud_score),
+        final Text score = new Text(marginX, textTop, resources.getString(R.string.hud_score),
                 DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint) {
             @Override
             protected String getText() {
@@ -66,7 +69,7 @@ public class HudHelper {
         // Money
         //
 
-        final HudText money = new HudText(1f / 3f, textTop, resources.getString(R.string.hud_money),
+        final Text money = new Text(1f / 3f, textTop, resources.getString(R.string.hud_money),
                 DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint) {
             @Override
             protected String getText() {
@@ -79,7 +82,7 @@ public class HudHelper {
         // Health
         //
 
-        final HudText HEALTH = new HudText(2f / 3f, textTop, resources.getString(R.string.hud_health),
+        final Text HEALTH = new Text(2f / 3f, textTop, resources.getString(R.string.hud_health),
                 DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint) {
             @Override
             protected String getText() {

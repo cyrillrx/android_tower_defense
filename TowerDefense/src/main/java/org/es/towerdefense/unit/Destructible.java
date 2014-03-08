@@ -9,12 +9,12 @@ import android.graphics.PointF;
 import org.es.engine.graphics.animation.AnimationCallback;
 import org.es.engine.graphics.drawable.DrawableElement;
 import org.es.engine.graphics.sprite.Sprite;
+import org.es.engine.graphics.utils.DrawTextUtils;
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.towerdefense.settings.PreferenceKey;
-import org.es.utils.DrawTextUtils;
 
-import static org.es.utils.DrawTextUtils.HorizontalAlign.CENTER;
-import static org.es.utils.DrawTextUtils.VerticalAlign.TOP;
+import static org.es.engine.graphics.utils.DrawTextUtils.HorizontalAlign.CENTER;
+import static org.es.engine.graphics.utils.DrawTextUtils.VerticalAlign.TOP;
 
 /**
  * Parent class for all destructible elements.

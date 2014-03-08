@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.es.utils;
+package org.es.engine.gameservices;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -39,7 +39,7 @@ import com.google.android.gms.games.GamesClient;
 import com.google.android.gms.games.multiplayer.Invitation;
 import com.google.android.gms.plus.PlusClient;
 
-import org.es.towerdefense.R;
+import org.es.engine.gamemechanic.R;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

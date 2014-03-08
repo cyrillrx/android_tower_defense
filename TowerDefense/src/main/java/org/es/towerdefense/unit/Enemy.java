@@ -8,19 +8,19 @@ import android.graphics.Point;
 import android.graphics.PointF;
 
 import org.es.engine.graphics.sprite.Sprite;
+import org.es.engine.graphics.utils.DrawTextUtils;
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.engine.toolbox.pathfinding.ShortestPath;
 import org.es.towerdefense.battleground.Battleground;
 import org.es.towerdefense.settings.PreferenceKey;
-import org.es.utils.DrawTextUtils;
 import org.es.utils.PositionUtils;
 
 import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
 
-import static org.es.utils.DrawTextUtils.HorizontalAlign.CENTER;
-import static org.es.utils.DrawTextUtils.VerticalAlign.BOTTOM;
+import static org.es.engine.graphics.utils.DrawTextUtils.HorizontalAlign.CENTER;
+import static org.es.engine.graphics.utils.DrawTextUtils.VerticalAlign.BOTTOM;
 
 /**
  * @author Cyril Leroux

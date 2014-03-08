@@ -7,8 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import org.es.engine.gameservices.BaseGameActivity;
 import org.es.towerdefense.settings.GameSettingsActivity;
-import org.es.utils.BaseGameActivity;
 
 
 public class MainActivity extends BaseGameActivity implements View.OnClickListener {
