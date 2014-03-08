@@ -2,7 +2,6 @@ package org.es.towerdefense.component;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.RectF;
 
 import org.es.engine.graphics.utils.DrawingParam;
 import org.es.utils.DrawTextUtils;
@@ -19,14 +18,9 @@ public abstract class HudText extends Control {
 
     private final String mStaticText;
 
-    private float mX;
-    private float mY;
+    public HudText(float xCoef, float yCoef, String staticText, DrawTextUtils.HorizontalAlign hAlign, DrawTextUtils.VerticalAlign vAlign, Paint paint) {
+        super(xCoef, yCoef);
 
-    public HudText(String staticText, float x, float y, DrawTextUtils.HorizontalAlign hAlign, DrawTextUtils.VerticalAlign vAlign, Paint paint) {
-        super(new RectF());
-
-        mX = x;
-        mY = y;
         mHorizontalAlign = hAlign;
         mVerticalAlign = vAlign;
         mPaint = paint;
@@ -41,23 +35,11 @@ public abstract class HudText extends Control {
      */
     @Override
     public void draw(Canvas canvas, DrawingParam param) {
-        mBounds.set(DrawTextUtils.drawText(mStaticText + getText(), canvas,
-                mX * canvas.getWidth(),
-                mY * canvas.getHeight(),
+        setBounds(DrawTextUtils.drawText(mStaticText + getText(), canvas,
+                getXCoef() * canvas.getWidth(),
+                getYCoef() * canvas.getHeight(),
                 mHorizontalAlign, mVerticalAlign, mPaint));
     }
 
     protected abstract String getText();
-
-    @Override
-    public void setPosition(float x, float y) {
-        mX = x;
-        mY = y;
-    }
-
-    @Override
-    public void offsetPosition(float dx, float dy) {
-        mX += dx;
-        mY += dy;
-    }
 }

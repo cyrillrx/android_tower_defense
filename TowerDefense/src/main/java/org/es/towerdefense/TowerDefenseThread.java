@@ -6,7 +6,6 @@ import android.graphics.Paint;
 import android.os.Build;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.InputEvent;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -51,6 +50,7 @@ public class TowerDefenseThread extends DrawingThread {
         mPlayer = new Player(20, 1000);
         mGameMgr = new GameMgr(mPlayer, context);
         mMainHud = new HUD();
+        HudHelper.initMainHud(mMainHud, mPlayer, mGameMgr, getResources());
 
         ////////////////////////////////////////////////////////
         // TODO get this bloc of code out of here
@@ -60,7 +60,7 @@ public class TowerDefenseThread extends DrawingThread {
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(30f);
 
-        HudText touchState = new HudText("", 0.98f, 0.98f,
+        HudText touchState = new HudText(0.98f, 0.98f, "",
                 DrawTextUtils.HorizontalAlign.LEFT, DrawTextUtils.VerticalAlign.TOP, paint) {
             @Override
             public String getText() {
@@ -69,7 +69,7 @@ public class TowerDefenseThread extends DrawingThread {
         };
         mMainHud.addControl(touchState);
 
-        HudText touchAction = new HudText("", 0.5f, 0.98f,
+        HudText touchAction = new HudText(0.5f, 0.98f, "",
                 DrawTextUtils.HorizontalAlign.CENTER, DrawTextUtils.VerticalAlign.TOP, paint) {
             @Override
             public String getText() {
@@ -88,8 +88,6 @@ public class TowerDefenseThread extends DrawingThread {
     @Override
     protected void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
 
-        // TODO prevent from reinit !!!
-        HudHelper.initMainHud(mMainHud, surfaceWidth, surfaceHeight, mPlayer, mGameMgr, getResources());
         mMainHud.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
         mGameMgr.updateSurfaceSize(surfaceWidth, surfaceHeight);
     }

@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import org.es.engine.graphics.utils.DrawingParam;
@@ -15,13 +14,20 @@ import org.es.engine.graphics.utils.DrawingParam;
  */
 public abstract class HudButton extends Control {
 
-    protected final Bitmap mNormalBitmap;
-    protected final Bitmap mPressedBitmap;
-
     protected boolean mPressed;
 
-    public HudButton(Resources resources, int resIdNormal, int resIdPressed, RectF bounds) {
-        super(bounds);
+    private float mWidthCoef;
+    private float mHeightCoef;
+
+    private final Bitmap mNormalBitmap;
+    protected final Bitmap mPressedBitmap;
+
+    public HudButton(float xCoef, float yCoef, float coefWidth, float coefHeight,
+                     Resources resources, int resIdNormal, int resIdPressed) {
+        super(xCoef, yCoef);
+
+        mWidthCoef = coefWidth;
+        mHeightCoef = coefHeight;
 
         mNormalBitmap = BitmapFactory.decodeResource(resources, resIdNormal);
         mPressedBitmap = BitmapFactory.decodeResource(resources, resIdPressed);
@@ -58,11 +64,15 @@ public abstract class HudButton extends Control {
      */
     @Override
     public void draw(Canvas canvas, DrawingParam param) {
-        canvas.drawBitmap((isPressed() ? mPressedBitmap : mNormalBitmap), null, mBounds, null);
-    }
+        float left = canvas.getWidth() * getXCoef();
+        float top = canvas.getHeight() * getYCoef();
 
-    public void setBounds(RectF bounds) {
-        mBounds.set(bounds);
+        // TODO update
+        float right = left + canvas.getHeight() * getHeightCoef();
+        float bottom = top + canvas.getHeight() * getHeightCoef();
+
+        setBounds(left, top, right, bottom);
+        canvas.drawBitmap((isPressed() ? mPressedBitmap : mNormalBitmap), null, getBounds(), null);
     }
 
     protected void press() {
@@ -75,4 +85,8 @@ public abstract class HudButton extends Control {
     public boolean isPressed() { return mPressed; }
 
     protected abstract void onClick();
+
+    protected float getWidthCoef() { return mWidthCoef; }
+
+    protected float getHeightCoef() { return mHeightCoef; }
 }

@@ -4,7 +4,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.RectF;
 
 import org.es.engine.graphics.utils.DrawingParam;
 
@@ -19,11 +18,11 @@ public abstract class HudToggleButton extends HudButton {
 
     private boolean mSwitch;
 
-    public HudToggleButton(Resources resources,
+    public HudToggleButton(float xCoef, float yCoef, float coefWidth, float coefHeight,
+                           Resources resources,
                            int resIdNormal, int resIdPressed,
-                           int resIdNormal2, int resIdPressed2,
-                           RectF bounds) {
-        super(resources, resIdNormal, resIdPressed, bounds);
+                           int resIdNormal2, int resIdPressed2) {
+        super(xCoef, yCoef, coefWidth, coefHeight, resources, resIdNormal, resIdPressed);
 
         mNormalBitmap2 = BitmapFactory.decodeResource(resources, resIdNormal2);
         mPressedBitmap2 = BitmapFactory.decodeResource(resources, resIdPressed2);
@@ -41,7 +40,7 @@ public abstract class HudToggleButton extends HudButton {
         if (mSwitch) {
             super.draw(canvas, param);
         } else {
-            canvas.drawBitmap((isPressed() ? mPressedBitmap2 : mNormalBitmap2), null, mBounds, null);
+            canvas.drawBitmap((isPressed() ? mPressedBitmap2 : mNormalBitmap2), null, getBounds(), null);
         }
     }
 

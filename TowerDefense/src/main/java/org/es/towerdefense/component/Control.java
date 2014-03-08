@@ -12,10 +12,16 @@ import org.es.engine.graphics.drawable.DrawableElement;
  */
 public abstract class Control implements DrawableElement {
 
-    protected final RectF mBounds;
+    /** The bounds of the control on screen. */
+    private final RectF mBounds;
 
-    public Control(RectF bounds) {
-        mBounds = bounds;
+    private float mXCoef;
+    private float mYCoef;
+
+    public Control(float xCoef, float yCoef) {
+        mBounds = new RectF();
+        mXCoef = xCoef;
+        mYCoef = yCoef;
     }
 
     /**
@@ -31,6 +37,12 @@ public abstract class Control implements DrawableElement {
 
     public RectF getBounds() { return mBounds; }
 
+    protected void setBounds(RectF bounds) { mBounds.set(bounds); }
+
+    protected void setBounds(float left, float top, float right, float bottom) {
+        mBounds.set(left, top, right, bottom);
+    }
+
     public void draw(Canvas canvas) {
         draw(canvas, null);
     }
@@ -44,14 +56,21 @@ public abstract class Control implements DrawableElement {
     @Override
     public float getPosY() { return mBounds.top; }
 
+    /**
+     * Define the position coefficient for abscissa and ordinates.
+     * @param xCoef coefficient for abscissa.
+     * @param yCoef coefficient for ordinates.
+     */
     @Override
-    public void setPosition(float x, float y) {
-        mBounds.set(x, y, x + mBounds.width(), y + mBounds.height());
+    public void setPosition(float xCoef, float yCoef) {
+        mXCoef = xCoef;
+        mYCoef = yCoef;
     }
 
     @Override
     public void offsetPosition(float dx, float dy) {
-        mBounds.offset(dy, dy);
+        mXCoef += dx;
+        mYCoef += dy;
     }
 
     @Override
@@ -59,4 +78,8 @@ public abstract class Control implements DrawableElement {
 
     @Override
     public float getHeight() { return mBounds.height(); }
+
+    protected float getXCoef() { return mXCoef; }
+
+    protected float getYCoef() { return mYCoef; }
 }

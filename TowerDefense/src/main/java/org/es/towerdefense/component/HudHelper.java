@@ -2,7 +2,6 @@ package org.es.towerdefense.component;
 
 import android.content.res.Resources;
 import android.graphics.Paint;
-import android.graphics.RectF;
 
 import org.es.towerdefense.R;
 import org.es.towerdefense.object.Player;
@@ -15,15 +14,8 @@ import org.es.utils.DrawTextUtils;
  */
 public class HudHelper {
 
-    private static HudToggleButton PLAY_PAUSE;
-
-    private static HudText SCORE;
-    private static HudText MONEY;
-    private static HudText HEALTH;
-
     // TODO init with a resource manager
-    public static void initMainHud(HUD mainHud, float surfaceWidth, float surfaceHeight,
-                                   final Player player, final GameMgr gameMgr, final Resources resources) {
+    public static void initMainHud(HUD mainHud, final Player player, final GameMgr gameMgr, final Resources resources) {
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setAntiAlias(true);
@@ -31,85 +23,69 @@ public class HudHelper {
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(30f);
 
-        final float margin = 0.02f;
-        final float buttonSide = 0.1f;
+        final float screenRatio = 16f / 10f;
+        final float marginY = 0.02f;
+        final float marginX = 0.02f / screenRatio;
+        final float buttonSideY = 0.1f;
+        final float buttonSideX = buttonSideY / screenRatio;
 
         //
         // Play pause button
         //
 
-        // TODO replace by margin
-        final float realMargin = 0.02f * surfaceHeight;
-        RectF playPauseBounds = new RectF(0, 0, surfaceHeight * buttonSide, surfaceHeight * buttonSide);
-        playPauseBounds.offset(surfaceWidth - playPauseBounds.width() - realMargin, realMargin);
+        final HudToggleButton playPause = new HudToggleButton(
+                1f - marginX - buttonSideX, marginY, 0f, buttonSideY,
+                resources,
+                R.drawable.ic_pause, R.drawable.ic_pause,
+                R.drawable.ic_play, R.drawable.ic_play) {
+            @Override
+            protected void onClick() { gameMgr.pause(); }
 
-        if (PLAY_PAUSE == null) {
-            PLAY_PAUSE = new HudToggleButton(resources,
-                    R.drawable.ic_pause, R.drawable.ic_pause,
-                    R.drawable.ic_play, R.drawable.ic_play, playPauseBounds) {
-                @Override
-                protected void onClick() { gameMgr.pause(); }
-
-                @Override
-                protected void onClick2() { gameMgr.resume(); }
-            };
-            mainHud.addControl(PLAY_PAUSE);
-        } else {
-            PLAY_PAUSE.setBounds(playPauseBounds);
-        }
+            @Override
+            protected void onClick2() { gameMgr.resume(); }
+        };
+        mainHud.addControl(playPause);
 
 
-        final float textTop = buttonSide / 2f + margin;
+        final float textTop = buttonSideY / 2f + marginY;
 
         //
         // Score
         //
 
-        if (SCORE == null) {
-            SCORE = new HudText(resources.getString(R.string.hud_score), margin, textTop,
-                    DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint) {
-                @Override
-                protected String getText() {
-                    return String.valueOf(player.getScore());
-                }
-            };
-            mainHud.addControl(SCORE);
-        } else {
-            SCORE.setPosition(margin, textTop);
-        }
+        final HudText score = new HudText(marginX, textTop, resources.getString(R.string.hud_score),
+                DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint) {
+            @Override
+            protected String getText() {
+                return String.valueOf(player.getScore());
+            }
+        };
+        mainHud.addControl(score);
 
         //
         // Money
         //
 
-        if (MONEY == null) {
-            MONEY = new HudText(resources.getString(R.string.hud_money), 1f / 3f, textTop,
-                    DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint) {
-                @Override
-                protected String getText() {
-                    return String.valueOf(player.getMoney());
-                }
-            };
-            mainHud.addControl(MONEY);
-        } else {
-            MONEY.setPosition(1f / 3f, textTop);
-        }
+        final HudText money = new HudText(1f / 3f, textTop, resources.getString(R.string.hud_money),
+                DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint) {
+            @Override
+            protected String getText() {
+                return String.valueOf(player.getMoney());
+            }
+        };
+        mainHud.addControl(money);
 
         //
         // Health
         //
 
-        if (HEALTH == null) {
-            HEALTH = new HudText(resources.getString(R.string.hud_health), 2f / 3f, textTop,
-                    DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint) {
-                @Override
-                protected String getText() {
-                    return String.valueOf(player.getHealth());
-                }
-            };
-            mainHud.addControl(HEALTH);
-        } else {
-            HEALTH.setPosition(2f / 3f, textTop);
-        }
+        final HudText HEALTH = new HudText(2f / 3f, textTop, resources.getString(R.string.hud_health),
+                DrawTextUtils.HorizontalAlign.RIGHT, DrawTextUtils.VerticalAlign.CENTER, paint) {
+            @Override
+            protected String getText() {
+                return String.valueOf(player.getHealth());
+            }
+        };
+        mainHud.addControl(HEALTH);
     }
 }
