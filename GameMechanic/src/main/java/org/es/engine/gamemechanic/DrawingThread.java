@@ -110,7 +110,7 @@ public abstract class DrawingThread extends Thread {
     protected abstract void processEvent(KeyEvent event);
 
     /** Add a motionEvent that will be processed in {@link #update()}. */
-    protected boolean addInputEvent(InputEvent event) {
+    public boolean addInputEvent(InputEvent event) {
         return mEventQueue.add(event);
     }
 
