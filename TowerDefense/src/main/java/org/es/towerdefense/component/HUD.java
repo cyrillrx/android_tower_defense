@@ -1,17 +1,10 @@
 package org.es.towerdefense.component;
 
-import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import org.es.engine.graphics.drawable.DrawableElement;
 import org.es.engine.graphics.utils.DrawingParam;
-import org.es.towerdefense.R;
-import org.es.towerdefense.object.Player;
-import org.es.towerdefense.process.GameMgr;
-import org.es.utils.DrawTextUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,22 +15,10 @@ import java.util.List;
  */
 public class HUD implements DrawableElement {
 
-    private final GameMgr mGameMgr;
-
-    private final HudButton mPause;
-    private final HudButton mPlay;
-
     private final List<Control> mControls;
 
-    // TODO init with a resource manager
-    public HUD(GameMgr gameMgr, Resources resources) {
-
+    public HUD() {
         mControls = new ArrayList<>();
-        mGameMgr = gameMgr;
-
-        mPlay = new HudButton(resources, R.drawable.ic_play, R.drawable.ic_play, new RectF());
-        mPause = new HudButton(resources, R.drawable.ic_pause, R.drawable.ic_pause, new RectF());
-
     }
 
     public void addControl(Control control) {
@@ -45,24 +26,10 @@ public class HUD implements DrawableElement {
     }
 
     @Override
-    public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) {
-
-        final float margin = surfaceHeight * 0.02f;
-
-        RectF playPauseBounds = new RectF(0, 0, surfaceHeight * 0.1f, surfaceHeight * 0.1f);
-        playPauseBounds.offset(surfaceWidth - playPauseBounds.width() - margin, margin);
-        mPlay.setBounds(playPauseBounds);
-        mPause.setBounds(playPauseBounds);
-    }
+    public void onUpdateSurfaceSize(int surfaceWidth, int surfaceHeight) { }
 
     @Override
     public void draw(Canvas canvas, DrawingParam param) {
-
-        if (mGameMgr.isPaused()) {
-            mPlay.draw(canvas);
-        } else {
-            mPause.draw(canvas);
-        }
 
         for (Control control : mControls) {
             control.draw(canvas);
@@ -77,15 +44,12 @@ public class HUD implements DrawableElement {
      */
     public boolean consumeEvent(MotionEvent event) {
 
-        if (mPause.getBounds().contains(event.getX(), event.getY())) {
-            // Toggle pause
-            if (mGameMgr.isPaused()) {
-                mGameMgr.resume();
-            } else {
-                mGameMgr.pause();
+        for (Control control : mControls) {
+            if (control.consumeEvent(event)) {
+                return true;
             }
-            return true;
         }
+
         return false;
     }
 

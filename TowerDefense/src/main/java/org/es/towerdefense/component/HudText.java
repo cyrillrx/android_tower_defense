@@ -47,7 +47,7 @@ public abstract class HudText extends Control {
                 mHorizontalAlign, mVerticalAlign, mPaint));
     }
 
-    public abstract String getText();
+    protected abstract String getText();
 
     @Override
     public void setPosition(float x, float y) {
@@ -56,5 +56,8 @@ public abstract class HudText extends Control {
     }
 
     @Override
-    public void offsetPosition(float dx, float dy) { }
+    public void offsetPosition(float dx, float dy) {
+        mX += dx;
+        mY += dy;
+    }
 }

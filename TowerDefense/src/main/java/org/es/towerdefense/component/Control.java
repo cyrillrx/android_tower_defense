@@ -2,9 +2,9 @@ package org.es.towerdefense.component;
 
 import android.graphics.Canvas;
 import android.graphics.RectF;
+import android.view.MotionEvent;
 
 import org.es.engine.graphics.drawable.DrawableElement;
-import org.es.engine.graphics.utils.DrawingParam;
 
 /**
  * @author Cyril Leroux
@@ -16,6 +16,17 @@ public abstract class Control implements DrawableElement {
 
     public Control(RectF bounds) {
         mBounds = bounds;
+    }
+
+    /**
+     * Intercepts events.
+     * Returns true if the event is consumed. and false otherwise.
+     * By default a control does not consume the event.
+     * @param event the event to intercepts.
+     * @return true if the event is consumed. False otherwise.
+     */
+    public boolean consumeEvent(MotionEvent event) {
+        return false;
     }
 
     public RectF getBounds() { return mBounds; }

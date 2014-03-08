@@ -3,6 +3,7 @@ package org.es.towerdefense;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Build;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.KeyEvent;
@@ -48,8 +49,7 @@ public class TowerDefenseThread extends DrawingThread {
 
         mPlayer = new Player(20, 1000);
         mGameMgr = new GameMgr(mPlayer, context);
-        mMainHud = new HUD(mGameMgr, context.getResources());
-        HudHelper.initMainHud(mMainHud, mPlayer, mGameMgr, context.getResources());
+        mMainHud = new HUD();
 
         ////////////////////////////////////////////////////////
         // TODO get this bloc of code out of here
@@ -86,6 +86,9 @@ public class TowerDefenseThread extends DrawingThread {
 
     @Override
     protected void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
+
+        // TODO prevent from reinit !!!
+        HudHelper.initMainHud(mMainHud, surfaceWidth, surfaceHeight, mPlayer, mGameMgr, mResources);
         mMainHud.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
         mGameMgr.updateSurfaceSize(surfaceWidth, surfaceHeight);
     }
@@ -106,10 +109,15 @@ public class TowerDefenseThread extends DrawingThread {
 
         final int action = event.getActionMasked();
         final int id = event.getActionIndex();
-        mTouchAction = "processEvent => id:" + id + " act:" + action;
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            mTouchAction = "processEvent => id:" + id + " act:" + action;
+        } else {
+            mTouchAction = "Action : " + MotionEvent.actionToString(event.getAction());
+        }
 
         if (BuildConfig.DEBUG) {
-            Log.d("TowerDefenseThread", "processEvent => id:" + id + " act:" + action);
+            Log.d("TowerDefenseThread", mTouchAction);
         }
 
         switch (action) {
