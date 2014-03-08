@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.os.Build;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.InputEvent;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -88,15 +89,15 @@ public class TowerDefenseThread extends DrawingThread {
     protected void updateSurfaceSize(int surfaceWidth, int surfaceHeight) {
 
         // TODO prevent from reinit !!!
-        HudHelper.initMainHud(mMainHud, surfaceWidth, surfaceHeight, mPlayer, mGameMgr, mResources);
+        HudHelper.initMainHud(mMainHud, surfaceWidth, surfaceHeight, mPlayer, mGameMgr, getResources());
         mMainHud.onUpdateSurfaceSize(surfaceWidth, surfaceHeight);
         mGameMgr.updateSurfaceSize(surfaceWidth, surfaceHeight);
     }
 
     @Override
     protected boolean update() {
-        while (!mEventQueue.isEmpty()) {
-            processEvent(mEventQueue.poll());
+        while (hasNext()) {
+            processEvent(pollInputEvent());
         }
         mGameMgr.update();
         return false;

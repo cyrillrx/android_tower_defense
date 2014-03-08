@@ -21,9 +21,9 @@ public abstract class DrawingThread extends Thread {
 
     private static final String TAG = "DrawingThread";
 
-    protected SurfaceHolder mSurfaceHolder = null;
-    protected Resources mResources = null;
-    protected ConcurrentLinkedQueue<InputEvent> mEventQueue = new ConcurrentLinkedQueue<>();
+    private SurfaceHolder mSurfaceHolder = null;
+    private Resources mResources = null;
+    private ConcurrentLinkedQueue<InputEvent> mEventQueue = new ConcurrentLinkedQueue<>();
 
     /** Number of frame we wish to draw per second. */
     private int mFrameRate = 20;
@@ -75,7 +75,7 @@ public abstract class DrawingThread extends Thread {
         mRunning = running;
     }
 
-    /* Callback invoked when the surface dimensions change. */
+    /** Callback invoked when the surface dimensions change. */
     public void setSurfaceSize(int width, int height) {
         // synchronized to make sure these all change atomically
         synchronized (mSurfaceHolder) {
@@ -110,8 +110,18 @@ public abstract class DrawingThread extends Thread {
     protected abstract void processEvent(KeyEvent event);
 
     /** Add a motionEvent that will be processed in {@link #update()}. */
-    public boolean addInputEvent(InputEvent event) {
+    protected boolean addInputEvent(InputEvent event) {
         return mEventQueue.add(event);
+    }
+
+    /** @return true if the event queue is not empty. */
+    protected boolean hasNext() {
+        return !mEventQueue.isEmpty();
+    }
+
+    /** Poll the next motionEvent to process. */
+    protected InputEvent pollInputEvent() {
+        return mEventQueue.poll();
     }
 
     /** Draw the new frame. */
@@ -134,4 +144,6 @@ public abstract class DrawingThread extends Thread {
      * Canvas null check is performed by the caller ({@link #draw()}).
      */
     protected abstract void doDraw(Canvas canvas);
+
+    protected Resources getResources() { return mResources; }
 }
