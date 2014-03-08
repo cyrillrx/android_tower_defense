@@ -38,8 +38,10 @@ public class HudHelper {
         // Play pause button
         //
 
+        // TODO replace by margin
+        final float realMargin = 0.02f * surfaceHeight;
         RectF playPauseBounds = new RectF(0, 0, surfaceHeight * buttonSide, surfaceHeight * buttonSide);
-        playPauseBounds.offset(surfaceWidth - playPauseBounds.width() - margin, margin);
+        playPauseBounds.offset(surfaceWidth - playPauseBounds.width() - realMargin, realMargin);
 
         if (PLAY_PAUSE == null) {
             PLAY_PAUSE = new HudToggleButton(resources,
