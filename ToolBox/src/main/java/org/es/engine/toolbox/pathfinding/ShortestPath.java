@@ -2,6 +2,7 @@ package org.es.engine.toolbox.pathfinding;
 
 import android.graphics.Point;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -108,7 +109,7 @@ public class ShortestPath {
      * Calculate the shortest path from a start node and a goal node
      * @return the list of the shortest path the wave will take
      */
-    public ArrayList<Point> findShortestPath(int startX, int startY, int goalX, int goalY, int[][] tiles)
+    public ArrayList<Point> findShortestPath(int startX, int startY, int goalX, int goalY, int[][] tiles, boolean cut)
     {
         // f(n) = g(n) + h(n)
 
@@ -143,17 +144,60 @@ public class ShortestPath {
             {
                 bestPath.add(nodeGoal);
 
+                // Look parentNode of each node
                 while(node.getParentNode() != null) {
                     bestPath.add(node.getParentNode());
                     node = node.getParentNode();
                 }
 
-                for(int i = bestPath.size() - 1; i >= 0; i--)
-                {
-                    listPoints.add(new Point(bestPath.get(i).getX(),bestPath.get(i).getY()));
-                }
+                ArrayList<Point> finalListPoints = new ArrayList<>();
+                // True : Cutting method
+                // False : All points method
+                if(cut) {
+                    // Cutting useless points, keep only new directions points
+                    int temp_direction, direction = -1;
 
-                return listPoints;
+                    for (int i = bestPath.size() - 1; i >= 0; i--) {
+                        // Stop to keep the last direction
+                        if (i == 0) {
+                            break;
+                        }
+
+                        temp_direction = direction;
+
+                        // See N+1 movement
+                        Node n = bestPath.get(i);
+                        Node nn = bestPath.get(i - 1);
+
+                        if (n.getX() == nn.getX()) {
+                            direction = 1;
+                        }
+
+                        if (n.getY() == nn.getY()) {
+                            direction = 2;
+                        }
+
+                        if (direction != temp_direction) {
+                            finalListPoints.add(new Point(bestPath.get(i).getX(), bestPath.get(i).getY()));
+                        }
+                    }
+
+                    // Add the final point
+                    finalListPoints.add(new Point(bestPath.get(0).getX(), bestPath.get(0).getY()));
+
+                    return finalListPoints;
+
+                }
+                else
+                {
+                    //Make the best path with all points
+                    for(int i = bestPath.size() - 1; i >= 0; i--)
+                    {
+                        finalListPoints.add(new Point(bestPath.get(i).getX(),bestPath.get(i).getY()));
+                    }
+
+                    return finalListPoints;
+                }
             }
             else
             {
