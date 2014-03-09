@@ -18,9 +18,9 @@ android {
 
         release {
             storeFile file('../../keystore/release.keystore')
-            storePassword ""
-            keyAlias ""
-            keyPassword ""
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias System.getenv("KEY_ALIAS")
+            keyPassword System.getenv("KEY_PASSWORD")
         }
     }
 
@@ -40,6 +40,10 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    lintOptions {
+        abortOnError false
     }
 }
 
