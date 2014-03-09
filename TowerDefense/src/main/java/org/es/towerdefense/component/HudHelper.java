@@ -18,7 +18,7 @@ import org.es.towerdefense.process.GameMgr;
 public class HudHelper {
 
     // TODO init with a resource manager
-    public static void initMainHud(HUD mainHud, final Player player, final GameMgr gameMgr, final Resources resources) {
+    public static void initMainHud(HUD hud, final Player player, final GameMgr gameMgr, final Resources resources) {
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setAntiAlias(true);
@@ -47,7 +47,7 @@ public class HudHelper {
             @Override
             protected void onClick2() { gameMgr.resume(); }
         };
-        mainHud.addControl(playPause);
+        hud.addControl(playPause);
 
 
         final float textTop = buttonSideY / 2f + marginY;
@@ -63,7 +63,7 @@ public class HudHelper {
                 return String.valueOf(player.getScore());
             }
         };
-        mainHud.addControl(score);
+        hud.addControl(score);
 
         //
         // Money
@@ -76,7 +76,7 @@ public class HudHelper {
                 return String.valueOf(player.getMoney());
             }
         };
-        mainHud.addControl(money);
+        hud.addControl(money);
 
         //
         // Health
@@ -89,6 +89,6 @@ public class HudHelper {
                 return String.valueOf(player.getHealth());
             }
         };
-        mainHud.addControl(HEALTH);
+        hud.addControl(HEALTH);
     }
 }

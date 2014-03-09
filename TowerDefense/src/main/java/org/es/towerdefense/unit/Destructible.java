@@ -41,15 +41,12 @@ public class Destructible<AnimationId extends Enum<AnimationId>>
     /** Health points of the unit. */
     protected int mHealth;
 
-    private boolean mDead;
-
     public Destructible(Sprite<AnimationId> sprite, float width, float height, int weight, int health) {
         mSprite = sprite;
         mWidth  = width;
         mHeight = height;
         mWeight = weight;
         mHealth = health;
-        mDead = false;
 
         mPosition = new PointF();
     }
@@ -60,10 +57,9 @@ public class Destructible<AnimationId extends Enum<AnimationId>>
 
     public void receiveDamages(Offensive attacker) {
         mHealth -= attacker.mDamage;
-        mDead = mHealth < 0;
     }
 
-    public boolean isDead() { return mDead; }
+    public boolean isDead() { return mHealth <= 0; }
 
     // TODO comment
     public boolean isOutOfPlay() {

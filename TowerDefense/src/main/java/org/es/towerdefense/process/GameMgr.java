@@ -178,7 +178,6 @@ public class GameMgr {
      * <ul>
      * <li>Draw towers HUD</li>
      * <li>Draw enemies HUD</li>
-     * <li>Draw main HUD</li>
      * </ul>
      */
     protected void drawHUD(Canvas canvas, DrawingParam param) {
@@ -194,43 +193,6 @@ public class GameMgr {
         for (Enemy enemy : mEnemies) {
             enemy.drawHUD(canvas, param);
             enemy.drawDebugHUD(canvas, param, mDebugPaint, preferences);
-        }
-
-        drawMainHUDDebug(canvas);
-    }
-
-    // TODO update comment
-
-    /**
-     * Draw the main Head-up display.<br />
-     * Scores, GUI, ...
-     */
-    protected void drawMainHUDDebug(Canvas canvas) {
-
-        // Draw app version
-        try {
-            PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-
-            final String versionCode = "Version Code: " + String.valueOf(info.versionCode);
-            RectF textBoundsCode = DrawTextUtils.drawText(versionCode, canvas,
-                    10, canvas.getHeight() - 10, RIGHT, TOP, mDebugPaint);
-
-            final String versionName = "Version Name: " + info.versionName;
-            DrawTextUtils.drawText(versionName, canvas,
-                    textBoundsCode.left, textBoundsCode.top, RIGHT, TOP, mDebugPaint);
-
-        } catch (PackageManager.NameNotFoundException e) { }
-
-        // Draw
-        for (Destructible destructible : mGarbage) {
-            if (destructible.isDead()) {
-                // TODO Code a remaining text draw
-                //drawCenteredText("Dead !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
-
-            } else if (destructible instanceof Enemy && ((Enemy) destructible).isFinisher()) {
-                // TODO Code a remaining text draw
-                //drawCenteredText("Finisher !", canvas, mBattleground.getCenterX(), mBattleground.getCenterY(), mDebugPaint);
-            }
         }
     }
 

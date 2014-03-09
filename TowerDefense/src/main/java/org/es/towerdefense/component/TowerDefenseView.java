@@ -8,7 +8,6 @@ import android.view.SurfaceHolder;
 
 import org.es.engine.gamemechanic.DrawingThread;
 import org.es.engine.gamemechanic.DrawingView;
-import org.es.towerdefense.TowerDefenseThread;
 
 /**
  * @author Cyril Leroux

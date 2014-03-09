@@ -44,8 +44,18 @@ import com.google.android.gms.plus.PlusClient;
  *
  * @author Bruno Oliveira (Google)
  */
-public abstract class BaseGameActivity extends FragmentActivity implements
-        GameHelper.GameHelperListener, View.OnSystemUiVisibilityChangeListener {
+public abstract class BaseGameActivity extends FragmentActivity
+        implements GameHelper.GameHelperListener {
+
+    private View.OnSystemUiVisibilityChangeListener mOnSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
+        @Override
+        public void onSystemUiVisibilityChange(int flags) {
+            boolean visible = (flags & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == View.VISIBLE;
+            if (visible) {
+                hideControls();
+            }
+        }
+    };
 
     // The game helper object. This class is mainly a wrapper around this object.
     protected GameHelper mHelper;
@@ -100,11 +110,13 @@ public abstract class BaseGameActivity extends FragmentActivity implements
         mAdditionalScopes = additionalScopes;
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         mDecorView = getWindow().getDecorView();
         // Navigation bar hiding:  Backwards compatible to ICS.
-        mDecorView.setOnSystemUiVisibilityChangeListener(this);
+        mDecorView.setOnSystemUiVisibilityChangeListener(mOnSystemUiVisibilityChangeListener);
 
         super.onCreate(savedInstanceState);
         mHelper = new GameHelper(this);
@@ -112,15 +124,6 @@ public abstract class BaseGameActivity extends FragmentActivity implements
             mHelper.enableDebugLog(mDebugLog, mDebugTag);
         }
         mHelper.setup(this, mRequestedClients, mAdditionalScopes);
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    @Override
-    public void onSystemUiVisibilityChange(int flags) {
-        boolean visible = (flags & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == View.VISIBLE;
-        if (visible) {
-            hideControls();
-        }
     }
 
     public void hideControls() { }
