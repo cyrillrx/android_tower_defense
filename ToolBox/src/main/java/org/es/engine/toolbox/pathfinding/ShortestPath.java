@@ -14,6 +14,7 @@ import java.util.Stack;
  */
 public class ShortestPath {
 
+    // TODO parameters should probably be pass as a data structure
     public ShortestPath()
     {
         // TODO Parameters
@@ -26,15 +27,15 @@ public class ShortestPath {
      * @param tiles
      * @return
      */
-    public ArrayList<Node> findNeighbors(Node node, Node goal, int[][] tiles)
+    private static ArrayList<Node> findNeighbors(Node node, Node goal, int[][] tiles)
     {
-        ArrayList<Node> nodes = new ArrayList<Node>();
+        ArrayList<Node> nodes = new ArrayList<>();
 
         // TODO Replace "1" not buidable by enum
         // look EST
-        if(node.getX() - 1 >= 0)
+        if (node.getX() - 1 >= 0)
         {
-            if(tiles[node.getY()][node.getX() - 1] != 1)
+            if (tiles[node.getY()][node.getX() - 1] != 1)
             {
                 Node n = new Node(node.getX() - 1, node.getY());
                 nodes.add(n);
@@ -42,9 +43,9 @@ public class ShortestPath {
         }
 
         // look WEST
-        if(node.getX() + 1 < tiles[0].length)
+        if (node.getX() + 1 < tiles[0].length)
         {
-            if(tiles[node.getY()][node.getX() + 1] != 1)
+            if (tiles[node.getY()][node.getX() + 1] != 1)
             {
                 Node n = new Node(node.getX() + 1, node.getY());
                 nodes.add(n);
@@ -52,9 +53,9 @@ public class ShortestPath {
         }
 
         // look NORTH
-        if(node.getY() -1 >= 0)
+        if (node.getY() -1 >= 0)
         {
-            if(tiles[node.getY() - 1][node.getX()] != 1)
+            if (tiles[node.getY() - 1][node.getX()] != 1)
             {
                 Node n = new Node(node.getX(), node.getY() - 1);
                 nodes.add(n);
@@ -62,9 +63,9 @@ public class ShortestPath {
         }
 
         // look SOUTH
-        if(node.getY() + 1 < tiles.length)
+        if (node.getY() + 1 < tiles.length)
         {
-            if(tiles[node.getY() + 1][node.getX()] != 1)
+            if (tiles[node.getY() + 1][node.getX()] != 1)
             {
                 Node n = new Node(node.getX(), node.getY() + 1);
                 nodes.add(n);
@@ -79,7 +80,7 @@ public class ShortestPath {
      * @param goal
      * @return
      */
-    public double heuristic(Node start, Node goal)
+    private static double heuristic(Node start, Node goal)
     {
         int dx1 = start.getX() - goal.getX();
         int dy1 = start.getY() - goal.getY();
@@ -96,20 +97,25 @@ public class ShortestPath {
      * @param stackNode
      * @return true if the nextNode score is lower than a node score in the open stack
      */
-    public boolean compareScore(double nextNode, double stackNode)
+    private static boolean compareScore(double nextNode, double stackNode)
     {
-        if(nextNode <= stackNode)
-        {
-            return true;
-        }
-        return false;
+        return nextNode <= stackNode;
     }
 
     /**
-     * Calculate the shortest path from a start node and a goal node
-     * @return the list of the shortest path the wave will take
+     * Calculate the shortest path from a start node and a goal node.
+     * @return The list of the shortest path the wave will take.
      */
-    public ArrayList<Point> findShortestPath(int startX, int startY, int goalX, int goalY, int[][] tiles, boolean cut)
+    public ArrayList<Point> findShortestPath(int startX, int startY, int goalX, int goalY, int[][] tiles) {
+        return findShortestPath(startX, startY, goalX, goalY, tiles, true);
+    }
+
+
+    /**
+     * Calculate the shortest path from a start node and a goal node.
+     * @return The list of the shortest path the wave will take.
+     */
+    public static ArrayList<Point> findShortestPath(int startX, int startY, int goalX, int goalY, int[][] tiles, boolean cut)
     {
         // f(n) = g(n) + h(n)
 
@@ -140,7 +146,7 @@ public class ShortestPath {
         {
             Node node = open.pop();
 
-            if(node.equals(nodeGoal))
+            if (node.equals(nodeGoal))
             {
                 bestPath.add(nodeGoal);
 
@@ -153,7 +159,7 @@ public class ShortestPath {
                 ArrayList<Point> finalListPoints = new ArrayList<>();
                 // True : Cutting method
                 // False : All points method
-                if(cut) {
+                if (cut) {
                     // Cutting useless points, keep only new directions points
                     int temp_direction, direction = -1;
 
@@ -191,7 +197,7 @@ public class ShortestPath {
                 else
                 {
                     //Make the best path with all points
-                    for(int i = bestPath.size() - 1; i >= 0; i--)
+                    for (int i = bestPath.size() - 1; i >= 0; i--)
                     {
                         finalListPoints.add(new Point(bestPath.get(i).getX(),bestPath.get(i).getY()));
                     }
@@ -205,12 +211,12 @@ public class ShortestPath {
                 closed.put(node.nodeName(),true);
 
                 // Find all neighbors of the actual popped node
-                for(Node nextNode : findNeighbors(node, nodeGoal,tiles))
+                for (Node nextNode : findNeighbors(node, nodeGoal,tiles))
                 {
                     boolean lesserScore = false;
 
                     // Skip if the neighbor node is in the closed list
-                    if(closed.containsKey(nextNode.nodeName())) continue;
+                    if (closed.containsKey(nextNode.nodeName())) continue;
 
                     // + 1 (weight) to next
                     double temp_f = g.get(node.nodeName()) + 1;
@@ -218,16 +224,16 @@ public class ShortestPath {
 
                     int index = open.indexOf(nextNode);
 
-                    if(index < 0) {
+                    if (index < 0) {
                         lesserScore = true;
                     }
-                    else if(temp_f < g.get(nextNode.nodeName())) {
-                    //else if(temp_f < nextNode.getG()) {
+                    else if (temp_f < g.get(nextNode.nodeName())) {
+                    //else if (temp_f < nextNode.getG()) {
                         open.removeElementAt(index);
                         lesserScore = true;
                     }
 
-                    if(lesserScore)
+                    if (lesserScore)
                     {
                         nextNode.setParentNode(node);
                         g.put(nextNode.nodeName(),temp_f);
@@ -236,7 +242,7 @@ public class ShortestPath {
                         //f.put(nextNode.nodeName(),nextNode.getG() + heuristic(nextNode,nodeGoal));
                         nextNode.setF(g.get(nextNode.nodeName()) + heuristic(nextNode,nodeGoal));
 
-                        if(open.size() < 1 )
+                        if (open.size() < 1 )
                         {
                             open.push(nextNode);
                             //debugNode.add(new Point(nextNode.getX(),nextNode.getY()));
@@ -245,11 +251,11 @@ public class ShortestPath {
 
                         boolean inserted = false;
                         // Compare the nextNode score with the stack
-                        for(int i = open.size() - 1; i >= 0; i--)
+                        for (int i = open.size() - 1; i >= 0; i--)
                         {
                             // Sort the priority of the nextNode in the open list
-                            //if(compareScore(f.get(nextNode.nodeName()),f.get(open.get(i).nodeName())))
-                            if(compareScore(nextNode.getF(),open.get(i).getF()))
+                            //if (compareScore(f.get(nextNode.nodeName()),f.get(open.get(i).nodeName())))
+                            if (compareScore(nextNode.getF(),open.get(i).getF()))
                             //
                             {
                                 open.add(i + 1,nextNode);
@@ -259,7 +265,7 @@ public class ShortestPath {
                             }
                         }
                         // No Way ! Your nextNode got the baddest score in the open list :P
-                        if(!inserted)
+                        if (!inserted)
                         {
                             open.add(0,nextNode);
                         }
