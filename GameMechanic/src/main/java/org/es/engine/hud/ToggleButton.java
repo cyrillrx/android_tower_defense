@@ -45,14 +45,16 @@ public abstract class ToggleButton extends Button {
     }
 
     @Override
-    protected void press() {
-        mPressed = true;
-        if (mSwitch) {
-            onClick();
-        } else {
-            onClick2();
+    protected void release(boolean inBounds) {
+        if (inBounds && mPressed) {
+            if (mSwitch) {
+                onClick();
+            } else {
+                onClick2();
+            }
+            mSwitch = !mSwitch;
         }
-        mSwitch = !mSwitch;
+        mPressed = false;
     }
 
     protected abstract void onClick2();

@@ -100,14 +100,18 @@ public class TowerDefenseThread extends DrawingThread {
             Log.d("TowerDefenseThread", mTouchAction);
         }
 
+
+        if (mMainHud.consumeEvent(event)) {
+            return;
+        }
         switch (action) {
 
             // First pointer down
             case MotionEvent.ACTION_DOWN:
-                // Intercepts touch events
-                if (mMainHud.consumeEvent(event)) {
-                    return;
-                }
+//                // Intercepts touch events
+//                if (mMainHud.consumeEvent(event)) {
+//                    return;
+//                }
                 // Switch Mode to SCROLL
                 onScrollBegin(event.getX(), event.getY());
                 break;

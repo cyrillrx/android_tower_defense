@@ -39,8 +39,8 @@ public class HudHelper {
         final ToggleButton playPause = new ToggleButton(
                 1f - marginX - buttonSideX, marginY, 0f, buttonSideY,
                 resources,
-                R.drawable.ic_pause, R.drawable.ic_pause,
-                R.drawable.ic_play, R.drawable.ic_play) {
+                R.drawable.ic_pause_normal, R.drawable.ic_pause_pressed,
+                R.drawable.ic_play_normal, R.drawable.ic_play_pressed) {
             @Override
             protected void onClick() { gameMgr.pause(); }
 

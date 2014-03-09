@@ -37,23 +37,34 @@ public abstract class Button extends Control {
 
     @Override
     public boolean consumeEvent(MotionEvent event) {
-        if (!getBounds().contains(event.getX(), event.getY())) {
-            return false;
-        }
 
         final int action = event.getActionMasked();
         switch (action) {
 
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-                press();
+            case MotionEvent.ACTION_HOVER_EXIT:
+                if (getBounds().contains(event.getX(), event.getY())) {
+                    press();
+                    return true;
+                }
                 break;
 
-            default:
-                release();
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
+            case MotionEvent.ACTION_HOVER_ENTER:
+            case MotionEvent.ACTION_HOVER_MOVE:
+
+                if (getBounds().contains(event.getX(), event.getY())) {
+                    release(true);
+                    return true;
+                } else {
+                    release(false);
+                }
+                break;
         }
 
-        return true;
+        return false;
     }
 
     /**
@@ -77,10 +88,14 @@ public abstract class Button extends Control {
 
     protected void press() {
         mPressed = true;
-        onClick();
     }
 
-    protected void release() { mPressed = false; }
+    protected void release(boolean inBounds) {
+        if (inBounds && mPressed) {
+            onClick();
+        }
+        mPressed = false;
+    }
 
     public boolean isPressed() { return mPressed; }
 
