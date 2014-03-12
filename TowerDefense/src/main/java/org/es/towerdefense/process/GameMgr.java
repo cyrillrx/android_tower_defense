@@ -16,6 +16,7 @@ import org.es.towerdefense.battleground.Battleground;
 import org.es.towerdefense.battleground.BattlegroundDAO;
 import org.es.towerdefense.object.Player;
 import org.es.towerdefense.object.Wave;
+import org.es.towerdefense.object.WaveDAO;
 import org.es.towerdefense.unit.Destructible;
 import org.es.towerdefense.unit.Enemy;
 import org.es.towerdefense.unit.Tower;
@@ -81,12 +82,7 @@ public class GameMgr {
         mBattleground = BattlegroundDAO.loadDebugBattleGround(resources, mDrawingParam, mTowers);
 
         // Initialize the wave manager
-        Map<Enemy.Type, Integer> attackers = new HashMap<>();
-        attackers.put(Enemy.Type.CRAWLING, 20);
-
-        Queue<Wave> waves = new ArrayDeque<>();
-        waves.add(new Wave(attackers, 40000));
-
+        Queue<Wave> waves = WaveDAO.loadDebugWaves();
         mWaveManager = new WaveManager(waves, mBattleground, mEnemies, mContext.getResources());
     }
 
