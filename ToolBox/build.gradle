@@ -16,6 +16,11 @@ android {
         targetCompatibility JavaVersion.VERSION_1_7
     }
 
+    sourceSets.main {
+        jni.srcDirs = []
+        jniLibs.srcDir 'src/main/libs'
+    }
+
     productFlavors {
         x86 {
             ndk {
