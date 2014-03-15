@@ -1,50 +1,49 @@
 
-#include <path_finding.h>
+#include "path_finding.h"
 
-#include <string.h>
 #include <jni.h>
+
+bool add_object(const jobject& obj, const jobject& arrayList);
+bool add_point(JNIEnv* env, const int& x, const int& y, const jobject& arrayList);
+
+// ArrayList class
+jclass clsArrayList;
+// ArrayList methods
+jmethodID constructorArrayList;
+jmethodID arrayListAdd;
+// Point class
+jclass clsPoint;
+jmethodID constructorPoint;
 
 jstring Java_org_es_engine_toolbox_pathfinding_ShortestPath_nativeFindShortestPath(JNIEnv* env, jobject thiz)
 {
-	return (*env)->NewStringUTF(env, "Hello NDK :) ");
+	return env->NewStringUTF("Hello NDK :) ");
 }
 
 JNIEXPORT jobject JNICALL
 Java_org_es_engine_toolbox_pathfinding_ShortestPath_JNItest2(JNIEnv* env, jobject thiz)
 {
+	// Caching
+	// ArrayList class
+	jclass clsArrayList = env->FindClass("java/util/ArrayList");
+	// ArrayList methods
+	jmethodID constructorArrayList = env->GetMethodID(clsArrayList, "<init>", "()V");
+	jmethodID arrayListAdd = env->GetMethodID(clsArrayList, "add", "(Landroid/graphics/Point;)Z");
+	// Point class
+	jclass clsPoint = env->FindClass("android/graphics/Point");
+	jmethodID constructorPoint = env->GetMethodID(clsPoint, "<init>", "()V");
+
     // Just for adding the multiple elements into arraylist
     int objIndex;
     const int endIndex = 10;
 
     // Create a java.util.ArrayList
-    jclass clsArrayList = env->FindClass("java/util/ArrayList");
-    jmethodID constructor = env->GetMethodID(clsArrayList, "<init>", "()V");
-    jobject objArrayList = env->NewObject(clsArrayList, constructor, "");
-    jmethodID arrayListAdd = env->GetMethodID(clsArrayList, "add", "(Ljava/lang/Object;)Z");
-
-    // Create a android.graphics.Point
-    jclass clsPoint = env->FindClass("android/graphics/Point");
-    jmethodID constructorPoint = env->GetMethodID(clsPoint, "<init>", "()V");
-
-    // Create a android.graphics.Rect
-    jclass clsRect = env->FindClass("android/graphics/Rect");
-    jmethodID constructorRect = env->GetMethodID(clsRect, "<init>", "()V");
+    jobject arrayList = env->NewObject(clsArrayList, constructorArrayList, "");
 
     for (objIndex = 0; objIndex < endIndex; ++objIndex) {
-
-        // Create a new Rect and add it into ArrayList
-        jobject objRect = env->NewObject(clsRect, constructorRect, "");
-        const int bottom = 1;
-        const int left   = 2;
-        const int right  = 3;
-        const int top   = 4;
-
-        env->SetIntField(objRect, fields.rectBottom, bottom);
-        env->SetIntField(objRect, fields.rectLeft,   left);
-        env->SetIntField(objRect, fields.rectRight,  right);
-        env->SetIntField(objRect, fields.rectTop,    top);
-
-        env->CallObjectMethod(objArrayList, arrayListAdd, objRect);
+		
+		// Create and add a point to the list
+		add_point(env, 1, 2, arrayList);
     }
 
     env->DeleteLocalRef(clsArrayList);
@@ -53,7 +52,29 @@ Java_org_es_engine_toolbox_pathfinding_ShortestPath_JNItest2(JNIEnv* env, jobjec
     return objArrayList;
 }
 
-path_finding::find_shortest_path(const int& startX, const int& startY, const int& goalX, const int& goalY, const int[][]& tiles)
-{
 
+bool add_point(JNIEnv* env, const int& x, const int& y, const jobject& arrayList)
+{
+	// TODO cache
+	jfieldID xFieldId = env->GetFieldID(clsPoint, "x", "I");
+	jfieldID yFieldId = env->GetFieldID(clsPoint, "y", "I");
+
+	// Create a android.graphics.Point
+    jobject point = env->NewObject(clsPoint, constructorPoint, "");
+
+	env->SetIntField(point, xFieldId, x);
+	env->SetIntField(point, yFieldId, y);
+	
+	add_object(env, point, arrayList);
+}
+
+bool add_object(JNIEnv* env, const jobject& obj, const jobject& arrayList)
+{
+	return env->CallObjectMethod(arrayList, arrayListAdd, obj);
+}
+
+std::vector<point> path_finding::find_shortest_path(const int& startX, const int& startY, const int& goalX, const int& goalY, const std::vector<int>& tiles)
+{
+	std::vector<point> destinations { point(1, 2), point(1,3) };
+	return destinations;
 }
