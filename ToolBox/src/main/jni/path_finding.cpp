@@ -3,7 +3,7 @@
 
 #include <jni.h>
 
-bool add_object(const jobject& obj, const jobject& arrayList);
+bool add_object(JNIEnv* env, const jobject& obj, const jobject& arrayList);
 bool add_point(JNIEnv* env, const int& x, const int& y, const jobject& arrayList);
 
 // ArrayList class
@@ -47,9 +47,9 @@ Java_org_es_engine_toolbox_pathfinding_ShortestPath_JNItest2(JNIEnv* env, jobjec
     }
 
     env->DeleteLocalRef(clsArrayList);
-    env->DeleteLocalRef(clsRect);
+    env->DeleteLocalRef(clsPoint);
 
-    return objArrayList;
+    return arrayList;
 }
 
 
@@ -65,7 +65,7 @@ bool add_point(JNIEnv* env, const int& x, const int& y, const jobject& arrayList
 	env->SetIntField(point, xFieldId, x);
 	env->SetIntField(point, yFieldId, y);
 	
-	add_object(env, point, arrayList);
+	return add_object(env, point, arrayList);
 }
 
 bool add_object(JNIEnv* env, const jobject& obj, const jobject& arrayList)
@@ -73,8 +73,11 @@ bool add_object(JNIEnv* env, const jobject& obj, const jobject& arrayList)
 	return env->CallObjectMethod(arrayList, arrayListAdd, obj);
 }
 
-std::vector<point> path_finding::find_shortest_path(const int& startX, const int& startY, const int& goalX, const int& goalY, const std::vector<int>& tiles)
-{
-	std::vector<point> destinations { point(1, 2), point(1,3) };
-	return destinations;
-}
+
+//std::vector<point> path_finding::find_shortest_path(const int& startX, const int& startY, const int& goalX, const int& goalY, const std::vector<std::vector<int>>& tiles)
+//{
+//    point pt1(1, 2);
+//    point pt2(3, 7);
+//	std::vector<point> destinations { pt1, pt2 };
+//	return destinations;
+//}

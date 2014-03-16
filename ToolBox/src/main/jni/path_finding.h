@@ -3,22 +3,22 @@
 
 #include <vector>
 
-struct point
+class point
 {
-    public:
-		point(int xVal, int yVal) : x(xVal), y(yVal) { }
+    private:
+        int x_;
+		int y_;
 
-        int x;
-		int y;
+    public:
+		point(const int& x, const int& y) : x_(x), y_(y) { }
 };
 
 class path_finding
 {
 
     public:
-        std::vector<point> find_shortest_path(const int& startX, const int& startY, const int& goalX, const int& goalY, const std::vector<int>& tiles);
-        
-    private:
+//        std::vector<point> find_shortest_path(const int& startX, const int& startY, const int& goalX, const int& goalY, const std::vector<std::vector<int>>& tiles);
+
 };
 
 #endif // TOOLBOX_PATHFINDING_H_
