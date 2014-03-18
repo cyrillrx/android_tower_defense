@@ -1,5 +1,6 @@
 
 #include "path_finding.h"
+#include "node.h"
 
 #include <jni.h>
 
