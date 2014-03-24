@@ -4,7 +4,7 @@
 const int WALKABLE = 0;
 
 node::node(const int& x, const int& y)
-    : x_(x), y_(y) { }
+    : position_(x, y) { }
 
 std::string node::to_string() const
 {
@@ -12,10 +12,10 @@ std::string node::to_string() const
 }
 
 //! Find the neighbors of the node
-std::vector<node> node::neighbors(const std::vector<std::vector<int>>& tiles) const
+std::vector<node> node::neighbors(const std::vector<std::vector<int> >& tiles) const
 {
     const int minX = 0;
-    const int maxX = tiles[0].size() -1;
+    const int maxX = tiles[0].size() - 1;
     const int minY = 0;
     const int maxY = tiles.size() - 1;
 
