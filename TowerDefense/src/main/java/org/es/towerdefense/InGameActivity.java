@@ -2,7 +2,7 @@ package org.es.towerdefense;
 
 import android.os.Bundle;
 
-import org.es.engine.gameservices.BaseGameActivity;
+import org.es.engine.basegameutils.BaseGameActivity;
 
 /**
  * @author Cyril Leroux

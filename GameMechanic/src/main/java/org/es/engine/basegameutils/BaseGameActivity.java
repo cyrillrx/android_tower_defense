@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
-package org.es.engine.gameservices;
+package org.es.engine.basegameutils;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.view.View;
+import android.util.Log;
 
-import com.google.android.gms.appstate.AppStateClient;
-import com.google.android.gms.games.GamesClient;
-import com.google.android.gms.plus.PlusClient;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 /**
  * Example base class for games. This implementation takes care of setting up
@@ -44,18 +40,8 @@ import com.google.android.gms.plus.PlusClient;
  *
  * @author Bruno Oliveira (Google)
  */
-public abstract class BaseGameActivity extends FragmentActivity
-        implements GameHelper.GameHelperListener {
-
-    private View.OnSystemUiVisibilityChangeListener mOnSystemUiVisibilityChangeListener = new View.OnSystemUiVisibilityChangeListener() {
-        @Override
-        public void onSystemUiVisibilityChange(int flags) {
-            boolean visible = (flags & View.SYSTEM_UI_FLAG_HIDE_NAVIGATION) == View.VISIBLE;
-            if (visible) {
-                hideControls();
-            }
-        }
-    };
+public abstract class BaseGameActivity extends FragmentActivity implements
+        GameHelper.GameHelperListener {
 
     // The game helper object. This class is mainly a wrapper around this object.
     protected GameHelper mHelper;
@@ -70,18 +56,12 @@ public abstract class BaseGameActivity extends FragmentActivity
     // Requested clients. By default, that's just the games client.
     protected int mRequestedClients = CLIENT_GAMES;
 
-    // stores any additional scopes.
-    private String[] mAdditionalScopes;
-
-    protected String mDebugTag = "BaseGameActivity";
+    private final static String TAG = "BaseGameActivity";
     protected boolean mDebugLog = false;
-
-    private View mDecorView;
 
     /** Constructs a BaseGameActivity with default client (GamesClient). */
     protected BaseGameActivity() {
         super();
-        mHelper = new GameHelper(this);
     }
 
     /**
@@ -97,63 +77,32 @@ public abstract class BaseGameActivity extends FragmentActivity
     /**
      * Sets the requested clients. The preferred way to set the requested clients is
      * via the constructor, but this method is available if for some reason your code
-     * cannot do this in the constructor. This must be called before onCreate in order to
-     * have any effect. If called after onCreate, this method is a no-op.
+     * cannot do this in the constructor. This must be called before onCreate or getGameHelper()
+     * in order to have any effect. If called after onCreate()/getGameHelper(), this method
+     * is a no-op.
      *
      * @param requestedClients A combination of the flags CLIENT_GAMES, CLIENT_PLUS
      *         and CLIENT_APPSTATE, or CLIENT_ALL to request all available clients.
-     * @param additionalScopes  Scopes that should also be requested when the auth
-     *         request is made.
      */
-    protected void setRequestedClients(int requestedClients, String ... additionalScopes) {
+    protected void setRequestedClients(int requestedClients) {
         mRequestedClients = requestedClients;
-        mAdditionalScopes = additionalScopes;
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
-        mDecorView = getWindow().getDecorView();
-        // Navigation bar hiding:  Backwards compatible to ICS.
-        mDecorView.setOnSystemUiVisibilityChangeListener(mOnSystemUiVisibilityChangeListener);
-
-        super.onCreate(savedInstanceState);
-        mHelper = new GameHelper(this);
-        if (mDebugLog) {
-            mHelper.enableDebugLog(mDebugLog, mDebugTag);
+    public GameHelper getGameHelper() {
+        if (mHelper == null) {
+            mHelper = new GameHelper(this, mRequestedClients);
+            mHelper.enableDebugLog(mDebugLog);
         }
-        mHelper.setup(this, mRequestedClients, mAdditionalScopes);
+        return mHelper;
     }
-
-    public void hideControls() { }
 
     @Override
-    public void onWindowFocusChanged(boolean hasFocus) {
-        super.onWindowFocusChanged(hasFocus);
-        if (hasFocus) {
-            hideSystemUI();
+    protected void onCreate(Bundle b) {
+        super.onCreate(b);
+        if (mHelper == null) {
+            getGameHelper();
         }
-    }
-
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private void hideSystemUI() {
-
-        int visible = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-
-        // Status bar hiding: Backwards compatible to Jellybean
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            visible |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
-        }
-
-        // Status bar hiding: Backwards compatible to Kitkat
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            visible |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
-        }
-        mDecorView.setSystemUiVisibility(visible);
+        mHelper.setup(this);
     }
 
     @Override
@@ -174,16 +123,8 @@ public abstract class BaseGameActivity extends FragmentActivity
         mHelper.onActivityResult(request, response, data);
     }
 
-    protected GamesClient getGamesClient() {
-        return mHelper.getGamesClient();
-    }
-
-    protected AppStateClient getAppStateClient() {
-        return mHelper.getAppStateClient();
-    }
-
-    protected PlusClient getPlusClient() {
-        return mHelper.getPlusClient();
+    protected GoogleApiClient getApiClient() {
+        return mHelper.getApiClient();
     }
 
     protected boolean isSignedIn() {
@@ -198,36 +139,34 @@ public abstract class BaseGameActivity extends FragmentActivity
         mHelper.signOut();
     }
 
-    protected void showAlert(String title, String message) {
-        mHelper.showAlert(title, message);
-    }
-
     protected void showAlert(String message) {
-        mHelper.showAlert(message);
+        mHelper.makeSimpleDialog(message).show();
     }
 
-    protected void enableDebugLog(boolean enabled, String tag) {
+    protected void showAlert(String title, String message) {
+        mHelper.makeSimpleDialog(title, message).show();
+    }
+
+    protected void enableDebugLog(boolean enabled) {
         mDebugLog = true;
-        mDebugTag = tag;
         if (mHelper != null) {
-            mHelper.enableDebugLog(enabled, tag);
+            mHelper.enableDebugLog(enabled);
         }
+    }
+
+    @Deprecated
+    protected void enableDebugLog(boolean enabled, String tag) {
+        Log.w(TAG, "BaseGameActivity.enabledDebugLog(bool,String) is " +
+                "deprecated. Use enableDebugLog(boolean)");
+        enableDebugLog(enabled);
     }
 
     protected String getInvitationId() {
         return mHelper.getInvitationId();
     }
 
-    protected void reconnectClients(int whichClients) {
-        mHelper.reconnectClients(whichClients);
-    }
-
-    protected String getScopes() {
-        return mHelper.getScopes();
-    }
-
-    protected String[] getScopesArray() {
-        return mHelper.getScopesArray();
+    protected void reconnectClient() {
+        mHelper.reconnectClient();
     }
 
     protected boolean hasSignInError() {

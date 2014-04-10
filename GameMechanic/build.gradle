@@ -19,5 +19,6 @@ android {
 
 dependencies {
     compile project(':Graphics')
+    compile 'com.android.support:support-v4:+'
     compile 'com.google.android.gms:play-services:+'
 }
