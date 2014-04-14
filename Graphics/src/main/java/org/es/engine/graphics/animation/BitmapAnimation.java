@@ -65,6 +65,15 @@ public class BitmapAnimation extends Animation {
     }
 
     @Override
+    public Bitmap getBitmap(int frameId) {
+        // Prevent out of bounds exceptions.
+        if (frameId < 0 || frameId >= mFrames.length) {
+            return null;
+        }
+        return mFrames[frameId];
+    }
+
+    @Override
     protected int getFrameCount() { return mFrames.length; }
 
     @Override

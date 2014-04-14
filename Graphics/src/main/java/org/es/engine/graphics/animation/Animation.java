@@ -1,5 +1,6 @@
 package org.es.engine.graphics.animation;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 
@@ -47,6 +48,8 @@ public abstract class Animation {
     }
 
     public abstract void draw(Canvas canvas, RectF boundingRect);
+
+    public abstract Bitmap getBitmap(int frameId);
 
     protected abstract float getWidth();
 

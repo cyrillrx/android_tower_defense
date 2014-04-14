@@ -33,8 +33,18 @@ public class SpriteSheetAnimation extends Animation {
 
     @Override
     public void draw(Canvas canvas, RectF boundingRect) {
-        Rect src = mFrames[mCurrentFrameId];
+        final Rect src = mFrames[mCurrentFrameId];
         canvas.drawBitmap(mSpriteSheet, src, boundingRect, null);
+    }
+
+    @Override
+    public Bitmap getBitmap(int frameId) {
+        // Prevent out of bounds exceptions.
+        if (frameId < 0 || frameId >= mFrames.length) {
+            return null;
+        }
+        final Rect src = mFrames[frameId];
+        return Bitmap.createBitmap(mSpriteSheet, src.left, src.top, src.width(), src.height());
     }
 
     protected int getFrameCount() { return mFrames.length; }
