@@ -12,8 +12,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.SurfaceHolder;
 
-import org.es.engine.gamemechanic.DrawingThread;
-import org.es.engine.graphics.utils.DrawTextUtils;
+import org.es.engine.game_mechanic.DrawingThread;
 import org.es.engine.hud.HUD;
 import org.es.engine.hud.Text;
 import org.es.towerdefense.BuildConfig;
@@ -99,7 +98,6 @@ public class TowerDefenseThread extends DrawingThread {
         if (BuildConfig.DEBUG) {
             Log.d("TowerDefenseThread", mTouchAction);
         }
-
 
         if (mMainHud.consumeEvent(event)) {
             return;
@@ -231,11 +229,17 @@ public class TowerDefenseThread extends DrawingThread {
         paint.setTextSize(30f);
 
         hud.addControl(new Text(0.98f, 0.98f, "", LEFT, TOP, paint) {
-            @Override public String getText() { return mTouchMode.name(); }
+            @Override
+            public String getText() {
+                return mTouchMode.name();
+            }
         });
 
         hud.addControl(new Text(0.5f, 0.98f, "", CENTER, TOP, paint) {
-            @Override public String getText() { return mTouchAction; }
+            @Override
+            public String getText() {
+                return mTouchAction;
+            }
         });
 
         // Draw app version
@@ -244,14 +248,19 @@ public class TowerDefenseThread extends DrawingThread {
 
             hud.addControl(new Text(0.01f, 0.98f, "Version code: ", RIGHT, TOP, paint) {
                 @Override
-                public String getText() { return String.valueOf(info.versionCode); }
+                public String getText() {
+                    return String.valueOf(info.versionCode);
+                }
             });
 
             hud.addControl(new Text(0.01f, 0.94f, "Version name: ", RIGHT, TOP, paint) {
                 @Override
-                public String getText() { return String.valueOf(info.versionName); }
+                public String getText() {
+                    return String.valueOf(info.versionName);
+                }
             });
 
-        } catch (PackageManager.NameNotFoundException e) { }
+        } catch (PackageManager.NameNotFoundException e) {
+        }
     }
 }

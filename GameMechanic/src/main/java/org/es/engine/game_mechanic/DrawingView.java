@@ -1,10 +1,12 @@
-package org.es.engine.gamemechanic;
+package org.es.engine.game_mechanic;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import org.es.engine.game_mechanic.DrawingThread;
 
 /**
  * Parent class for drawing views.
@@ -21,7 +23,7 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
     public DrawingView(Context context, AttributeSet attrs) {
         super(context, attrs);
 
-        SurfaceHolder holder = getHolder();
+        final SurfaceHolder holder = getHolder();
         holder.addCallback(this);
 
         mThread = createDrawingThread(holder, context);
@@ -69,7 +71,11 @@ public abstract class DrawingView extends SurfaceView implements SurfaceHolder.C
         }
     }
 
-    protected float getCenterX() { return (float) getWidth() / 2f; }
+    protected float getCenterX() {
+        return (float) getWidth() / 2f;
+    }
 
-    protected float getCenterY() { return (float) getHeight() / 2f; }
+    protected float getCenterY() {
+        return (float) getHeight() / 2f;
+    }
 }

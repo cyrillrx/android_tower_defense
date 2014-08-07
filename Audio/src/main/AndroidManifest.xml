@@ -1,8 +1,7 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="org.es.engine.sounds">
+<manifest
+    package="org.es.engine.sounds"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <application
-            android:allowBackup="true"
-            android:label="@string/app_name" />
+    <application android:allowBackup="true" />
 
 </manifest>

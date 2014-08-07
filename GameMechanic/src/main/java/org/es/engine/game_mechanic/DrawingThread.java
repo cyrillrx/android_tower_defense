@@ -1,4 +1,4 @@
-package org.es.engine.gamemechanic;
+package org.es.engine.game_mechanic;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -21,8 +21,8 @@ public abstract class DrawingThread extends Thread {
 
     private static final String TAG = "DrawingThread";
 
-    private SurfaceHolder mSurfaceHolder = null;
-    private Resources mResources = null;
+    private final SurfaceHolder mSurfaceHolder;
+    private final Resources mResources;
     private ConcurrentLinkedQueue<InputEvent> mEventQueue = new ConcurrentLinkedQueue<>();
 
     /** Number of frame we wish to draw per second. */
@@ -145,5 +145,7 @@ public abstract class DrawingThread extends Thread {
      */
     protected abstract void doDraw(Canvas canvas);
 
-    protected Resources getResources() { return mResources; }
+    protected Resources getResources() {
+        return mResources;
+    }
 }

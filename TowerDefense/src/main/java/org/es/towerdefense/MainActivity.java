@@ -7,7 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.es.engine.basegameutils.BaseGameActivity;
+import com.crashlytics.android.Crashlytics;
+import com.google.example.games.basegameutils.BaseGameActivity;
+
 import org.es.towerdefense.settings.GameSettingsActivity;
 
 
@@ -16,11 +18,12 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
         setContentView(R.layout.activity_main);
 
         final Typeface typeface = Typeface.createFromAsset(getAssets(), "Comix Loud.ttf");
 
-        ((TextView)findViewById(R.id.home_screen_title)).setTypeface(typeface);
+        ((TextView) findViewById(R.id.home_screen_title)).setTypeface(typeface);
 
         findViewById(R.id.btn_settings).setOnClickListener(this);
 
@@ -40,7 +43,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         achievements.setOnClickListener(this);
         achievements.setEnabled(enable);
 
-        Button highScore = (Button)  findViewById(R.id.btn_high_score);
+        Button highScore = (Button) findViewById(R.id.btn_high_score);
         highScore.setTypeface(typeface);
         highScore.setOnClickListener(this);
         highScore.setEnabled(enable);

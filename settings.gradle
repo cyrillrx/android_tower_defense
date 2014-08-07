@@ -1,1 +1,8 @@
-include ':Graphics', ':Audio', ':GameMechanic', ':ToolBox',':TowerDefense'
+include ':TowerDefense'
+include ':Graphics'
+include ':Audio'
+include ':GameMechanic'
+include ':ToolBox'
+//include ':libraries:BaseGameUtils'
+include ':BaseGameUtils'
+project(':BaseGameUtils').projectDir = new File('libraries/android-basic-sample/BasicSamples/libraries/BaseGameUtils')

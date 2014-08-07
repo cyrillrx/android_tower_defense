@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Audio/Audio.iml" filepath="$PROJECT_DIR$/Audio/Audio.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/BaseGameUtils/BaseGameUtils.iml" filepath="$PROJECT_DIR$/libraries/BaseGameUtils/BaseGameUtils.iml" />
       <module fileurl="file://$PROJECT_DIR$/GameMechanic/GameMechanic.iml" filepath="$PROJECT_DIR$/GameMechanic/GameMechanic.iml" />
       <module fileurl="file://$PROJECT_DIR$/Graphics/Graphics.iml" filepath="$PROJECT_DIR$/Graphics/Graphics.iml" />
       <module fileurl="file://$PROJECT_DIR$/ToolBox/ToolBox.iml" filepath="$PROJECT_DIR$/ToolBox/ToolBox.iml" />

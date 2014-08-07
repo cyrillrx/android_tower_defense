@@ -1,12 +1,13 @@
-apply plugin: 'android-library'
+apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 19
-    buildToolsVersion "19.0.1"
+    compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
+    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 
     defaultConfig {
-        minSdkVersion 8
-        targetSdkVersion 19
+        applicationId 'org.es.engine.toolbox'
+        minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION as int
+        targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
         versionCode 1
         versionName "Alpha"
     }
@@ -17,34 +18,14 @@ android {
     }
 
     sourceSets.main {
-        jni.srcDirs = []
-        jniLibs.srcDir 'src/main/libs'
+//        jni.srcDirs = []
+//        jniLibs.srcDir 'src/main/libs'
     }
-
-    productFlavors {
-        x86 {
-            ndk {
-                abiFilter "x86"
-            }
-        }
-        mips {
-            ndk {
-                abiFilter "mips"
-            }
-        }
-        armv7 {
-            ndk {
-                abiFilter "armeabi-v7a"
-            }
-        }
-        arm {
-            ndk {
-                abiFilter "armeabi"
-            }
-        }
-    }
-}
-
-dependencies {
-
+//
+//    productFlavors {
+//        x86.ndk { abiFilter "x86" }
+//        mips.ndk { abiFilter "mips" }
+//        armv7.ndk { abiFilter "armeabi-v7a" }
+//        arm.ndk { abiFilter "armeabi" }
+//    }
 }

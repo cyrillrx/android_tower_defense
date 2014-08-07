@@ -6,8 +6,8 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 
-import org.es.engine.gamemechanic.DrawingThread;
-import org.es.engine.gamemechanic.DrawingView;
+import org.es.engine.game_mechanic.DrawingThread;
+import org.es.engine.game_mechanic.DrawingView;
 
 /**
  * @author Cyril Leroux
