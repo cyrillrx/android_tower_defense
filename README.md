@@ -1,3 +1,5 @@
-android_minigames
-=================
-Project to experiment with different game patterns.
+android_game_engine
+===================
+
+Game engine for Android
+

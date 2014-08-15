@@ -21,11 +21,11 @@ android {
 //        jni.srcDirs = []
 //        jniLibs.srcDir 'src/main/libs'
     }
-//
-//    productFlavors {
-//        x86.ndk { abiFilter "x86" }
-//        mips.ndk { abiFilter "mips" }
-//        armv7.ndk { abiFilter "armeabi-v7a" }
-//        arm.ndk { abiFilter "armeabi" }
-//    }
+
+    productFlavors {
+        x86.ndk { abiFilter "x86" }
+        mips.ndk { abiFilter "mips" }
+        armv7.ndk { abiFilter "armeabi-v7a" }
+        arm.ndk { abiFilter "armeabi" }
+    }
 }
