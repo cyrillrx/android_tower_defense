@@ -1,3 +1,6 @@
 [submodule "libraries/android-basic-sample"]
 	path = libraries/android-basic-sample
 	url = git@github.com:playgameservices/android-basic-samples.git
+[submodule "libraries/GameEngine"]
+	path = libraries/GameEngine
+	url = git@github.com:Elasticboy/android_game_engine.git

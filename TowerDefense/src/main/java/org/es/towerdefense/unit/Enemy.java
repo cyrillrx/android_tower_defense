@@ -66,15 +66,13 @@ public class Enemy extends Offensive<Enemy.AnimationId> {
 
         if (mDestinations.isEmpty()) {
 
-            ShortestPath findPath = new ShortestPath();
-
             // TODO New Structure for tiles
 
             // Calculate the computed time for path finding algo
             cpuTimeTemp = System.currentTimeMillis();
 
             final Point goal = battleground.getGoal(0);
-            final List<Point> destinations = findPath.findShortestPath((int) getCenterX(), (int) getCenterY(), goal.x, goal.y, battleground.getWalkingMap());
+            final List<Point> destinations = ShortestPath.findShortestPath((int) getCenterX(), (int) getCenterY(), goal.x, goal.y, battleground.getWalkingMap());
             // TODO try a different implementation to use addAll instead of a for each loop
             for (Point destinationTile : destinations) {
                 mDestinations.add(new PointF(destinationTile.x + 0.5f, destinationTile.y + 0.5f));

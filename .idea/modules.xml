@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Audio/Audio.iml" filepath="$PROJECT_DIR$/Audio/Audio.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libraries/BaseGameUtils/BaseGameUtils.iml" filepath="$PROJECT_DIR$/libraries/BaseGameUtils/BaseGameUtils.iml" />
-      <module fileurl="file://$PROJECT_DIR$/GameMechanic/GameMechanic.iml" filepath="$PROJECT_DIR$/GameMechanic/GameMechanic.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Graphics/Graphics.iml" filepath="$PROJECT_DIR$/Graphics/Graphics.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ToolBox/ToolBox.iml" filepath="$PROJECT_DIR$/ToolBox/ToolBox.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/android-basic-sample/BasicSamples/libraries/BaseGameUtils/BaseGameUtils.iml" filepath="$PROJECT_DIR$/libraries/android-basic-sample/BasicSamples/libraries/BaseGameUtils/BaseGameUtils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/GameEngine/GameMechanic/GameMechanic.iml" filepath="$PROJECT_DIR$/libraries/GameEngine/GameMechanic/GameMechanic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/GameEngine/Graphics/Graphics.iml" filepath="$PROJECT_DIR$/libraries/GameEngine/Graphics/Graphics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libraries/GameEngine/ToolBox/ToolBox.iml" filepath="$PROJECT_DIR$/libraries/GameEngine/ToolBox/ToolBox.iml" />
       <module fileurl="file://$PROJECT_DIR$/TowerDefense/TowerDefense.iml" filepath="$PROJECT_DIR$/TowerDefense/TowerDefense.iml" />
       <module fileurl="file://$PROJECT_DIR$/TowerDefenseProject.iml" filepath="$PROJECT_DIR$/TowerDefenseProject.iml" />
     </modules>

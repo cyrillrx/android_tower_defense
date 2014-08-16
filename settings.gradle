@@ -1,8 +1,9 @@
 include ':TowerDefense'
 include ':Graphics'
-include ':Audio'
+project(':Graphics').projectDir = new File('libraries/GameEngine/Graphics')
 include ':GameMechanic'
+project(':GameMechanic').projectDir = new File('libraries/GameEngine/GameMechanic')
 include ':ToolBox'
-//include ':libraries:BaseGameUtils'
+project(':ToolBox').projectDir = new File('libraries/GameEngine/ToolBox')
 include ':BaseGameUtils'
 project(':BaseGameUtils').projectDir = new File('libraries/android-basic-sample/BasicSamples/libraries/BaseGameUtils')
