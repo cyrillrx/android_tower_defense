@@ -48,6 +48,8 @@ android {
             jniDebugBuild false
             debuggable false
             signingConfig signingConfigs.release
+            betaDistributionEmailsFilePath = 'beta_distribution_emails.txt'
+            betaDistributionReleaseNotesFilePath = 'release_notes.txt'
         }
     }
 
@@ -67,8 +69,4 @@ dependencies {
     compile project(':ToolBox')
 
     compile 'com.crashlytics.android:crashlytics:1.1.11'
-
-    // compile 'com.google.android.gms:play-services:+'
-    //androidTestCompile 'com.jayway.android.robotium:robotium-solo:4.3.1'
-    //compile fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
 }
