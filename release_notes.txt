@@ -1,1 +1,16 @@
-v0.3.0
+Pre-Alpha 2 (v0.2.0) - Released on 2014-03-08
+System is autonomous
+- Implemented pathfinding algorithm.
+- Created and implemented a wave manager that sends a creature wave
+- Multiple towers are placed an the map
+- Enhanced HUD (Score, HP, Zoom)
+
+Pre-Alpha 1 (v0.1.0) - Released on 2014-02-25
+Very basic game mechanic.
+- Standard menu with a demo launcher
+- Map is static, one creature (in loop), one tower
+- The creature moves from A to B. It just moves forward
+- The tower is statically put in the middle of the map.
+  It fires upon the creature as soon as it enter its field of vision.
+- No user interaction.
+- Debug HUD (displaying live info)
