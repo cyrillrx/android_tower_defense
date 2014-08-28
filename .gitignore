@@ -41,6 +41,8 @@ proguard/
 # Gradle
 .gradle
 
+secure.properties
+
 # Crashlytics
 crashlytics.properties
 crashlytics-build.properties

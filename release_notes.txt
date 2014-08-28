@@ -1,3 +1,9 @@
+Pre-Alpha 2 (v0.2.5) - Released on 2014-08-28
+Enhanced project and tools
+- Implemented git submodules for GoogleGameServices and GameEngine libraries
+- Implemented Crashlytics (crash reports, app monitoring and Beta release system)
+- Updated gradle build script
+
 Pre-Alpha 2 (v0.2.0) - Released on 2014-03-08
 System is autonomous
 - Implemented pathfinding algorithm.

@@ -21,17 +21,23 @@ android {
     defaultConfig {
         minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION as int
         targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
-        versionCode 3
-        versionName "Alpha (v0.3)"
+        versionCode 2
+        versionName "Pre-Alpha 2 (v0.2.5)"
+
+        File secureFile = rootProject.file('secure.properties')
+        Properties secureProp = new Properties()
+        secureProp.load(new FileInputStream(secureFile))
+
+        manifestPlaceholders = [ googleGameServicesKey:secureProp['google_game_api']]
     }
 
     signingConfigs {
         debug {
-            storeFile file('../../keystore/debug.keystore')
+            storeFile rootProject.file('../keystore/debug.keystore')
         }
 
         release {
-            storeFile file('../../keystore/release.keystore')
+            storeFile rootProject.file('../keystore/release.keystore')
             storePassword System.getenv("KEYSTORE_PASSWORD")
             keyAlias System.getenv("KEY_ALIAS")
             keyPassword System.getenv("KEY_PASSWORD")

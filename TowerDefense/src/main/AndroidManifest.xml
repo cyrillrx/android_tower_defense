@@ -17,7 +17,7 @@
 
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
-            android:value="@string/app_id" />
+            android:value="${googleGameServicesKey}" />
 
         <activity
             android:name=".MainActivity"
