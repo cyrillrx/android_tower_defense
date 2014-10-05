@@ -1,9 +1,17 @@
+// Application
+
 include ':TowerDefense'
+
+// Git sub modules
+
 include ':Graphics'
 project(':Graphics').projectDir = new File('libraries/GameEngine/Graphics')
+
 include ':GameMechanic'
 project(':GameMechanic').projectDir = new File('libraries/GameEngine/GameMechanic')
+
 include ':ToolBox'
 project(':ToolBox').projectDir = new File('libraries/GameEngine/ToolBox')
+
 include ':BaseGameUtils'
 project(':BaseGameUtils').projectDir = new File('libraries/android-basic-sample/BasicSamples/libraries/BaseGameUtils')

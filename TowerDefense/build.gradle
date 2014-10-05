@@ -18,6 +18,18 @@ android {
     compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
     buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
 
+    // customize apk output names
+    // For each application variant (release, debug, etc.)
+    applicationVariants.all { variant ->
+        def outputs = variant.getOutputs()
+        outputs.each { output ->
+            File originalFile = output.outputFile
+            String date = (new Date()).format('yyyy-MM-dd')
+            String newFilename = date + '_' + originalFile.getName()
+            output.outputFile = new File(originalFile.parent, newFilename)
+        }
+    }
+
     defaultConfig {
         minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION as int
         targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
@@ -38,9 +50,14 @@ android {
 
         release {
             storeFile rootProject.file('../keystore/release.keystore')
-            storePassword System.getenv("KEYSTORE_PASSWORD")
-            keyAlias System.getenv("KEY_ALIAS")
-            keyPassword System.getenv("KEY_PASSWORD")
+
+            File propertiesFile = rootProject.file('../keystore/keystore.properties')
+            Properties properties = new Properties();
+            properties.load(new FileInputStream(propertiesFile));
+
+            storePassword properties['storePassword']
+            keyAlias properties['keyAlias']
+            keyPassword properties['keyPassword']
         }
     }
 
@@ -54,8 +71,8 @@ android {
             jniDebugBuild false
             debuggable false
             signingConfig signingConfigs.release
-            betaDistributionEmailsFilePath = 'beta_distribution_emails.txt'
-            betaDistributionReleaseNotesFilePath = 'release_notes.txt'
+            ext.betaDistributionEmailsFilePath = 'beta_distribution_emails.txt'
+            ext.betaDistributionReleaseNotesFilePath = 'release_notes.txt'
         }
     }
 
