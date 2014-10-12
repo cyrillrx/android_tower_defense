@@ -40,7 +40,8 @@ android {
         Properties secureProp = new Properties()
         secureProp.load(new FileInputStream(secureFile))
 
-        manifestPlaceholders = [ googleGameServicesKey:secureProp['google_game_api']]
+        manifestPlaceholders = [google_game_api: secureProp['google_game_api']]
+        manifestPlaceholders = [crashlytics_api: secureProp['crashlytics_api']]
     }
 
     signingConfigs {
@@ -91,5 +92,5 @@ dependencies {
     compile project(':GameMechanic')
     compile project(':ToolBox')
 
-    compile 'com.crashlytics.android:crashlytics:1.1.11'
+    compile 'com.crashlytics.android:crashlytics:1.1.13'
 }

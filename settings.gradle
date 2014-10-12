@@ -14,4 +14,4 @@ include ':ToolBox'
 project(':ToolBox').projectDir = new File('libraries/GameEngine/ToolBox')
 
 include ':BaseGameUtils'
-project(':BaseGameUtils').projectDir = new File('libraries/android-basic-sample/BasicSamples/libraries/BaseGameUtils')
+project(':BaseGameUtils').projectDir = new File('libraries/GameEngine/BaseGameUtils')

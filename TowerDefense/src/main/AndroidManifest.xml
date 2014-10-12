@@ -3,7 +3,7 @@
     package="org.es.towerdefense"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +17,11 @@
 
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
-            android:value="${googleGameServicesKey}" />
+            android:value="@string/google_game_api" />
+
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="${crashlytics_api}" />
 
         <activity
             android:name=".MainActivity"
@@ -36,7 +40,6 @@
         <activity
             android:name=".settings.GameSettingsActivity"
             android:label="@string/title_settings" />
-        <meta-data android:name="com.crashlytics.ApiKey" android:value="7986327b08b775719b8d4de12506e38dc83980cd"/>
     </application>
 
 </manifest>
