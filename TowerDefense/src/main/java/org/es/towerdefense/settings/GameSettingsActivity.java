@@ -26,7 +26,7 @@ public class GameSettingsActivity extends PreferenceActivity {
     /**
      * Subclasses should override this method and verify
      * that the given fragment is a valid type to be attached to this activity.<br />
-     *
+     * <p/>
      * The default implementation returns true for apps built for android:targetSdkVersion older than KITKAT (API 19).
      * For later versions, it will throw an exception.
      */

@@ -79,8 +79,8 @@ public class Battleground implements DrawableElement {
         mDrawingParam.setViewport(surfaceWidth, surfaceHeight);
 
         // Center the viewport
-        float offsetX = (surfaceWidth - getWidth() *  mDrawingParam.coef()) / 2f;
-        float offsetY = (surfaceHeight - getHeight() *  mDrawingParam.coef()) / 2f;
+        float offsetX = (surfaceWidth - getWidth() * mDrawingParam.coef()) / 2f;
+        float offsetY = (surfaceHeight - getHeight() * mDrawingParam.coef()) / 2f;
         mDrawingParam.setOffset(offsetX, offsetY);
     }
 
@@ -123,8 +123,8 @@ public class Battleground implements DrawableElement {
     /**
      * Returns a two dimensional array of int representing the walking map off the battleground.
      * <ul>
-     *     <li>0 means that the tile is walkable.</li>
-     *     <li>1 means that the tile is not walkable.</li>
+     * <li>0 means that the tile is walkable.</li>
+     * <li>1 means that the tile is not walkable.</li>
      * </ul>
      */
     public int[][] getWalkingMap() {
@@ -137,7 +137,8 @@ public class Battleground implements DrawableElement {
             for (int x = 0; x < mColumnCount; x++) {
                 walkingMap[y][x] = mTiles[y][x].isWalkable() ? 0 : 1;
             }
-        };
+        }
+        ;
 
         return walkingMap;
     }

@@ -44,35 +44,35 @@ public class TowerFactory {
 
         mAnimations.put(Tower.AnimationId.DOWN,
                 new SpriteSheetAnimation(spriteSheet.getBitmap(),
-                        new Rect[]{ spriteSheet.getRect(0, 0) }, -1, false, null));
+                        new Rect[]{spriteSheet.getRect(0, 0)}, -1, false, null));
 
         mAnimations.put(Tower.AnimationId.DOWN_LEFT,
                 new SpriteSheetAnimation(spriteSheet.getBitmap(),
-                        new Rect[]{ spriteSheet.getRect(0, 1) }, -1, false, null));
+                        new Rect[]{spriteSheet.getRect(0, 1)}, -1, false, null));
 
         mAnimations.put(Tower.AnimationId.LEFT,
                 new SpriteSheetAnimation(spriteSheet.getBitmap(),
-                        new Rect[]{ spriteSheet.getRect(0, 2) }, -1, false, null));
+                        new Rect[]{spriteSheet.getRect(0, 2)}, -1, false, null));
 
         mAnimations.put(Tower.AnimationId.LEFT_UP,
                 new SpriteSheetAnimation(spriteSheet.getBitmap(),
-                        new Rect[]{ spriteSheet.getRect(0, 3) }, -1, false, null));
+                        new Rect[]{spriteSheet.getRect(0, 3)}, -1, false, null));
 
         mAnimations.put(Tower.AnimationId.UP,
                 new SpriteSheetAnimation(spriteSheet.getBitmap(),
-                        new Rect[]{ spriteSheet.getRect(1, 0) }, -1, false, null));
+                        new Rect[]{spriteSheet.getRect(1, 0)}, -1, false, null));
 
         mAnimations.put(Tower.AnimationId.UP_RIGHT,
                 new SpriteSheetAnimation(spriteSheet.getBitmap(),
-                        new Rect[]{ spriteSheet.getRect(1, 1) }, -1, false, null));
+                        new Rect[]{spriteSheet.getRect(1, 1)}, -1, false, null));
 
         mAnimations.put(Tower.AnimationId.RIGHT,
                 new SpriteSheetAnimation(spriteSheet.getBitmap(),
-                        new Rect[]{ spriteSheet.getRect(1, 2) }, -1, false, null));
+                        new Rect[]{spriteSheet.getRect(1, 2)}, -1, false, null));
 
         mAnimations.put(Tower.AnimationId.RIGHT_DOWN,
                 new SpriteSheetAnimation(spriteSheet.getBitmap(),
-                        new Rect[]{ spriteSheet.getRect(1, 3) }, -1, false, null));
+                        new Rect[]{spriteSheet.getRect(1, 3)}, -1, false, null));
 
 
         return createTower(

@@ -29,7 +29,7 @@ public class TileFactory {
         }
     }
 
-    private static Tile createGrassTile(int columnId, int rowId, Resources  resources) {
+    private static Tile createGrassTile(int columnId, int rowId, Resources resources) {
 
         if (mGrass == null) {
             mGrass = BitmapFactory.decodeResource(resources, R.drawable.tile_grass_004);
@@ -37,7 +37,7 @@ public class TileFactory {
         return new Tile(columnId, rowId, mGrass);
     }
 
-    private static Tile createMetalTile(int columnId, int rowId, Resources  resources) {
+    private static Tile createMetalTile(int columnId, int rowId, Resources resources) {
 
         if (mMetal == null) {
             mMetal = BitmapFactory.decodeResource(resources, R.drawable.tile_metal_001);

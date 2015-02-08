@@ -1,19 +1,11 @@
 package org.es.towerdefense.object;
 
-import android.content.res.Resources;
-import android.graphics.Point;
-
-import org.es.engine.graphics.utils.DrawingParam;
-import org.es.towerdefense.battleground.Battleground;
 import org.es.towerdefense.unit.Enemy;
-import org.es.towerdefense.unit.Tower;
-import org.es.towerdefense.unit.TowerFactory;
 
 import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
-import java.util.Set;
 
 /**
  * Class used to load waves from a file.

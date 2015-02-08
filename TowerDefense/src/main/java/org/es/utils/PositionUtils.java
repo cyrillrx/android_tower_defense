@@ -14,7 +14,7 @@ public class PositionUtils {
     /**
      * Indicates whether a point is within a rectangle or not.
      *
-     * @param rect The rectangle in which to look for the point.
+     * @param rect  The rectangle in which to look for the point.
      * @param point The point.
      * @return True if the point is in the rectangle.
      */
@@ -42,10 +42,10 @@ public class PositionUtils {
      * Return the angle between points A and B using trigonometry.<br />
      * A being the center of the unit circle.
      *
-     * @param xa The abscissa of point A.
-     * @param ya The ordinate of point A.
-     * @param xb The abscissa of point B.
-     * @param yb The ordinate of point B.
+     * @param xa      The abscissa of point A.
+     * @param ya      The ordinate of point A.
+     * @param xb      The abscissa of point B.
+     * @param yb      The ordinate of point B.
      * @param reverse True if the ordinates goes down instead of up. False otherwise.
      * @return The angle in radiant.
      */
@@ -61,10 +61,10 @@ public class PositionUtils {
      * Return the angle between points A and B using trigonometry.<br />
      * A being the center of the unit circle.
      *
-     * @param xa The abscissa of point A.
-     * @param ya The ordinate of point A.
-     * @param xb The abscissa of point B.
-     * @param yb The ordinate of point B.
+     * @param xa      The abscissa of point A.
+     * @param ya      The ordinate of point A.
+     * @param xb      The abscissa of point B.
+     * @param yb      The ordinate of point B.
      * @param reverse True if the ordinates goes down instead of up. False otherwise.
      * @return The angle in degrees.
      */
@@ -89,8 +89,8 @@ public class PositionUtils {
     /**
      * Convert polar coordinates to cartesian coordinates.
      *
-     * @param angle The angle in degrees.
-     * @param radius The distance from the pole.
+     * @param angle   The angle in degrees.
+     * @param radius  The distance from the pole.
      * @param reverse True if the ordinates goes down instead of up. False otherwise.
      * @return The cartesian coordinates.
      */
@@ -108,7 +108,7 @@ public class PositionUtils {
     /**
      * Convert polar coordinates to cartesian coordinates.
      *
-     * @param angle The angle
+     * @param angle  The angle
      * @param radius The distance from the pole (called the radial coordinate or radius
      * @return The cartesian coordinates.
      */
@@ -119,10 +119,10 @@ public class PositionUtils {
     /**
      * Indicates whether an angle is within a range or not.
      *
-     * @param angle The angle to check in degrees.
-     * Can be in the range [-180, 180] or [0, 360].
+     * @param angle         The angle to check in degrees.
+     *                      Can be in the range [-180, 180] or [0, 360].
      * @param bisectorAngle The bisector of the range.
-     * @param range the range in degrees.
+     * @param range         the range in degrees.
      * @return True if the angle is in the specified range. False otherwise.
      */
     public static boolean angleInRange(double angle, double bisectorAngle, double range) {

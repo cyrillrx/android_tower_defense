@@ -105,6 +105,7 @@ public class Tower extends Offensive<Tower.AnimationId> {
     }
 
     // TODO move getNearest() function in PositionUtils class.
+
     /**
      * Get the nearest of both elements passed in parameter
      *
@@ -125,8 +126,8 @@ public class Tower extends Offensive<Tower.AnimationId> {
     /**
      * Act on the element being focused.
      * <ul>
-     *     <li>Turn towards the focused element.</li>
-     *     <li>Shot the focused element.</li>
+     * <li>Turn towards the focused element.</li>
+     * <li>Shot the focused element.</li>
      * </ul>
      */
     private void actOnFocused() {
@@ -191,12 +192,12 @@ public class Tower extends Offensive<Tower.AnimationId> {
             // Draw a line from the tower to the focused element.
             boolean displayFocus = pref.getBoolean(PreferenceKey.KEY_TOWER_FOCUS, true);
             if (displayFocus) {
-            canvas.drawLine(
-                    getCenterX() * param.coef() + param.offsetX(),
-                    getCenterY() * param.coef() + param.offsetY(),
-                    mFocused.getCenterX() * param.coef() + param.offsetX(),
-                    mFocused.getCenterY() * param.coef() + param.offsetY(),
-                    paint);
+                canvas.drawLine(
+                        getCenterX() * param.coef() + param.offsetX(),
+                        getCenterY() * param.coef() + param.offsetY(),
+                        mFocused.getCenterX() * param.coef() + param.offsetX(),
+                        mFocused.getCenterY() * param.coef() + param.offsetY(),
+                        paint);
             }
         } else {
             paint.setColor(Color.BLUE);
@@ -205,11 +206,11 @@ public class Tower extends Offensive<Tower.AnimationId> {
         // Draw the range of sight.
         boolean displayRange = pref.getBoolean(PreferenceKey.KEY_TOWER_RANGE, true);
         if (displayRange) {
-        paint.setStyle(Paint.Style.STROKE);
-        canvas.drawCircle(
-                getCenterX() * param.coef() + param.offsetX(),
-                getCenterY() * param.coef() + param.offsetY(),
-                mAttackRange * param.coef(), paint);
+            paint.setStyle(Paint.Style.STROKE);
+            canvas.drawCircle(
+                    getCenterX() * param.coef() + param.offsetX(),
+                    getCenterY() * param.coef() + param.offsetY(),
+                    mAttackRange * param.coef(), paint);
 
         }
 

@@ -34,6 +34,9 @@ public class TowerDefenseThread extends DrawingThread {
         NONE, SCROLL, ZOOM
     }
 
+    private static final float MIN_ZOOM_FACTOR = 1f;
+    private static final float MAX_ZOOM_FACTOR = 5f;
+
     private final Player mPlayer;
     private final HUD mMainHud;
     private final HUD mMainHudDebug;
@@ -44,7 +47,7 @@ public class TowerDefenseThread extends DrawingThread {
     private float mLastTouchX = Float.MIN_VALUE;
     private float mLastTouchY = Float.MIN_VALUE;
 
-    private float mScaleFactor = 1.f;
+    private float mZoomFactor = 1.f;
 
     private TouchMode mTouchMode;
     private String mTouchAction = "Touch the screen";
@@ -176,22 +179,25 @@ public class TowerDefenseThread extends DrawingThread {
 
     private class ScaleListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
 
-        private float lastSpanX;
-        private float lastSpanY;
+        private float lastSpan = Float.MIN_VALUE;
 
         @Override
         public boolean onScaleBegin(ScaleGestureDetector detector) {
-            lastSpanX = detector.getCurrentSpanX();
-            lastSpanY = detector.getCurrentSpanY();
+            lastSpan = detector.getCurrentSpan();
             return true;
         }
 
         @Override
         public boolean onScale(ScaleGestureDetector detector) {
-            mScaleFactor *= detector.getScaleFactor();
+
+            float scaleFactor = detector.getScaleFactor();
+            float dxy = (lastSpan != Float.MIN_VALUE) ? -1f * (detector.getCurrentSpan() - lastSpan) : 0;
+            lastSpan = detector.getCurrentSpan();
+
+            mZoomFactor *= scaleFactor;
             // Don't let the object get too small or too large.
-            mScaleFactor = Math.max(1f, Math.min(mScaleFactor, 5.0f));
-            mGameMgr.updateScaleFactor(mScaleFactor);
+            mZoomFactor = Math.max(MIN_ZOOM_FACTOR, Math.min(mZoomFactor, MAX_ZOOM_FACTOR));
+            mGameMgr.updateScaleFactor(mZoomFactor, dxy, dxy);
             return true;
         }
     }

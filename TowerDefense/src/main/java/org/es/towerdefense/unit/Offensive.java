@@ -84,7 +84,7 @@ public abstract class Offensive<AnimationId extends Enum<AnimationId>>
      * Indicates whether the current rotation angle is in a range.
      *
      * @param bisectorAngle The bisector of the range.
-     * @param range the range in degrees.
+     * @param range         the range in degrees.
      * @return True if the angle is in the specified range. False otherwise.
      */
     protected boolean angleInRange(double bisectorAngle, double range) {

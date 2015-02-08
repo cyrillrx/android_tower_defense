@@ -12,13 +12,15 @@ import com.google.example.games.basegameutils.BaseGameActivity;
 
 import org.es.towerdefense.settings.GameSettingsActivity;
 
+import io.fabric.sdk.android.Fabric;
+
 
 public class MainActivity extends BaseGameActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
+        Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         final Typeface typeface = Typeface.createFromAsset(getAssets(), "Comix Loud.ttf");
@@ -33,10 +35,10 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
 
         boolean enable = isSignedIn();
 
-        Button multiplayer = (Button) findViewById(R.id.btn_multiplayer);
-        multiplayer.setTypeface(typeface);
-        multiplayer.setOnClickListener(this);
-        multiplayer.setEnabled(enable);
+        Button multiPlayer = (Button) findViewById(R.id.btn_multiplayer);
+        multiPlayer.setTypeface(typeface);
+        multiPlayer.setOnClickListener(this);
+        multiPlayer.setEnabled(enable);
 
         Button achievements = (Button) findViewById(R.id.btn_achievements);
         achievements.setTypeface(typeface);

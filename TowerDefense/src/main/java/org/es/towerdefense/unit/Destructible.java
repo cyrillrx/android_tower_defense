@@ -43,7 +43,7 @@ public class Destructible<AnimationId extends Enum<AnimationId>>
 
     public Destructible(Sprite<AnimationId> sprite, float width, float height, int weight, int health) {
         mSprite = sprite;
-        mWidth  = width;
+        mWidth = width;
         mHeight = height;
         mWeight = weight;
         mHealth = health;
@@ -154,6 +154,7 @@ public class Destructible<AnimationId extends Enum<AnimationId>>
     /**
      * Set the current animation id.<br />
      * Does nothing if the passed animation id is the same as the current one.
+     *
      * @param animationId The new animation Id.
      */
     public void changeAnimation(AnimationId animationId) {
