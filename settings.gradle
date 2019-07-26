@@ -1,17 +1,11 @@
 // Application
 
-include ':TowerDefense'
+include ':app'
 
 // Git sub modules
 
-include ':Graphics'
-project(':Graphics').projectDir = new File('libraries/GameEngine/Graphics')
+include ':game-mechanic'
+project(':game-mechanic').projectDir = new File('libraries/GameEngine/game-mechanic')
 
-include ':GameMechanic'
-project(':GameMechanic').projectDir = new File('libraries/GameEngine/GameMechanic')
-
-include ':ToolBox'
-project(':ToolBox').projectDir = new File('libraries/GameEngine/ToolBox')
-
-include ':BaseGameUtils'
-project(':BaseGameUtils').projectDir = new File('libraries/GameEngine/BaseGameUtils')
+include ':base-game-utils'
+project(':base-game-utils').projectDir = new File('libraries/GameEngine/base-game-utils')

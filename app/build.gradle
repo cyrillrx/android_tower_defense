@@ -1,39 +1,32 @@
-buildscript {
-    repositories {
-        maven { url 'https://maven.fabric.io/public' }
-    }
-
-    dependencies {
-        classpath 'io.fabric.tools:gradle:1.14.4'
-    }
-}
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    maven { url 'http://dl.bintray.com/cyrillrx/maven' }
 }
 
-
 android {
-    compileSdkVersion project.ANDROID_BUILD_SDK_VERSION as int
-    buildToolsVersion project.ANDROID_BUILD_TOOLS_VERSION
+    compileSdkVersion project.compileSdkVersion
+    buildToolsVersion project.buildToolsVersion
 
     // customize apk output names
-    // For each application variant (release, debug, etc.)
+    // For each application variants (release, debug, etc.)
+    String date = (new Date()).format('yyyy-MM-dd')
     applicationVariants.all { variant ->
-        def outputs = variant.getOutputs()
-        outputs.each { output ->
-            File originalFile = output.outputFile
-            String date = (new Date()).format('yyyy-MM-dd')
-            String newFilename = date + '_' + originalFile.getName()
-            output.outputFile = new File(originalFile.parent, newFilename)
+        variant.outputs.all { output ->
+            outputFileName = "${date}_TowerDefense_v${variant.versionName}(${variant.versionCode})_${variant.flavorName}-${variant.buildType.name}.apk"
         }
     }
 
     defaultConfig {
-        minSdkVersion project.ANDROID_BUILD_MIN_SDK_VERSION as int
-        targetSdkVersion project.ANDROID_BUILD_TARGET_SDK_VERSION as int
+        minSdkVersion project.minSdkVersion
+        targetSdkVersion project.targetSdkVersion
+
+        applicationId "org.es.towerdefense"
+
         versionCode 1
         versionName "Pre-Alpha 2 (v0.2.6)"
 
@@ -78,7 +71,7 @@ android {
             jniDebuggable false
             debuggable false
             signingConfig signingConfigs.release
-            
+
             ext.betaDistributionEmailsFilePath = 'distribution_emails_release.txt'
             ext.betaDistributionReleaseNotesFilePath = 'release_notes.txt'
         }
@@ -95,13 +88,10 @@ android {
 }
 
 dependencies {
-    compile project(':BaseGameUtils')
-    compile project(':GameMechanic')
-    compile project(':ToolBox')
+    implementation project(':base-game-utils')
+    implementation project(':game-mechanic')
 
-    compile 'com.google.android.gms:play-services:6.5.87'
+    implementation 'com.google.android.gms:play-services:12.0.1'
 
-    compile('com.crashlytics.sdk.android:crashlytics:2.2.0@aar') {
-        transitive = true;
-    }
+    implementation('com.crashlytics.sdk.android:crashlytics:2.9.8@aar') { transitive = true }
 }

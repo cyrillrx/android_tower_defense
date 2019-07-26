@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <resources>
 
     <string name="app_name">Tower Defense</string>
@@ -13,6 +14,7 @@
     <!-- Googleplay Sign in -->
     <!--<string name="signing_in">Signing in with Google</string>-->
     <!--<string name="signing_out">Signing out</string>-->
+    <string name="google_game_api" translatable="false">123</string>
     <string name="sign_in_explanation">Sign with Google to upload your achievements and share with friends.</string>
     <string name="you_are_signed_in">You are signed in with Google.</string>
     <string name="sign_out">Sign Out</string>
