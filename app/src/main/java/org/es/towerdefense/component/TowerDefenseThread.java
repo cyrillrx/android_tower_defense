@@ -1,5 +1,10 @@
 package org.es.towerdefense.component;
 
+import static org.es.engine.graphics.utils.DrawTextUtils.HorizontalAlign.CENTER;
+import static org.es.engine.graphics.utils.DrawTextUtils.HorizontalAlign.LEFT;
+import static org.es.engine.graphics.utils.DrawTextUtils.HorizontalAlign.RIGHT;
+import static org.es.engine.graphics.utils.DrawTextUtils.VerticalAlign.TOP;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -15,18 +20,12 @@ import android.view.SurfaceHolder;
 import org.es.engine.game_mechanic.DrawingThread;
 import org.es.engine.hud.HUD;
 import org.es.engine.hud.Text;
-import org.es.towerdefense.BuildConfig;
 import org.es.towerdefense.object.Player;
 import org.es.towerdefense.process.GameMgr;
 
-import static org.es.engine.graphics.utils.DrawTextUtils.HorizontalAlign.CENTER;
-import static org.es.engine.graphics.utils.DrawTextUtils.HorizontalAlign.LEFT;
-import static org.es.engine.graphics.utils.DrawTextUtils.HorizontalAlign.RIGHT;
-import static org.es.engine.graphics.utils.DrawTextUtils.VerticalAlign.TOP;
-
 /**
  * @author Cyril Leroux
- *         Created on 30/01/14.
+ * Created on 30/01/14.
  */
 public class TowerDefenseThread extends DrawingThread {
 
@@ -98,9 +97,7 @@ public class TowerDefenseThread extends DrawingThread {
             mTouchAction = "Action : " + MotionEvent.actionToString(event.getAction());
         }
 
-        if (BuildConfig.DEBUG) {
-            Log.d("TowerDefenseThread", mTouchAction);
-        }
+        Log.d("TowerDefenseThread", mTouchAction);
 
         if (mMainHud.consumeEvent(event)) {
             return;
@@ -149,9 +146,7 @@ public class TowerDefenseThread extends DrawingThread {
         try {
             mScaleDetector.onTouchEvent(event);
         } catch (IllegalArgumentException e) {
-            if (BuildConfig.DEBUG) {
-                Log.e("TowerDefenseThread", "Crash while calling mScaleDetector.onTouchEvent(event)", e);
-            }
+            Log.e("TowerDefenseThread", "Crash while calling mScaleDetector.onTouchEvent(event)", e);
         }
 
     }
@@ -161,9 +156,7 @@ public class TowerDefenseThread extends DrawingThread {
         // TODO handle keyboard
 
         final int action = event.getAction();
-        if (BuildConfig.DEBUG) {
-            Log.d("TowerDefenseThread", "processEvent(KeyEvent) : " + action);
-        }
+        Log.d("TowerDefenseThread", "processEvent(KeyEvent) : " + action);
     }
 
     @Override

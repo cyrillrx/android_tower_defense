@@ -3,24 +3,20 @@ package org.es.towerdefense;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.crashlytics.android.Crashlytics;
-import com.google.example.games.basegameutils.BaseGameActivity;
-
 import org.es.towerdefense.settings.GameSettingsActivity;
 
-import io.fabric.sdk.android.Fabric;
 
-
-public class MainActivity extends BaseGameActivity implements View.OnClickListener {
+public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Fabric.with(this, new Crashlytics());
+        // Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
         final Typeface typeface = Typeface.createFromAsset(getAssets(), "Comix Loud.ttf");
@@ -33,7 +29,7 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
         singlePlayer.setTypeface(typeface);
         singlePlayer.setOnClickListener(this);
 
-        boolean enable = isSignedIn();
+        boolean enable = false; // isSignedIn();
 
         Button multiPlayer = (Button) findViewById(R.id.btn_multiplayer);
         multiPlayer.setTypeface(typeface);
@@ -73,63 +69,48 @@ public class MainActivity extends BaseGameActivity implements View.OnClickListen
      * the authorization flow. So our reaction to sign in failure is to show the sign in
      * button. When the user clicks that button, the sign in process will start/resume.
      */
-    @Override
-    public void onSignInFailed() {
-        // Sign-in has failed. So show the user the sign-in button
-        // so they can click the "Sign-in" button.
-        showSignInBar();
-
-        findViewById(R.id.btn_multiplayer).setEnabled(false);
-        findViewById(R.id.btn_achievements).setEnabled(false);
-        findViewById(R.id.btn_high_score).setEnabled(false);
-    }
+//    @Override
+//    public void onSignInFailed() {
+//        // Sign-in has failed. So show the user the sign-in button
+//        // so they can click the "Sign-in" button.
+//        showSignInBar();
+//
+//        findViewById(R.id.btn_multiplayer).setEnabled(false);
+//        findViewById(R.id.btn_achievements).setEnabled(false);
+//        findViewById(R.id.btn_high_score).setEnabled(false);
+//    }
 
     /**
      * Called to notify us that sign in succeeded. We react by loading the loot from the
      * cloud and updating the UI to show a sign-out button.
      */
-    @Override
-    public void onSignInSucceeded() {
-        // Sign-in worked!
-        showSignOutBar();
-
-        findViewById(R.id.btn_multiplayer).setEnabled(true);
-        findViewById(R.id.btn_achievements).setEnabled(true);
-        findViewById(R.id.btn_high_score).setEnabled(true);
-    }
-
+//    @Override
+//    public void onSignInSucceeded() {
+//        // Sign-in worked!
+//        showSignOutBar();
+//
+//        findViewById(R.id.btn_multiplayer).setEnabled(true);
+//        findViewById(R.id.btn_achievements).setEnabled(true);
+//        findViewById(R.id.btn_high_score).setEnabled(true);
+//    }
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()) {
-
-            case R.id.btn_settings:
-                startActivity(new Intent(getApplicationContext(), GameSettingsActivity.class));
-                break;
-
-            case R.id.btn_single_player:
-                startActivity(new Intent(getApplicationContext(), InGameActivity.class));
-                break;
-
-            case R.id.btn_multiplayer:
-                break;
-
-            case R.id.btn_achievements:
-                break;
-
-            case R.id.btn_high_score:
-                break;
-
-            case R.id.button_sign_in:
-                // start the sign-in flow
-                beginUserInitiatedSignIn();
-                break;
-
-            case R.id.button_sign_out:
-                // sign out.
-                signOut();
-                showSignInBar();
-                break;
+        final int viewId = v.getId();
+        if (viewId == R.id.btn_settings) {
+            startActivity(new Intent(getApplicationContext(), GameSettingsActivity.class));
+        } else if (viewId == R.id.btn_single_player) {
+            startActivity(new Intent(getApplicationContext(), InGameActivity.class));
+        } else if (viewId == R.id.btn_multiplayer) {
+        } else if (viewId == R.id.btn_achievements) {
+        } else if (viewId == R.id.btn_high_score) {
+        } else if (viewId == R.id.button_sign_in) {
+            // start the sign-in flow
+            // beginUserInitiatedSignIn();
+        } else if (viewId == R.id.button_sign_out) {
+            // sign out.
+            // signOut();
+            showSignInBar();
         }
     }
 }

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest
-    package="org.es.towerdefense"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.es.towerdefense">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,9 +11,9 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
-        <meta-data
+        <!--meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+            android:value="@integer/google_play_services_version" /-->
 
         <meta-data
             android:name="com.google.android.gms.games.APP_ID"
@@ -25,6 +25,7 @@
 
         <activity
             android:name=".MainActivity"
+            android:exported="true"
             android:label="@string/app_name"
             android:screenOrientation="userLandscape">
             <intent-filter>

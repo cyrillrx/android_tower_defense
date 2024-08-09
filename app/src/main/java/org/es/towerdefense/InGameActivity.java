@@ -2,16 +2,16 @@ package org.es.towerdefense;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.View;
 
-import com.google.example.games.basegameutils.BaseGameActivity;
 
 
 /**
  * @author Cyril Leroux
  *         Created on 30/01/14.
  */
-public class InGameActivity extends BaseGameActivity {
+public class InGameActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +44,14 @@ public class InGameActivity extends BaseGameActivity {
         }
     }
 
-    @Override
-    public void onSignInFailed() {
-
-    }
-
-    @Override
-    public void onSignInSucceeded() {
-
-    }
+//    @Override
+//    public void onSignInFailed() {
+//
+//    }
+//
+//    @Override
+//    public void onSignInSucceeded() {
+//
+//    }
 
 }
