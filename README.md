@@ -5,7 +5,10 @@ A tower defense for Android
 
 Project start : 2014-01-30
 
-Upcoming features :
+## Screenshot
+![image](https://github.com/user-attachments/assets/1433183e-4535-4ac7-99f9-084ef8113e0e)
+
+## Release notes and upcoming features :
 
 TODO Alpha 1 (v0.3.0)
 Basic Gameplay/User interactions
