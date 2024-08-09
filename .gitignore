@@ -42,6 +42,7 @@ proguard/
 .gradle
 
 secure.properties
+debug.keystore
 release.keystore
 keystore.properties
 
