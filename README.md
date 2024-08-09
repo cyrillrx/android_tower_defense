@@ -6,7 +6,8 @@ A tower defense for Android
 Project start : 2014-01-30
 
 ## Screenshot
-![image](https://github.com/user-attachments/assets/1433183e-4535-4ac7-99f9-084ef8113e0e)
+
+![image](./screenshots/Screenshot_20240809_153106.png)
 
 ## Release notes and upcoming features :
 
